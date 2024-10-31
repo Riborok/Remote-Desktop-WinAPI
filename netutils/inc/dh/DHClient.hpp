@@ -2,11 +2,11 @@
 #include <winsock2.h>
 #include <secblock.h>
 
-#include "DiffieHellmanHelper.hpp"
+#include "DHHelper.hpp"
 
 class DHClient {
     SOCKET _sock;
-    DiffieHellmanHelper _dhHelper;
+    DHHelper _dhHelper;
     CryptoPP::SecByteBlock _privateKey;
     CryptoPP::SecByteBlock _publicKey;
 

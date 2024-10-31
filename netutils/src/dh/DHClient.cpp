@@ -1,7 +1,7 @@
 ﻿// ReSharper disable CppClangTidyBugproneNarrowingConversions CppClangTidyClangDiagnosticShorten64To32
-#include "../inc/DHClient.hpp"
+#include "../../inc/dh/DHClient.hpp"
 
-#include "../inc/NetworkUtils.hpp"
+#include "../../inc/utils/NetworkUtils.hpp"
 
 DHClient::DHClient(): _sock(NetworkUtils::createSocket(SOCK_STREAM, IPPROTO_TCP)) { }
 

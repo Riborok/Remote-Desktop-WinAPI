@@ -1,7 +1,7 @@
 ﻿// ReSharper disable CppClangTidyBugproneNarrowingConversions CppClangTidyClangDiagnosticShorten64To32
-#include "../inc/DHServer.hpp"
+#include "../../inc/dh/DHServer.hpp"
 
-#include "../inc/NetworkUtils.hpp"
+#include "../../inc/utils/NetworkUtils.hpp"
 
 DHServer::DHServer(): _listenSock(NetworkUtils::createSocket(SOCK_STREAM, IPPROTO_TCP)),
                       _clientSock(INVALID_SOCKET) { }

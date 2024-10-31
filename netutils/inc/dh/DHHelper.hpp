@@ -5,7 +5,7 @@
 #include <dh.h>
 #include <secblock.h>
 
-class DiffieHellmanHelper {
+class DHHelper {
     CryptoPP::DH _dh;
     CryptoPP::AutoSeededRandomPool _rng;
 public:

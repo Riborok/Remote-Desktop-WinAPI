@@ -1,8 +1,7 @@
 ﻿#pragma once
 
 #include <winsock2.h>
-
-#include "../inc/DiffieHellmanHelper.hpp"
+#include <integer.h>
 
 class NetworkUtils {
 public:

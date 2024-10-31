@@ -1,10 +1,11 @@
 ﻿// ReSharper disable CppClangTidyBugproneNarrowingConversions CppClangTidyClangDiagnosticShorten64To32
-#include "../inc/NetworkUtils.hpp"
+#include "../../inc/utils/NetworkUtils.hpp"
 
 #include <stdexcept>
 #include <ws2tcpip.h>
 
-#include "../inc/IntegerUtils.hpp"
+#include "../../inc/utils/IntegerUtils.hpp"
+#include "../../inc/dh/DHHelper.hpp"
 
 SOCKET NetworkUtils::createSocket(const int type, const int protocol) {
     const SOCKET sock = socket(AF_INET, type, protocol);
@@ -56,7 +57,7 @@ void NetworkUtils::checkSend(const int result) {
 }
 
 CryptoPP::Integer NetworkUtils::receiveInteger(const SOCKET sock) {
-    std::vector<char> buffer(DiffieHellmanHelper::KEY_SIZE);
+    std::vector<char> buffer(DHHelper::KEY_SIZE);
     const int len = recv(sock, buffer.data(), buffer.size(), 0);
     checkReceive(len);
     return {reinterpret_cast<byte*>(buffer.data()), static_cast<size_t>(len)};

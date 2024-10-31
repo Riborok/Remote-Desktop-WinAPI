@@ -1,15 +1,15 @@
 ﻿#include <iostream>
 
-#include "DHServer.hpp"
-#include "IntegerUtils.hpp"
-#include "WinSockUtils.hpp"
+#include "dh/DHServer.hpp"
+#include "utils/IntegerUtils.hpp"
+#include "utils/WinSockUtils.hpp"
 
 int main() {
     WinSockUtils::initializeWinSock();
 
     try {
         DHServer dhServer;
-        std::cout << dhServer.startListening(3011) << '\n';
+        std::cout << dhServer.startListening(3030) << '\n';
         const auto key = dhServer.exchangeKeys();
         std::cout << IntegerUtils::toHexString(key) << '\n';
     } catch (std::runtime_error& e) {
