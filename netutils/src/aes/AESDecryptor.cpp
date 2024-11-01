@@ -44,7 +44,7 @@ void AESDecryptor::performDecryption(CryptoPP::CTR_Mode<CryptoPP::AES>::Decrypti
         const std::vector<byte>& ciphertext, std::vector<byte>& decrypted) {
     const byte* ciphertextStart = ciphertext.data() + CryptoPP::AES::BLOCKSIZE;
     const size_t ciphertextSize = ciphertext.size() - CryptoPP::AES::BLOCKSIZE; 
-    CryptoPP::StringSource stringSource(ciphertextStart, ciphertextSize, true,
+    CryptoPP::ArraySource as(ciphertextStart, ciphertextSize, true,
         new CryptoPP::StreamTransformationFilter(decryption,
             new CryptoPP::VectorSink(decrypted))
     );

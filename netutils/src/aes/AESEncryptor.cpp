@@ -41,7 +41,7 @@ void AESEncryptor::setKeyAndIV(CryptoPP::CTR_Mode<CryptoPP::AES>::Encryption& en
 
 void AESEncryptor::performEncryption(CryptoPP::CTR_Mode<CryptoPP::AES>::Encryption& encryption,
         const std::vector<byte>& data, std::vector<byte>& ciphertext) {
-    CryptoPP::StringSource stringSource(data.data(), data.size(), true,
+    CryptoPP::ArraySource as(data.data(), data.size(), true,
         new CryptoPP::StreamTransformationFilter(encryption,
             new CryptoPP::VectorSink(ciphertext))
     );
