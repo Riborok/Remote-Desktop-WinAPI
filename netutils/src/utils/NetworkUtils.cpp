@@ -1,7 +1,6 @@
 ﻿// ReSharper disable CppClangTidyBugproneNarrowingConversions CppClangTidyClangDiagnosticShorten64To32
 #include "../../inc/utils/NetworkUtils.hpp"
 
-#include <stdexcept>
 #include <ws2tcpip.h>
 
 #include "../../inc/utils/IntegerUtils.hpp"
@@ -40,7 +39,7 @@ ULONG NetworkUtils::getAddressFromIp(const PCSTR ip) {
 
 void NetworkUtils::checkInetPton(const int result) {
     if (result <= 0) {
-        throw std::runtime_error("Invalid IP address format.");
+        throw std::runtime_error("Invalid IP address format");
     }
 }
 

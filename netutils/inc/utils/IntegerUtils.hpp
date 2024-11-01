@@ -1,7 +1,8 @@
 ﻿#pragma once
 
 #include <integer.h>
-#include <ws2tcpip.h>
+
+using CryptoPP::byte;
 
 class IntegerUtils {
 public:

@@ -3,6 +3,8 @@
 #include <winsock2.h>
 #include <integer.h>
 
+using CryptoPP::byte;
+
 class NetworkUtils {
 public:
     NetworkUtils() = delete;

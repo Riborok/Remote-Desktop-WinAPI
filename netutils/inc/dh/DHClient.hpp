@@ -9,7 +9,6 @@ class DHClient {
     DHHelper _dhHelper;
     CryptoPP::SecByteBlock _privateKey;
     CryptoPP::SecByteBlock _publicKey;
-
 public:
     DHClient();
     bool connectToServer(const char* ip, const u_short port) const;

@@ -9,7 +9,6 @@ class DHServer {
     DHHelper _dhHelper;
     CryptoPP::SecByteBlock _privateKey;
     CryptoPP::SecByteBlock _publicKey;
-
 public:
     DHServer();
     bool startListening(const u_short port);
