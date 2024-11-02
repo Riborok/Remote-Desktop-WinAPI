@@ -140,7 +140,8 @@
     <ClCompile Include="DHClientServerTest.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="test.txt" />
+    <Content Include="res\test.jpg" />
+    <Content Include="res\test.txt" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="utils.hpp" />
