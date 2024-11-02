@@ -18,6 +18,18 @@ void NetworkUtils::checkSocket(const SOCKET sock) {
     }
 }
 
+void NetworkUtils::bindSocket(const SOCKET sock, const u_short port) {
+    sockaddr_in serverAddr = initializeAddress(nullptr, port);
+    const int result = bind(sock, reinterpret_cast<sockaddr*>(&serverAddr), sizeof(serverAddr));
+    checkBindError(result);
+}
+
+void NetworkUtils::checkBindError(const int result) {
+    if (result < 0) {
+        throw std::runtime_error("Failed to bind socket");
+    }
+}
+
 sockaddr_in NetworkUtils::initializeAddress(const PCSTR ip, const u_short port) {
     sockaddr_in address;
     address.sin_family = AF_INET;

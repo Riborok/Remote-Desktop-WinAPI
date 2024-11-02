@@ -6,8 +6,8 @@
 TEST(AESEncryptorTest, EncryptionDecryptionTestTXT) {
     const std::vector<byte> data(readFileToBuffer("res/test.txt"));
     const std::vector<byte> key(CryptoPP::AES::MAX_KEYLENGTH, 42);
-    const AESEncryptor aes_encryptor(key);
-    const AESDecryptor aes_decryptor(key);
+    AESEncryptor aes_encryptor(key);
+    AESDecryptor aes_decryptor(key);
 
     const std::vector<byte> ciphertext = aes_encryptor.encrypt(data);
     const std::vector<byte> decrypted = aes_decryptor.decrypt(ciphertext);
@@ -19,8 +19,8 @@ TEST(AESEncryptorTest, EncryptionDecryptionTestTXT) {
 TEST(AESEncryptorTest, EncryptionDecryptionTestJPG) {
     const std::vector<byte> data(readFileToBuffer("res/test.jpg"));
     const std::vector<byte> key(CryptoPP::AES::MAX_KEYLENGTH, 42);
-    const AESEncryptor aes_encryptor(key);
-    const AESDecryptor aes_decryptor(key);
+    AESEncryptor aes_encryptor(key);
+    AESDecryptor aes_decryptor(key);
 
     const std::vector<byte> ciphertext = aes_encryptor.encrypt(data);
     const std::vector<byte> decrypted = aes_decryptor.decrypt(ciphertext);

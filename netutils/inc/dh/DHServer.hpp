@@ -26,9 +26,6 @@ private:
     void sendPublicKey();
     CryptoPP::Integer receivePublicKey() const;
 
-    void bindSocket(const u_short port) const;
     void listenForClient() const;
-
-    static void checkBindError(const int result);
     static void checkListenError(const int result);
 };

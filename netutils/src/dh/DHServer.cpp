@@ -7,22 +7,10 @@ DHServer::DHServer(): _listenSock(NetworkUtils::createSocket(SOCK_STREAM, IPPROT
                       _clientSock(INVALID_SOCKET) { }
 
 bool DHServer::startListening(const u_short port) {
-    bindSocket(port);
+    NetworkUtils::bindSocket(_listenSock, port);
     listenForClient();
     _clientSock = accept(_listenSock, nullptr, nullptr);
     return _clientSock != INVALID_SOCKET;
-}
-
-void DHServer::bindSocket(const u_short port) const {
-    sockaddr_in serverAddr = NetworkUtils::initializeAddress(nullptr, port);
-    const int result = bind(_listenSock, reinterpret_cast<sockaddr*>(&serverAddr), sizeof(serverAddr));
-    checkBindError(result);
-}
-
-void DHServer::checkBindError(const int result) {
-    if (result < 0) {
-        throw std::runtime_error("Failed to bind socket");
-    }
 }
 
 void DHServer::listenForClient() const {
