@@ -1,6 +1,8 @@
 ﻿// ReSharper disable CppClangTidyBugproneNarrowingConversions CppClangTidyClangDiagnosticShorten64To32 CppClangTidyClangDiagnosticSignCompare
 #include "../../inc/udp/UDPReceiver.hpp"
 
+#include "../../inc/udp/UDPSender.hpp"
+
 UDPReceiver::UDPReceiver(const u_short port) {
     _socket = NetworkUtils::createSocket(SOCK_DGRAM, IPPROTO_UDP);
     NetworkUtils::bindSocket(_socket, port);

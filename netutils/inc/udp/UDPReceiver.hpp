@@ -4,7 +4,6 @@
 #include <winsock2.h>
 
 #include "Payload.hpp"
-#include "UDPSender.hpp"
 #include "../utils/NetworkUtils.hpp"
 
 using CryptoPP::byte;
