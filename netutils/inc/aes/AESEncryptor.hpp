@@ -9,12 +9,13 @@ using CryptoPP::byte;
 
 class AESEncryptor {
     std::vector<byte> _key;
+    CryptoPP::AutoSeededRandomPool _rng;
 public:
     explicit AESEncryptor(const std::vector<byte>& key);
-    [[nodiscard]] std::vector<byte> encrypt(const std::vector<byte>& data) const;
+    [[nodiscard]] std::vector<byte> encrypt(const std::vector<byte>& data);
 private:
     void checkKeySize() const;
-    static CryptoPP::SecByteBlock generateIV();
+    CryptoPP::SecByteBlock generateIV();
     static void appendIVToCiphertext(const CryptoPP::SecByteBlock& iv, std::vector<byte>& ciphertext);
     void setKeyAndIV(CryptoPP::CTR_Mode<CryptoPP::AES>::Encryption& encryptor,
         const CryptoPP::SecByteBlock& iv) const;

@@ -4,7 +4,7 @@ AESEncryptor::AESEncryptor(const std::vector<byte>& key): _key(key) {
     checkKeySize();
 }
 
-std::vector<byte> AESEncryptor::encrypt(const std::vector<byte>& data) const {
+std::vector<byte> AESEncryptor::encrypt(const std::vector<byte>& data) {
     std::vector<byte> ciphertext;
     CryptoPP::CTR_Mode<CryptoPP::AES>::Encryption encryptor;
         
@@ -25,8 +25,7 @@ void AESEncryptor::checkKeySize() const {
 
 CryptoPP::SecByteBlock AESEncryptor::generateIV() {
     CryptoPP::SecByteBlock iv(CryptoPP::AES::BLOCKSIZE);
-    CryptoPP::AutoSeededRandomPool rng;
-    rng.GenerateBlock(iv, iv.size());
+    _rng.GenerateBlock(iv, iv.size());
     return iv;
 }
 
