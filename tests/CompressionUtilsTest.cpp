@@ -1,9 +1,9 @@
-﻿#include "utils.hpp"
+﻿#include "inc/utils.hpp"
 #include "utils/CompressionUtils.hpp"
 #include "gtest/gtest.h"
 
-TEST(CompressionUtilsTest, CompressAndDecompressTXT) {
-    const std::vector<byte> data(readFileToBuffer("res/test.txt"));
+void performCompressionDecompressionTest(const std::string& filename) {
+    const std::vector<byte> data(readFileToBuffer(filename));
     const std::vector<byte> compressedData = CompressionUtils::compress(data);
     const std::vector<byte> decompressedData = CompressionUtils::decompress(compressedData);
     
@@ -12,12 +12,10 @@ TEST(CompressionUtilsTest, CompressAndDecompressTXT) {
     EXPECT_EQ(data, decompressedData);
 }
 
+TEST(CompressionUtilsTest, CompressAndDecompressTXT) {
+    performCompressionDecompressionTest("res/test.txt");
+}
+
 TEST(CompressionUtilsTest, CompressAndDecompressJPG) {
-    const std::vector<byte> data(readFileToBuffer("res/test.jpg"));
-    const std::vector<byte> compressedData = CompressionUtils::compress(data);
-    const std::vector<byte> decompressedData = CompressionUtils::decompress(compressedData);
-    
-    EXPECT_GT(data.size(), compressedData.size());
-    EXPECT_EQ(data.size(), decompressedData.size());
-    EXPECT_EQ(data, decompressedData);
+    performCompressionDecompressionTest("res/test.jpg");
 }

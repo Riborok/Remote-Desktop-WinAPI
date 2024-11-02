@@ -1,30 +1,25 @@
-﻿#include "utils.hpp"
+﻿#include "inc/utils.hpp"
 #include "aes/AESDecryptor.hpp"
 #include "aes/AESEncryptor.hpp"
 #include "gtest/gtest.h"
 
-TEST(AESEncryptorTest, EncryptionDecryptionTestTXT) {
-    const std::vector<byte> data(readFileToBuffer("res/test.txt"));
+void performEncryptionDecryptionTest(const std::string& filename) {
+    const std::vector<byte> data(readFileToBuffer(filename));
     const std::vector<byte> key(CryptoPP::AES::MAX_KEYLENGTH, 42);
-    AESEncryptor aes_encryptor(key);
-    AESDecryptor aes_decryptor(key);
+    AESEncryptor aesEncryptor(key);
+    const AESDecryptor aesDecryptor(key);
 
-    const std::vector<byte> ciphertext = aes_encryptor.encrypt(data);
-    const std::vector<byte> decrypted = aes_decryptor.decrypt(ciphertext);
+    const std::vector<byte> ciphertext = aesEncryptor.encrypt(data);
+    const std::vector<byte> decrypted = aesDecryptor.decrypt(ciphertext);
     
     EXPECT_EQ(data.size(), decrypted.size());
     EXPECT_EQ(data, decrypted);
 }
 
-TEST(AESEncryptorTest, EncryptionDecryptionTestJPG) {
-    const std::vector<byte> data(readFileToBuffer("res/test.jpg"));
-    const std::vector<byte> key(CryptoPP::AES::MAX_KEYLENGTH, 42);
-    AESEncryptor aes_encryptor(key);
-    AESDecryptor aes_decryptor(key);
+TEST(AESEncryptorTest, EncryptionDecryptionTestTXT) {
+    performEncryptionDecryptionTest("res/test.txt");
+}
 
-    const std::vector<byte> ciphertext = aes_encryptor.encrypt(data);
-    const std::vector<byte> decrypted = aes_decryptor.decrypt(ciphertext);
-    
-    EXPECT_EQ(data.size(), decrypted.size());
-    EXPECT_EQ(data, decrypted);
+TEST(AESEncryptorTest, EncryptionDecryptionTestJPG) {
+    performEncryptionDecryptionTest("res/test.jpg");
 }

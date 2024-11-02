@@ -138,13 +138,15 @@
     <ClCompile Include="AESEncryptorTest.cpp" />
     <ClCompile Include="CompressionUtilsTest.cpp" />
     <ClCompile Include="DHClientServerTest.cpp" />
+    <ClCompile Include="src\utils.cpp" />
+    <ClCompile Include="UDPTest.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="res\test.jpg" />
     <Content Include="res\test.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="utils.hpp" />
+    <ClInclude Include="inc\utils.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
