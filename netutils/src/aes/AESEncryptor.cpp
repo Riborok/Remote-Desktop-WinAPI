@@ -6,12 +6,12 @@ AESEncryptor::AESEncryptor(const std::vector<byte>& key): _key(key) {
 
 std::vector<byte> AESEncryptor::encrypt(const std::vector<byte>& data) const {
     std::vector<byte> ciphertext;
-    CryptoPP::CTR_Mode<CryptoPP::AES>::Encryption encryption;
+    CryptoPP::CTR_Mode<CryptoPP::AES>::Encryption encryptor;
         
     const CryptoPP::SecByteBlock iv = generateIV();
     appendIVToCiphertext(iv, ciphertext);
-    setKeyAndIV(encryption, iv);
-    performEncryption(encryption, data, ciphertext);
+    setKeyAndIV(encryptor, iv);
+    performEncryption(encryptor, data, ciphertext);
 
     return ciphertext;
 }
@@ -34,15 +34,15 @@ void AESEncryptor::appendIVToCiphertext(const CryptoPP::SecByteBlock& iv, std::v
     ciphertext.insert(ciphertext.end(), iv.begin(), iv.end());
 }
 
-void AESEncryptor::setKeyAndIV(CryptoPP::CTR_Mode<CryptoPP::AES>::Encryption& encryption,
+void AESEncryptor::setKeyAndIV(CryptoPP::CTR_Mode<CryptoPP::AES>::Encryption& encryptor,
         const CryptoPP::SecByteBlock& iv) const {
-    encryption.SetKeyWithIV(_key.data(), _key.size(), iv.data());
+    encryptor.SetKeyWithIV(_key.data(), _key.size(), iv.data());
 }
 
-void AESEncryptor::performEncryption(CryptoPP::CTR_Mode<CryptoPP::AES>::Encryption& encryption,
-        const std::vector<byte>& data, std::vector<byte>& ciphertext) {
-    CryptoPP::ArraySource as(data.data(), data.size(), true,
-        new CryptoPP::StreamTransformationFilter(encryption,
-            new CryptoPP::VectorSink(ciphertext))
-    );
+void AESEncryptor::performEncryption(CryptoPP::CTR_Mode<CryptoPP::AES>::Encryption& encryptor,
+        const std::vector<byte>& plaintext, std::vector<byte>& ciphertext) {
+    const size_t ciphertextStartIdx = ciphertext.size();
+    ciphertext.resize(ciphertextStartIdx + plaintext.size());
+    byte* ciphertextStart = ciphertext.data() + ciphertextStartIdx;
+    encryptor.ProcessData(ciphertextStart, plaintext.data(), plaintext.size());
 }

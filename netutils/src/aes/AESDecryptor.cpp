@@ -6,14 +6,14 @@ AESDecryptor::AESDecryptor(const std::vector<byte>& key): _key(key) {
 
 std::vector<byte> AESDecryptor::decrypt(const std::vector<byte>& ciphertext) const {
     validateCiphertextLength(ciphertext);
-    std::vector<byte> decrypted;
-    CryptoPP::CTR_Mode<CryptoPP::AES>::Decryption decryption;
+    std::vector<byte> decryptedData;
+    CryptoPP::CTR_Mode<CryptoPP::AES>::Decryption decryptor;
 
     const CryptoPP::SecByteBlock iv = extractIV(ciphertext);
-    setKeyAndIV(decryption, iv);
-    performDecryption(decryption, ciphertext, decrypted);
+    setKeyAndIV(decryptor, iv);
+    performDecryption(decryptor, ciphertext, decryptedData);
 
-    return decrypted;
+    return decryptedData;
 }
 
 void AESDecryptor::checkKeySize() const {
@@ -35,17 +35,15 @@ CryptoPP::SecByteBlock AESDecryptor::extractIV(const std::vector<byte>& cipherte
     return iv;
 }
 
-void AESDecryptor::setKeyAndIV(CryptoPP::CTR_Mode<CryptoPP::AES>::Decryption& decryption,
+void AESDecryptor::setKeyAndIV(CryptoPP::CTR_Mode<CryptoPP::AES>::Decryption& decryptor,
         const CryptoPP::SecByteBlock& iv) const {
-    decryption.SetKeyWithIV(_key.data(), _key.size(), iv.data());
+    decryptor.SetKeyWithIV(_key.data(), _key.size(), iv.data());
 }
 
-void AESDecryptor::performDecryption(CryptoPP::CTR_Mode<CryptoPP::AES>::Decryption& decryption,
-        const std::vector<byte>& ciphertext, std::vector<byte>& decrypted) {
+void AESDecryptor::performDecryption(CryptoPP::CTR_Mode<CryptoPP::AES>::Decryption& decryptor,
+        const std::vector<byte>& ciphertext, std::vector<byte>& decryptedData) {
     const byte* ciphertextStart = ciphertext.data() + CryptoPP::AES::BLOCKSIZE;
-    const size_t ciphertextSize = ciphertext.size() - CryptoPP::AES::BLOCKSIZE; 
-    CryptoPP::ArraySource as(ciphertextStart, ciphertextSize, true,
-        new CryptoPP::StreamTransformationFilter(decryption,
-            new CryptoPP::VectorSink(decrypted))
-    );
+    const size_t ciphertextSize = ciphertext.size() - CryptoPP::AES::BLOCKSIZE;
+    decryptedData.resize(ciphertextSize);
+    decryptor.ProcessData(decryptedData.data(), ciphertextStart, ciphertextSize);
 }

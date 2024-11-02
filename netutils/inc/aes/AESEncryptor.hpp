@@ -16,8 +16,8 @@ private:
     void checkKeySize() const;
     static CryptoPP::SecByteBlock generateIV();
     static void appendIVToCiphertext(const CryptoPP::SecByteBlock& iv, std::vector<byte>& ciphertext);
-    void setKeyAndIV(CryptoPP::CTR_Mode<CryptoPP::AES>::Encryption& encryption,
+    void setKeyAndIV(CryptoPP::CTR_Mode<CryptoPP::AES>::Encryption& encryptor,
         const CryptoPP::SecByteBlock& iv) const;
-    static void performEncryption(CryptoPP::CTR_Mode<CryptoPP::AES>::Encryption& encryption,
-        const std::vector<byte>& data, std::vector<byte>& ciphertext);
+    static void performEncryption(CryptoPP::CTR_Mode<CryptoPP::AES>::Encryption& encryptor,
+        const std::vector<byte>& plaintext, std::vector<byte>& ciphertext);
 };

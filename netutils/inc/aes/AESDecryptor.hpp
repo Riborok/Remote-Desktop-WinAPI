@@ -16,8 +16,8 @@ private:
     void checkKeySize() const;
     static void validateCiphertextLength(const std::vector<byte>& ciphertext);
     [[nodiscard]] static CryptoPP::SecByteBlock extractIV(const std::vector<byte>& ciphertext);
-    void setKeyAndIV(CryptoPP::CTR_Mode<CryptoPP::AES>::Decryption& decryption,
+    void setKeyAndIV(CryptoPP::CTR_Mode<CryptoPP::AES>::Decryption& decryptor,
         const CryptoPP::SecByteBlock& iv) const;
-    static void performDecryption(CryptoPP::CTR_Mode<CryptoPP::AES>::Decryption& decryption,
-        const std::vector<byte>& ciphertext, std::vector<byte>& decrypted);
+    static void performDecryption(CryptoPP::CTR_Mode<CryptoPP::AES>::Decryption& decryptor,
+        const std::vector<byte>& ciphertext, std::vector<byte>& decryptedData);
 };
