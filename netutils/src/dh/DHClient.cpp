@@ -5,8 +5,8 @@
 
 DHClient::DHClient(): _sock(NetworkUtils::createSocket(SOCK_STREAM, IPPROTO_TCP)) { }
 
-bool DHClient::connectToServer(const char* ip, const u_short port) const {
-    sockaddr_in serverAddr = NetworkUtils::initializeAddress(ip, port);
+bool DHClient::connectToServer(const std::string& ip, const u_short port) const {
+    sockaddr_in serverAddr = NetworkUtils::initializeAddress(ip.c_str(), port);
     const int result = connect(_sock, reinterpret_cast<sockaddr*>(&serverAddr), sizeof(serverAddr));
     return result >= 0;
 }

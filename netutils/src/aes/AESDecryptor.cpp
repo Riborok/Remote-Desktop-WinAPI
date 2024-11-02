@@ -1,7 +1,6 @@
 ﻿#include "../../inc/aes/AESDecryptor.hpp"
 
 AESDecryptor::AESDecryptor(const std::vector<byte>& key): _key(key) {
-    checkKeySize();
 }
 
 std::vector<byte> AESDecryptor::decrypt(const std::vector<byte>& ciphertext) const {
@@ -16,16 +15,9 @@ std::vector<byte> AESDecryptor::decrypt(const std::vector<byte>& ciphertext) con
     return decryptedData;
 }
 
-void AESDecryptor::checkKeySize() const {
-    if (_key.size() != CryptoPP::AES::MAX_KEYLENGTH) {
-        throw std::invalid_argument("Key must be "
-            + std::to_string(CryptoPP::AES::MAX_KEYLENGTH * 8) + " bits");
-    }
-}
-
 void AESDecryptor::validateCiphertextLength(const std::vector<byte>& ciphertext) {
     if (ciphertext.size() < CryptoPP::AES::BLOCKSIZE) {
-        throw std::invalid_argument("Ciphertext too short");
+        throw std::invalid_argument("Invalid ciphertext");
     }
 }
 

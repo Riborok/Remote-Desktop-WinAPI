@@ -11,7 +11,7 @@ class DHClient {
     CryptoPP::SecByteBlock _publicKey;
 public:
     DHClient();
-    bool connectToServer(const char* ip, const u_short port) const;
+    bool connectToServer(const std::string& ip, const u_short port) const;
     CryptoPP::Integer exchangeKeys();
     ~DHClient();
 

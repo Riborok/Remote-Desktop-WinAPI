@@ -13,7 +13,6 @@ public:
     explicit AESDecryptor(const std::vector<byte>& key);
     [[nodiscard]] std::vector<byte> decrypt(const std::vector<byte>& ciphertext) const;
 private:
-    void checkKeySize() const;
     static void validateCiphertextLength(const std::vector<byte>& ciphertext);
     [[nodiscard]] static CryptoPP::SecByteBlock extractIV(const std::vector<byte>& ciphertext);
     void setKeyAndIV(CryptoPP::CTR_Mode<CryptoPP::AES>::Decryption& decryptor,

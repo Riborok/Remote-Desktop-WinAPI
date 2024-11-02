@@ -47,6 +47,7 @@ private:
         
         const int len = recvfrom(_socket, reinterpret_cast<char*>(data.data()), data.size(), 0,
             reinterpret_cast<sockaddr*>(&senderAddr), &senderAddrSize);
+        NetworkUtils::checkReceive(len);
         return len;
     }
 

@@ -15,13 +15,7 @@ bool DHServer::startListening(const u_short port) {
 
 void DHServer::listenForClient() const {
     const int result = listen(_listenSock, 1);
-    checkListenError(result);
-}
-
-void DHServer::checkListenError(const int result) {
-    if (result < 0) {
-        throw std::runtime_error("Failed to listen on socket");
-    }
+    NetworkUtils::checkListenError(result);
 }
 
 CryptoPP::Integer DHServer::exchangeKeys() {

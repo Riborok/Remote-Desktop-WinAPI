@@ -65,5 +65,6 @@ private:
     void sendFragment(const std::vector<byte>& payload) {
         const int result = sendto(_socket, reinterpret_cast<const char*>(payload.data()), payload.size(), 0,
             reinterpret_cast<sockaddr*>(&_addr), sizeof(_addr));
+        NetworkUtils::checkSend(result);
     }
 };

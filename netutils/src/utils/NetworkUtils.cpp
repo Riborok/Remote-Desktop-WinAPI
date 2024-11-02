@@ -14,7 +14,7 @@ SOCKET NetworkUtils::createSocket(const int type, const int protocol) {
 
 void NetworkUtils::checkSocket(const SOCKET sock) {
     if (sock == INVALID_SOCKET) {
-        throw std::runtime_error("Failed to create socket");
+        throwWSAError("Failed to create socket");
     }
 }
 
@@ -25,8 +25,8 @@ void NetworkUtils::bindSocket(const SOCKET sock, const u_short port) {
 }
 
 void NetworkUtils::checkBindError(const int result) {
-    if (result < 0) {
-        throw std::runtime_error("Failed to bind socket");
+    if (result == SOCKET_ERROR) {
+        throwWSAError("Failed to bind socket");
     }
 }
 
@@ -51,7 +51,7 @@ ULONG NetworkUtils::getAddressFromIp(const PCSTR ip) {
 
 void NetworkUtils::checkInetPton(const int result) {
     if (result <= 0) {
-        throw std::runtime_error("Invalid IP address format");
+        throwWSAError("Invalid IP address format");
     }
 }
 
@@ -63,7 +63,7 @@ void NetworkUtils::sendInteger(const SOCKET sock, const CryptoPP::Integer& value
 
 void NetworkUtils::checkSend(const int result) {
     if (result == SOCKET_ERROR) {
-        throw std::runtime_error("Failed to send data");
+        throwWSAError("Failed to send data");
     }
 }
 
@@ -75,7 +75,18 @@ CryptoPP::Integer NetworkUtils::receiveInteger(const SOCKET sock) {
 }
 
 void NetworkUtils::checkReceive(const int len) {
-    if (len <= 0) {
-        throw std::runtime_error("Failed to receive data or connection closed");
+    if (len == SOCKET_ERROR) {
+        throwWSAError("Failed to receive data or connection closed");
     }
+}
+
+void NetworkUtils::checkListenError(const int result) {
+    if (result == SOCKET_ERROR) {
+        throwWSAError("Failed to listen on socket");
+    }
+}
+
+void NetworkUtils::throwWSAError(const std::string& message) {
+    const int errorCode = WSAGetLastError();
+    throw std::runtime_error(message + ": " + std::to_string(errorCode));
 }

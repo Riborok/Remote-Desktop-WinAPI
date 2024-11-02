@@ -14,7 +14,6 @@ public:
     explicit AESEncryptor(const std::vector<byte>& key);
     [[nodiscard]] std::vector<byte> encrypt(const std::vector<byte>& data);
 private:
-    void checkKeySize() const;
     CryptoPP::SecByteBlock generateIV();
     static void appendIVToCiphertext(const CryptoPP::SecByteBlock& iv, std::vector<byte>& ciphertext);
     void setKeyAndIV(CryptoPP::CTR_Mode<CryptoPP::AES>::Encryption& encryptor,

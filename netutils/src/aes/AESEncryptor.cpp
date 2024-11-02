@@ -1,7 +1,6 @@
 ﻿#include "../../inc/aes/AESEncryptor.hpp"
 
 AESEncryptor::AESEncryptor(const std::vector<byte>& key): _key(key) {
-    checkKeySize();
 }
 
 std::vector<byte> AESEncryptor::encrypt(const std::vector<byte>& data) {
@@ -14,13 +13,6 @@ std::vector<byte> AESEncryptor::encrypt(const std::vector<byte>& data) {
     performEncryption(encryptor, data, ciphertext);
 
     return ciphertext;
-}
-
-void AESEncryptor::checkKeySize() const {
-    if (_key.size() != CryptoPP::AES::MAX_KEYLENGTH) {
-        throw std::invalid_argument("Key must be "
-            + std::to_string(CryptoPP::AES::MAX_KEYLENGTH * 8) + " bits");
-    }
 }
 
 CryptoPP::SecByteBlock AESEncryptor::generateIV() {

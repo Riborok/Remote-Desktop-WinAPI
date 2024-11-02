@@ -14,6 +14,10 @@ public:
     static sockaddr_in initializeAddress(const PCSTR ip, const u_short port);
     static void sendInteger(const SOCKET sock, const CryptoPP::Integer& value);
     static CryptoPP::Integer receiveInteger(const SOCKET sock);
+    
+    static void checkListenError(const int result);
+    static void checkSend(const int result);
+    static void checkReceive(const int len);
 private:
     static void setIpAddress(const PCSTR ip, sockaddr_in& address);
     static ULONG getAddressFromIp(const PCSTR ip);
@@ -21,6 +25,5 @@ private:
     static void checkSocket(const SOCKET sock);
     static void checkBindError(const int result);
     static void checkInetPton(const int result);
-    static void checkSend(const int result);
-    static void checkReceive(const int len);
+    static void throwWSAError(const std::string& message);
 };

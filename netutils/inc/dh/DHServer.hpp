@@ -27,5 +27,4 @@ private:
     CryptoPP::Integer receivePublicKey() const;
 
     void listenForClient() const;
-    static void checkListenError(const int result);
 };
