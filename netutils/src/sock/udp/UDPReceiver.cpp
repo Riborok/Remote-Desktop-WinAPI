@@ -7,13 +7,14 @@ UDPReceiver::UDPReceiver(const u_short port): _socket(SOCK_DGRAM, IPPROTO_UDP) {
     _socket.bindSocket(port);
 }
 
-Payload UDPReceiver::receive() const {
+Payload UDPReceiver::receivePayload() const {
     Payload payload;
 
     const int bytesReceived = receiveData(payload.data);
-    if (bytesReceived > sizeof(size_t)) {
+    if (bytesReceived > 2*sizeof(size_t)) {
+        payload.totalSize = extractTotalSize(payload.data, bytesReceived);
         payload.packetNumber = extractPacketNumber(payload.data, bytesReceived);
-        payload.data.resize(bytesReceived - sizeof(size_t));
+        payload.data.resize(bytesReceived - 2*sizeof(size_t));
     } else {
         handleInvalidPacket(payload);
     }
@@ -27,8 +28,12 @@ int UDPReceiver::receiveData(std::vector<byte>& data) const {
     return len;
 }
 
-size_t UDPReceiver::extractPacketNumber(const std::vector<byte>& data, const int bytesReceived) {
+size_t UDPReceiver::extractTotalSize(const std::vector<byte>& data, const int bytesReceived) {
     return extractSizeTFromPacket(data, bytesReceived - sizeof(size_t));
+}
+
+size_t UDPReceiver::extractPacketNumber(const std::vector<byte>& data, const int bytesReceived) {
+    return extractSizeTFromPacket(data, bytesReceived - 2*sizeof(size_t));
 }
 
 size_t UDPReceiver::extractSizeTFromPacket(const std::vector<byte>& packet, const size_t startIdx) {
@@ -40,6 +45,7 @@ size_t UDPReceiver::extractSizeTFromPacket(const std::vector<byte>& packet, cons
 }
 
 void UDPReceiver::handleInvalidPacket(Payload& payload) {
-    payload.packetNumber = 0;
     payload.data.clear();
+    payload.packetNumber = 0;
+    payload.totalSize = 0;
 }

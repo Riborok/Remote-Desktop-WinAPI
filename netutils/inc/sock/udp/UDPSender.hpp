@@ -14,7 +14,7 @@ class UDPSender {
     sockaddr_in _addr;
 public:
     static constexpr size_t PAYLOAD_SIZE = 1500 - 20 - 8;
-    static constexpr size_t DATA_SIZE = PAYLOAD_SIZE - sizeof(size_t);
+    static constexpr size_t DATA_SIZE = PAYLOAD_SIZE - 2*sizeof(size_t);
 
     UDPSender(const std::string& ip, const u_short port);
     void send(const std::vector<byte>& data);
