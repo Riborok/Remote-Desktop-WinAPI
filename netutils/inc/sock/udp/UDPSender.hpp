@@ -19,7 +19,6 @@ public:
     UDPSender(const std::string& ip, const u_short port);
     void send(const std::vector<byte>& data);
 private:
-    static size_t calculateTotalFragments(const size_t dataSize);
     static std::vector<byte> createFragmentPayload(const std::vector<byte>& data, const size_t fragmentIndex);
     static void addSizeTToPacket(std::vector<byte>& packet, const size_t value);
     void sendFragment(const std::vector<byte>& payload);

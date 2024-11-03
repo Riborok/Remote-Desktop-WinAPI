@@ -1,6 +1,7 @@
 ﻿// ReSharper disable CppClangTidyBugproneNarrowingConversions CppClangTidyClangDiagnosticShorten64To32
 #include "../../../inc/sock/udp/UDPSender.hpp"
 
+#include "../../../inc/utils/MathUtils.hpp"
 #include "../../../inc/utils/sock/SockaddrUtils.hpp"
 
 UDPSender::UDPSender(const std::string& ip, const u_short port): _socket(SOCK_DGRAM, IPPROTO_UDP) {
@@ -8,16 +9,12 @@ UDPSender::UDPSender(const std::string& ip, const u_short port): _socket(SOCK_DG
 }
 
 void UDPSender::send(const std::vector<byte>& data) {
-    const size_t totalFragments = calculateTotalFragments(data.size());
+    const size_t totalFragments = MathUtils::ceil(data.size(), DATA_SIZE);
 
     for (size_t i = 0; i < totalFragments; ++i) {
         auto payload = createFragmentPayload(data, i);
         sendFragment(payload);
     }
-}
-
-size_t UDPSender::calculateTotalFragments(const size_t dataSize) {
-    return (dataSize + DATA_SIZE - 1) / DATA_SIZE;
 }
 
 std::vector<byte> UDPSender::createFragmentPayload(const std::vector<byte>& data, const size_t fragmentIndex) {
