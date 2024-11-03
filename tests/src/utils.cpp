@@ -2,7 +2,7 @@
 
 #include <fstream>
 
-#include "utils/WinSockUtils.hpp"
+#include "utils/sock/WinSockUtils.hpp"
 
 std::vector<byte> readFileToBuffer(const std::string& filename) {
     std::ifstream file(filename, std::ios::binary);

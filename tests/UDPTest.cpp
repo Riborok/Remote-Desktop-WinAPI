@@ -4,8 +4,8 @@
 #include <string>
 
 #include "inc/utils.hpp"
-#include "udp/UDPReceiver.hpp"
-#include "udp/UDPSender.hpp"
+#include "sock/udp/UDPReceiver.hpp"
+#include "sock/udp/UDPSender.hpp"
 
 TEST_F(NetworkTestBase, SendAndReceiveSinglePacket) {
     const std::vector<byte> testData = {1, 2, 3, 4, 5};
@@ -13,7 +13,7 @@ TEST_F(NetworkTestBase, SendAndReceiveSinglePacket) {
     const UDPReceiver receiver(PORT);
     UDPSender sender(IP, PORT);
 
-    std::thread receiverThread([&]() {
+    std::thread receiverThread([&] {
         const auto receivedPayload = receiver.receive();
         EXPECT_EQ(receivedPayload.packetNumber, 0);
         EXPECT_EQ(receivedPayload.data, testData);
@@ -30,7 +30,7 @@ void performSendAndReceiveTest(const std::string& filename, const std::string& i
     const UDPReceiver receiver(port);
     UDPSender sender(ip, port);
 
-    std::thread receiverThread([&]() {
+    std::thread receiverThread([&] {
         std::vector<byte> receivedData;
         size_t packetNumber = 0;
 

@@ -4,21 +4,15 @@
 #include <winsock2.h>
 
 #include "Payload.hpp"
-#include "../utils/NetworkUtils.hpp"
+#include "../Socket.hpp"
 
 using CryptoPP::byte;
 
 class UDPReceiver {
-    SOCKET _socket;
+    Socket _socket;
 public:
     explicit UDPReceiver(const u_short port);
     [[nodiscard]] Payload receive() const;
-    ~UDPReceiver();
-
-    UDPReceiver(const UDPReceiver&) = delete;
-    UDPReceiver& operator=(const UDPReceiver&) = delete;
-    UDPReceiver(UDPReceiver&&) = delete;
-    UDPReceiver& operator=(UDPReceiver&&) = delete;
 private:
     int receiveData(std::vector<byte>& data) const;
     static size_t extractPacketNumber(const std::vector<byte>& data, const int bytesReceived);

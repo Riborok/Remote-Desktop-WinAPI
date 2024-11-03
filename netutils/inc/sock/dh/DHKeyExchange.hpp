@@ -1,24 +1,18 @@
 ﻿#pragma once
-#include <winsock2.h>
-#include <secblock.h>
 
 #include "DHHelper.hpp"
+#include "../Socket.hpp"
 
-class DHServer {
-    SOCKET _listenSock, _clientSock;
+class DHKeyExchange {
     DHHelper _dhHelper;
     CryptoPP::SecByteBlock _privateKey;
     CryptoPP::SecByteBlock _publicKey;
+    Socket& _sock;
 public:
-    DHServer();
-    bool startListening(const u_short port);
+    explicit DHKeyExchange(Socket& socket);
+    void generateAndSendGroupParameters();
+    void receiveGroupParameters();
     CryptoPP::Integer exchangeKeys();
-    ~DHServer();
-
-    DHServer(const DHServer&) = delete;
-    DHServer& operator=(const DHServer&) = delete;
-    DHServer(DHServer&&) = delete;
-    DHServer& operator=(DHServer&&) = delete;
 private:
     void generateRandomGroupParameters();
     void sendGroupParameters() const;

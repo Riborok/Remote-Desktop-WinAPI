@@ -1,15 +1,16 @@
 ﻿#pragma once
 
+#include <config_int.h>
 #include <vector>
 #include <string>
 #include <winsock2.h>
 
-#include "../utils/NetworkUtils.hpp"
+#include "../Socket.hpp"
 
 using CryptoPP::byte;
 
 class UDPSender {
-    SOCKET _socket;
+    Socket _socket;
     sockaddr_in _addr;
 public:
     static constexpr size_t PAYLOAD_SIZE = 1500 - 20 - 8;
@@ -17,13 +18,6 @@ public:
 
     UDPSender(const std::string& ip, const u_short port);
     void send(const std::vector<byte>& data);
-    ~UDPSender();
-
-    UDPSender(const UDPSender&) = delete;
-    UDPSender& operator=(const UDPSender&) = delete;
-    UDPSender(UDPSender&&) = delete;
-    UDPSender& operator=(UDPSender&&) = delete;
-
 private:
     static size_t calculateTotalFragments(const size_t dataSize);
     static std::vector<byte> createFragmentPayload(const std::vector<byte>& data, const size_t fragmentIndex);

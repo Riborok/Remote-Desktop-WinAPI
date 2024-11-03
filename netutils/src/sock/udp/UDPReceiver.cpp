@@ -1,11 +1,10 @@
 ﻿// ReSharper disable CppClangTidyBugproneNarrowingConversions CppClangTidyClangDiagnosticShorten64To32 CppClangTidyClangDiagnosticSignCompare
-#include "../../inc/udp/UDPReceiver.hpp"
+#include "../../../inc/sock/udp/UDPReceiver.hpp"
 
-#include "../../inc/udp/UDPSender.hpp"
+#include "../../../inc/sock/udp/UDPSender.hpp"
 
-UDPReceiver::UDPReceiver(const u_short port) {
-    _socket = NetworkUtils::createSocket(SOCK_DGRAM, IPPROTO_UDP);
-    NetworkUtils::bindSocket(_socket, port);
+UDPReceiver::UDPReceiver(const u_short port): _socket(SOCK_DGRAM, IPPROTO_UDP) {
+    _socket.bindSocket(port);
 }
 
 Payload UDPReceiver::receive() const {
@@ -24,9 +23,7 @@ Payload UDPReceiver::receive() const {
 
 int UDPReceiver::receiveData(std::vector<byte>& data) const {
     data.resize(UDPSender::PAYLOAD_SIZE);
-    sockaddr_in senderAddr;
-    int senderAddrSize = sizeof(senderAddr);
-    const int len = NetworkUtils::recvFromSocket(_socket, data, senderAddr, senderAddrSize);
+    const int len = _socket.recvFromSocket(data);
     return len;
 }
 
@@ -45,8 +42,4 @@ size_t UDPReceiver::extractSizeTFromPacket(const std::vector<byte>& packet, cons
 void UDPReceiver::handleInvalidPacket(Payload& payload) {
     payload.packetNumber = 0;
     payload.data.clear();
-}
-
-UDPReceiver::~UDPReceiver() {
-    closesocket(_socket);
 }
