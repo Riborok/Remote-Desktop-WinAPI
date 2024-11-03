@@ -16,5 +16,5 @@ public:
     static void checkSend(const int result);
     static void checkReceive(const int len);
 private:
-    static void throwWSAError(const std::string& message);
+    [[noreturn]] static void throwWSAError(const std::string& message);
 };
