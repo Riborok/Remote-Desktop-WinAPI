@@ -26,10 +26,7 @@ int UDPReceiver::receiveData(std::vector<byte>& data) const {
     data.resize(UDPSender::PAYLOAD_SIZE);
     sockaddr_in senderAddr;
     int senderAddrSize = sizeof(senderAddr);
-        
-    const int len = recvfrom(_socket, reinterpret_cast<char*>(data.data()), data.size(), 0,
-                             reinterpret_cast<sockaddr*>(&senderAddr), &senderAddrSize);
-    NetworkUtils::checkReceive(len);
+    const int len = NetworkUtils::recvFromSocket(_socket, data, senderAddr, senderAddrSize);
     return len;
 }
 

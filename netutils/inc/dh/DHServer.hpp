@@ -25,6 +25,4 @@ private:
     void generateKeys();
     void sendPublicKey();
     CryptoPP::Integer receivePublicKey() const;
-
-    void listenForClient() const;
 };

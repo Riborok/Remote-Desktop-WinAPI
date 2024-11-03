@@ -8,14 +8,9 @@ DHServer::DHServer(): _listenSock(NetworkUtils::createSocket(SOCK_STREAM, IPPROT
 
 bool DHServer::startListening(const u_short port) {
     NetworkUtils::bindSocket(_listenSock, port);
-    listenForClient();
+    NetworkUtils::listenOnSocket(_listenSock, 1);
     _clientSock = accept(_listenSock, nullptr, nullptr);
     return _clientSock != INVALID_SOCKET;
-}
-
-void DHServer::listenForClient() const {
-    const int result = listen(_listenSock, 1);
-    NetworkUtils::checkListenError(result);
 }
 
 CryptoPP::Integer DHServer::exchangeKeys() {

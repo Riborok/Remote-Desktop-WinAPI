@@ -55,9 +55,30 @@ void NetworkUtils::checkInetPton(const int result) {
     }
 }
 
+void NetworkUtils::listenOnSocket(const SOCKET socket, const int backlog) {
+    const int result = listen(socket, backlog);
+    checkListenError(result);
+}
+
+void NetworkUtils::checkListenError(const int result) {
+    if (result == SOCKET_ERROR) {
+        throwWSAError("Failed to listen on socket");
+    }
+}
+
 void NetworkUtils::sendInteger(const SOCKET sock, const CryptoPP::Integer& value) {
     const std::vector<byte> buffer(IntegerUtils::toVector(value));
-    const int result = send(sock, reinterpret_cast<const char*>(buffer.data()), buffer.size(), 0);
+    sendSocket(sock, buffer);
+}
+
+void NetworkUtils::sendSocket(const SOCKET socket, const std::vector<byte>& buffer) {
+    const int result = send(socket, reinterpret_cast<const char*>(buffer.data()), buffer.size(), 0);
+    checkSend(result);
+}
+
+void NetworkUtils::sendToSocket(const SOCKET socket, const std::vector<byte>& buffer, sockaddr_in& destAddr) {
+    const int result = sendto(socket, reinterpret_cast<const char*>(buffer.data()), buffer.size(), 0,
+                          reinterpret_cast<sockaddr*>(&destAddr), sizeof(destAddr));
     checkSend(result);
 }
 
@@ -68,21 +89,27 @@ void NetworkUtils::checkSend(const int result) {
 }
 
 CryptoPP::Integer NetworkUtils::receiveInteger(const SOCKET sock) {
-    std::vector<char> buffer(DHHelper::KEY_SIZE);
-    const int len = recv(sock, buffer.data(), buffer.size(), 0);
+    std::vector<byte> buffer(DHHelper::KEY_SIZE);
+    const int len = recvSocket(sock, buffer);
+    return {buffer.data(), static_cast<size_t>(len)};
+}
+
+int NetworkUtils::recvSocket(const SOCKET socket, std::vector<byte>& buffer) {
+    const int len = recv(socket, reinterpret_cast<char*>(buffer.data()), buffer.size(), 0);
     checkReceive(len);
-    return {reinterpret_cast<byte*>(buffer.data()), static_cast<size_t>(len)};
+    return len;
+}
+
+int NetworkUtils::recvFromSocket(const SOCKET socket, std::vector<byte>& buffer, sockaddr_in& senderAddr, int& senderAddrSize) {
+    const int len = recvfrom(socket, reinterpret_cast<char*>(buffer.data()), buffer.size(), 0,
+        reinterpret_cast<sockaddr*>(&senderAddr), &senderAddrSize);
+    checkReceive(len);
+    return len;
 }
 
 void NetworkUtils::checkReceive(const int len) {
     if (len == SOCKET_ERROR) {
         throwWSAError("Failed to receive data or connection closed");
-    }
-}
-
-void NetworkUtils::checkListenError(const int result) {
-    if (result == SOCKET_ERROR) {
-        throwWSAError("Failed to listen on socket");
     }
 }
 
