@@ -37,6 +37,7 @@
     <ClInclude Include="inc\utils\sock\SocketIntegerUtils.hpp" />
     <ClInclude Include="inc\utils\sock\TCPUtils.hpp" />
     <ClInclude Include="inc\utils\sock\WinSockUtils.hpp" />
+    <ClInclude Include="inc\utils\TypeLimits.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\aes\AESDecryptor.cpp" />

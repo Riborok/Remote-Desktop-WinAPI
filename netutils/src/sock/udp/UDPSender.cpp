@@ -2,6 +2,7 @@
 #include "../../../inc/sock/udp/UDPSender.hpp"
 
 #include "../../../inc/utils/MathUtils.hpp"
+#include "../../../inc/utils/TypeLimits.hpp"
 #include "../../../inc/utils/sock/SockaddrUtils.hpp"
 
 UDPSender::UDPSender(const std::string& ip, const u_short port): _socket(SOCK_DGRAM, IPPROTO_UDP) {
@@ -15,16 +16,18 @@ void UDPSender::send(const std::vector<byte>& data) {
         auto payload = createFragmentPayload(data, i);
         sendFragment(payload);
     }
+    ++_id;
 }
 
-std::vector<byte> UDPSender::createFragmentPayload(const std::vector<byte>& data, const size_t fragmentIndex) {
+std::vector<byte> UDPSender::createFragmentPayload(const std::vector<byte>& data, const size_t fragmentIndex) const {
     const size_t offset = fragmentIndex * DATA_SIZE;
     const size_t dataLen = min(DATA_SIZE, data.size() - offset);
-    const size_t payloadSize = dataLen + 2*sizeof(size_t);
+    const size_t payloadSize = dataLen + 3*sizeof(size_t);
 
     std::vector<byte> payload;
     payload.reserve(payloadSize);
     payload.insert(payload.end(), data.begin() + offset, data.begin() + offset + dataLen);
+    addSizeTToPacket(payload, _id);
     addSizeTToPacket(payload, fragmentIndex);
     addSizeTToPacket(payload, data.size());
 
@@ -33,7 +36,7 @@ std::vector<byte> UDPSender::createFragmentPayload(const std::vector<byte>& data
 
 void UDPSender::addSizeTToPacket(std::vector<byte>& packet, const size_t value) {
     for (size_t i = 0; i < sizeof(size_t); ++i) {
-        packet.push_back(static_cast<byte>((value >> (i * 8)) & 0xFF));
+        packet.push_back(static_cast<byte>((value >> (i * 8)) & TypeLimits::MAX_BYTE));
     }
 }
 
