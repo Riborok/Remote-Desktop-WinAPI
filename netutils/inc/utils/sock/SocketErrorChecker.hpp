@@ -6,6 +6,8 @@
 class SocketErrorChecker {
 public:
     SocketErrorChecker() = delete;
+    
+    static constexpr int SOCKET_TIMEOUT = -2;
 
     static void checkSocket(const SOCKET sock);
     static void checkBindError(const int result);
@@ -13,8 +15,11 @@ public:
     static void checkListenError(const int result);
     static void checkAcceptError(const SOCKET clientSock);
     static void checkConnectError(const int result);
-    static void checkSend(const int result);
-    static void checkReceive(const int len);
+    static int checkSend(const int result);
+    static int checkReceive(const int len);
+    static void checkReceiveTimeoutError(const int result);
+    static void checkSendTimeoutError(const int result);
 private:
     [[noreturn]] static void throwWSAError(const std::string& message);
+    [[noreturn]] static void throwWSAError(const std::string& message, const int errorCode);
 };

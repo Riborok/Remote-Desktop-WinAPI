@@ -7,43 +7,76 @@ void SocketErrorChecker::checkSocket(const SOCKET sock) {
         throwWSAError("Failed to create socket");
     }
 }
+
 void SocketErrorChecker::checkBindError(const int result) {
     if (result == SOCKET_ERROR) {
         throwWSAError("Failed to bind socket");
     }
 }
+
 void SocketErrorChecker::checkInetPton(const int result) {
     if (result <= 0) {
         throwWSAError("Invalid IP address format");
     }
 }
+
 void SocketErrorChecker::checkListenError(const int result) {
     if (result == SOCKET_ERROR) {
         throwWSAError("Failed to listen on socket");
     }
 }
+
 void SocketErrorChecker::checkAcceptError(const SOCKET clientSock) {
     if (clientSock == INVALID_SOCKET) {
         throwWSAError("Failed to accept client connection");
     }
 }
+
 void SocketErrorChecker::checkConnectError(const int result) {
     if (result == SOCKET_ERROR) {
         throwWSAError("Failed to connect to server");
     }
 }
-void SocketErrorChecker::checkSend(const int result) {
+
+int SocketErrorChecker::checkSend(const int result) {
     if (result == SOCKET_ERROR) {
-        throwWSAError("Failed to send data");
+        const int errorCode = WSAGetLastError();
+        if (errorCode == WSAETIMEDOUT) {
+            return SOCKET_TIMEOUT;
+        }
+        throwWSAError("Failed to send data", errorCode);
+    }
+    return result;
+}
+
+int SocketErrorChecker::checkReceive(const int len) {
+    if (len == SOCKET_ERROR) {
+        const int errorCode = WSAGetLastError();
+        if (errorCode == WSAETIMEDOUT) {
+            return SOCKET_TIMEOUT;
+        }
+        throwWSAError("Failed to receive data or connection closed", errorCode);
+    }
+    return len;
+}
+
+void SocketErrorChecker::checkReceiveTimeoutError(const int result) {
+    if (result == SOCKET_ERROR) {
+        throwWSAError("Failed to set receive timeout");
     }
 }
-void SocketErrorChecker::checkReceive(const int len) {
-    if (len == SOCKET_ERROR) {
-        throwWSAError("Failed to receive data or connection closed");
+
+void SocketErrorChecker::checkSendTimeoutError(const int result) {
+    if (result == SOCKET_ERROR) {
+        throwWSAError("Failed to set send timeout");
     }
 }
 
 void SocketErrorChecker::throwWSAError(const std::string& message) {
     const int errorCode = WSAGetLastError();
+    throwWSAError(message, errorCode);
+}
+
+void SocketErrorChecker::throwWSAError(const std::string& message, const int errorCode) {
     throw std::runtime_error(message + ": " + std::to_string(errorCode));
 }

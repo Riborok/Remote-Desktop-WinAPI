@@ -29,28 +29,45 @@ void Socket::connectToServer(sockaddr_in& serverAddr) const {
     SocketErrorChecker::checkConnectError(result);
 }
 
-void Socket::sendSocket(const std::vector<byte>& buffer) const {
+int Socket::sendSocket(const std::vector<byte>& buffer) const {
     const int result = send(_sock, reinterpret_cast<const char*>(buffer.data()), buffer.size(), 0);
-    SocketErrorChecker::checkSend(result);
+    return SocketErrorChecker::checkSend(result);
 }
 
-void Socket::sendToSocket(const std::vector<byte>& buffer, sockaddr_in& destAddr) const {
+int Socket::sendToSocket(const std::vector<byte>& buffer, sockaddr_in& destAddr) const {
     const int result = sendto(_sock, reinterpret_cast<const char*>(buffer.data()), buffer.size(), 0,
         reinterpret_cast<sockaddr*>(&destAddr), sizeof(destAddr));
-    SocketErrorChecker::checkSend(result);
+    return SocketErrorChecker::checkSend(result);
 }
 
 int Socket::recvSocket(std::vector<byte>& buffer) const {
     const int len = recv(_sock, reinterpret_cast<char*>(buffer.data()), buffer.size(), 0);
-    SocketErrorChecker::checkReceive(len);
-    return len;
+    return SocketErrorChecker::checkReceive(len);
 }
 
 int Socket::recvFromSocket(std::vector<byte>& buffer, sockaddr_in* senderAddr, int* senderAddrSize) const {
     const int len = recvfrom(_sock, reinterpret_cast<char*>(buffer.data()), buffer.size(), 0,
         reinterpret_cast<sockaddr*>(senderAddr), senderAddrSize);
-    SocketErrorChecker::checkReceive(len);
-    return len;
+    return SocketErrorChecker::checkReceive(len);
+}
+
+void Socket::setReceiveTimeout(const long seconds, const long microseconds) const {
+    const int result = setTimeout(seconds, microseconds, SO_RCVTIMEO);
+    SocketErrorChecker::checkReceiveTimeoutError(result);
+}
+
+void Socket::setSendTimeout(const long seconds, const long microseconds) const {
+    const int result = setTimeout(seconds, microseconds, SO_SNDTIMEO);
+    SocketErrorChecker::checkSendTimeoutError(result);
+}
+
+int Socket::setTimeout(const long seconds, const long microseconds, const int option) const {
+    timeval timeout;
+    timeout.tv_sec = seconds;
+    timeout.tv_usec = microseconds;
+    const int result = setsockopt(_sock, SOL_SOCKET, option, 
+        reinterpret_cast<const char*>(&timeout), sizeof(timeout));
+    return result;
 }
 
 Socket::~Socket() {
@@ -59,4 +76,8 @@ Socket::~Socket() {
 
 Socket::Socket(Socket&& other) noexcept : _sock(other._sock) {
     other._sock = INVALID_SOCKET;
+}
+
+Socket::Socket(const SOCKET socket): _sock(socket) {
+    SocketErrorChecker::checkSocket(_sock);
 }
