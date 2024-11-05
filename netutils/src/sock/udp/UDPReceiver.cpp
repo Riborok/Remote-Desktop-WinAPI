@@ -3,9 +3,12 @@
 
 #include "../../../inc/sock/udp/UDPSender.hpp"
 
-UDPReceiver::UDPReceiver(const u_short port, const DWORD receiveTimeoutMs): _socket(SOCK_DGRAM, IPPROTO_UDP) {
+UDPReceiver::UDPReceiver(const u_short port,
+        const DWORD receiveTimeoutMs, const DWORD receiveBufferSize)
+        : _socket(SOCK_DGRAM, IPPROTO_UDP) {
     _socket.bindSocket(port);
     _socket.setReceiveTimeout(receiveTimeoutMs);
+    _socket.setReceiveBufferSize(receiveBufferSize);
 }
 
 std::optional<Payload> UDPReceiver::receivePayload() const {

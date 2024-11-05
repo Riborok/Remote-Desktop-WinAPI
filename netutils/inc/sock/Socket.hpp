@@ -25,6 +25,9 @@ public:
     void setReceiveTimeout(const DWORD milliseconds) const;
     void setSendTimeout(const DWORD milliseconds) const;
 
+    void setSendBufferSize(const DWORD bufferSize) const;
+    void setReceiveBufferSize(const DWORD bufferSize) const;
+    
     ~Socket();
     Socket(Socket&&) noexcept;
 
@@ -34,5 +37,5 @@ public:
 private:
     explicit Socket(const SOCKET socket);
 
-    [[nodiscard]] int setTimeout(const DWORD milliseconds, const int option) const;
+    [[nodiscard]] int setSockOpt(const DWORD value, const int option) const;
 };

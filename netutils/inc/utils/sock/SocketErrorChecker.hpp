@@ -19,7 +19,10 @@ public:
     static int checkReceive(const int len);
     static void checkReceiveTimeoutError(const int result);
     static void checkSendTimeoutError(const int result);
+    static void checkSetSendBufferError(const int result);
+    static void checkSetReceiveBufferError(const int result);
 private:
+    static void checkSetSockOptError(const int result, const std::string& option);
     [[noreturn]] static void throwWSAError(const std::string& message);
     [[noreturn]] static void throwWSAError(const std::string& message, const int errorCode);
 };

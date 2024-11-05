@@ -6,6 +6,7 @@
 #include <winsock2.h>
 
 #include "../Socket.hpp"
+#include "../../utils/MemoryUnits.hpp"
 
 using CryptoPP::byte;
 
@@ -17,7 +18,8 @@ public:
     static constexpr size_t PAYLOAD_SIZE = 1500 - 20 - 8;
     static constexpr size_t DATA_SIZE = PAYLOAD_SIZE - 3*sizeof(size_t);
 
-    UDPSender(const std::string& ip, const u_short port, const DWORD sendTimeoutMs = 1000);
+    UDPSender(const std::string& ip, const u_short port,
+        const DWORD sendTimeoutMs = 1000, const DWORD sendBufferSize = MemoryUnits::MEGABYTE);
     void send(const std::vector<byte>& data);
 private:
     [[nodiscard]] std::vector<byte> createFragmentPayload(const std::vector<byte>& data, const size_t fragmentIndex) const;

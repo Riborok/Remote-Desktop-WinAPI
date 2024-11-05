@@ -32,6 +32,7 @@
     <ClInclude Include="inc\utils\CompressionUtils.hpp" />
     <ClInclude Include="inc\utils\IntegerUtils.hpp" />
     <ClInclude Include="inc\utils\MathUtils.hpp" />
+    <ClInclude Include="inc\utils\MemoryUnits.hpp" />
     <ClInclude Include="inc\utils\sock\SockaddrUtils.hpp" />
     <ClInclude Include="inc\utils\sock\SocketErrorChecker.hpp" />
     <ClInclude Include="inc\utils\sock\SocketIntegerUtils.hpp" />

@@ -52,19 +52,28 @@ int Socket::recvFromSocket(std::vector<byte>& buffer, sockaddr_in* senderAddr, i
 }
 
 void Socket::setReceiveTimeout(const DWORD milliseconds) const {
-    const int result = setTimeout(milliseconds, SO_RCVTIMEO);
+    const int result = setSockOpt(milliseconds, SO_RCVTIMEO);
     SocketErrorChecker::checkReceiveTimeoutError(result);
 }
 
 void Socket::setSendTimeout(const DWORD milliseconds) const {
-    const int result = setTimeout(milliseconds, SO_SNDTIMEO);
+    const int result = setSockOpt(milliseconds, SO_SNDTIMEO);
     SocketErrorChecker::checkSendTimeoutError(result);
 }
 
-int Socket::setTimeout(const DWORD milliseconds, const int option) const {
-    const int result = setsockopt(_sock, SOL_SOCKET, option, 
-        reinterpret_cast<const char*>(&milliseconds), sizeof(milliseconds));
-    return result;
+void Socket::setSendBufferSize(const DWORD bufferSize) const {
+    const int result = setSockOpt(bufferSize, SO_SNDBUF);
+    SocketErrorChecker::checkSetSendBufferError(result);
+}
+
+void Socket::setReceiveBufferSize(const DWORD bufferSize) const {
+    const int result = setSockOpt(bufferSize, SO_RCVBUF);
+    SocketErrorChecker::checkSetReceiveBufferError(result);
+}
+
+int Socket::setSockOpt(const DWORD value, const int option) const {
+    return setsockopt(_sock, SOL_SOCKET, option, 
+        reinterpret_cast<const char*>(&value), sizeof(value));
 }
 
 Socket::~Socket() {

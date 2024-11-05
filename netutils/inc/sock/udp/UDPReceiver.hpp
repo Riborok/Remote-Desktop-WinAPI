@@ -6,13 +6,15 @@
 
 #include "Payload.hpp"
 #include "../Socket.hpp"
+#include "../../utils/MemoryUnits.hpp"
 
 using CryptoPP::byte;
 
 class UDPReceiver {
     Socket _socket;
 public:
-    explicit UDPReceiver(const u_short port, const DWORD receiveTimeoutMs = 1000);
+    explicit UDPReceiver(const u_short port,
+        const DWORD receiveTimeoutMs = 1000, const DWORD receiveBufferSize = MemoryUnits::MEGABYTE);
     [[nodiscard]] std::optional<Payload> receivePayload() const;
 private:
     int receiveData(std::vector<byte>& data) const;

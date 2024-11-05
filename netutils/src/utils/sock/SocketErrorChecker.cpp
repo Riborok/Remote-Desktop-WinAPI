@@ -61,14 +61,25 @@ int SocketErrorChecker::checkReceive(const int len) {
 }
 
 void SocketErrorChecker::checkReceiveTimeoutError(const int result) {
-    if (result == SOCKET_ERROR) {
-        throwWSAError("Failed to set receive timeout");
-    }
+    checkSetSockOptError(result, "receive timeout");
 }
 
 void SocketErrorChecker::checkSendTimeoutError(const int result) {
+    checkSetSockOptError(result, "send timeout");
+}
+
+void SocketErrorChecker::checkSetSendBufferError(const int result) {
+    checkSetSockOptError(result, "send buffer size");
+}
+
+void SocketErrorChecker::checkSetReceiveBufferError(const int result) {
+    checkSetSockOptError(result, "receive buffer size");
+}
+
+
+void SocketErrorChecker::checkSetSockOptError(const int result, const std::string& option) {
     if (result == SOCKET_ERROR) {
-        throwWSAError("Failed to set send timeout");
+        throwWSAError("Failed to set socket option: " + option);
     }
 }
 
