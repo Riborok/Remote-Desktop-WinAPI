@@ -1,6 +1,7 @@
 ﻿#include <gtest/gtest.h>
 #include <thread>
 #include <vector>
+#include <optional>
 #include <string>
 
 #include "inc/utils.hpp"
@@ -14,10 +15,11 @@ TEST_F(NetworkTestBase, SendAndReceiveSinglePacket) {
     UDPSender sender(IP, PORT);
 
     std::thread receiverThread([&] {
-        const auto receivedPayload = receiver.receivePayload();
-        EXPECT_EQ(receivedPayload.packetNumber, 0);
-        EXPECT_EQ(receivedPayload.totalDataSize, testData.size());
-        EXPECT_EQ(receivedPayload.data, testData);
+        const std::optional<Payload> receivedPayload = receiver.receivePayload();
+        EXPECT_TRUE(receivedPayload.has_value());
+        EXPECT_EQ(receivedPayload.value().packetNumber, 0);
+        EXPECT_EQ(receivedPayload.value().totalDataSize, testData.size());
+        EXPECT_EQ(receivedPayload.value().data, testData);
     });
 
     sender.send(testData);
@@ -36,10 +38,12 @@ void performSendAndReceiveTest(const std::string& filename, const std::string& i
         size_t packetNumber = 0;
 
         while (receivedData.size() < largeData.size()) {
-            auto receivedPayload = receiver.receivePayload();
-            EXPECT_EQ(receivedPayload.packetNumber, packetNumber++);
-            EXPECT_EQ(receivedPayload.totalDataSize, largeData.size());
-            receivedData.insert(receivedData.end(), receivedPayload.data.begin(), receivedPayload.data.end());
+            std::optional<Payload> receivedPayload = receiver.receivePayload();
+            EXPECT_TRUE(receivedPayload.has_value());
+            EXPECT_EQ(receivedPayload.value().packetNumber, packetNumber++);
+            EXPECT_EQ(receivedPayload.value().totalDataSize, largeData.size());
+            const auto& data = receivedPayload.value().data;
+            receivedData.insert(receivedData.end(), data.begin(), data.end());
         }
 
         EXPECT_EQ(receivedData, largeData);

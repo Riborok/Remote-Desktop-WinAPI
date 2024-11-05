@@ -1,20 +1,23 @@
 ﻿// ReSharper disable CppClangTidyBugproneNarrowingConversions CppClangTidyClangDiagnosticShorten64To32 CppClangTidyClangDiagnosticSignCompare
 #include "../../../inc/sock/udp/UDPReceiver.hpp"
 
-#include <stdexcept>
-
 #include "../../../inc/sock/udp/UDPSender.hpp"
 
-UDPReceiver::UDPReceiver(const u_short port): _socket(SOCK_DGRAM, IPPROTO_UDP) {
+UDPReceiver::UDPReceiver(const u_short port,
+        const long sendTimeoutSeconds, const long sendTimeoutMicroseconds)
+        : _socket(SOCK_DGRAM, IPPROTO_UDP) {
     _socket.bindSocket(port);
+    _socket.setReceiveTimeout(sendTimeoutSeconds, sendTimeoutMicroseconds);
 }
 
-Payload UDPReceiver::receivePayload() const {
+std::optional<Payload> UDPReceiver::receivePayload() const {
     Payload payload;
     const int bytesReceived = receiveData(payload.data);
-    checkBytesReceived(bytesReceived);
-    populatePayload(payload, bytesReceived);
-    return payload;
+    if (isBytesReceivedValid(bytesReceived)) {
+        populatePayload(payload, bytesReceived);
+        return std::move(payload);
+    }
+    return std::nullopt;
 }
 
 int UDPReceiver::receiveData(std::vector<byte>& data) const {
@@ -23,10 +26,8 @@ int UDPReceiver::receiveData(std::vector<byte>& data) const {
     return len;
 }
 
-void UDPReceiver::checkBytesReceived(const size_t bytesReceived) {
-    if (bytesReceived < 3*sizeof(size_t)) {
-        throw std::runtime_error("Received bytes less than 3*sizeof(size_t) for UDP");
-    }
+bool UDPReceiver::isBytesReceivedValid(const size_t bytesReceived) {
+    return bytesReceived >= 3*sizeof(size_t);
 }
 
 void UDPReceiver::populatePayload(Payload& payload, const int bytesReceived) {

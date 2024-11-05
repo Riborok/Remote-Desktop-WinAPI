@@ -17,7 +17,8 @@ public:
     static constexpr size_t PAYLOAD_SIZE = 1500 - 20 - 8;
     static constexpr size_t DATA_SIZE = PAYLOAD_SIZE - 3*sizeof(size_t);
 
-    UDPSender(const std::string& ip, const u_short port);
+    UDPSender(const std::string& ip, const u_short port,
+        const long sendTimeoutSeconds = 1, const long sendTimeoutMicroseconds = 0);
     void send(const std::vector<byte>& data);
 private:
     [[nodiscard]] std::vector<byte> createFragmentPayload(const std::vector<byte>& data, const size_t fragmentIndex) const;

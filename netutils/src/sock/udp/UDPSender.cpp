@@ -5,8 +5,11 @@
 #include "../../../inc/utils/TypeLimits.hpp"
 #include "../../../inc/utils/sock/SockaddrUtils.hpp"
 
-UDPSender::UDPSender(const std::string& ip, const u_short port): _socket(SOCK_DGRAM, IPPROTO_UDP) {
+UDPSender::UDPSender(const std::string& ip, const u_short port,
+        const long sendTimeoutSeconds, const long sendTimeoutMicroseconds)
+        : _socket(SOCK_DGRAM, IPPROTO_UDP) {
     _addr = SockaddrUtils::initializeAddress(ip.c_str(), port);
+    _socket.setSendTimeout(sendTimeoutSeconds, sendTimeoutMicroseconds);
 }
 
 void UDPSender::send(const std::vector<byte>& data) {
