@@ -6,10 +6,9 @@
 #include "../../../inc/utils/sock/SockaddrUtils.hpp"
 
 UDPSender::UDPSender(const std::string& ip, const u_short port,
-        const long sendTimeoutSeconds, const long sendTimeoutMicroseconds)
-        : _socket(SOCK_DGRAM, IPPROTO_UDP) {
+        const DWORD sendTimeoutMs): _socket(SOCK_DGRAM, IPPROTO_UDP) {
     _addr = SockaddrUtils::initializeAddress(ip.c_str(), port);
-    _socket.setSendTimeout(sendTimeoutSeconds, sendTimeoutMicroseconds);
+    _socket.setSendTimeout(sendTimeoutMs);
 }
 
 void UDPSender::send(const std::vector<byte>& data) {

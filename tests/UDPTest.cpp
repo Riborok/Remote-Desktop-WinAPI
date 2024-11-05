@@ -8,6 +8,14 @@
 #include "sock/udp/UDPReceiver.hpp"
 #include "sock/udp/UDPSender.hpp"
 
+TEST_F(NetworkTestBase, ReceiveNoData_ReturnsEmpty) {
+    const UDPReceiver receiver(PORT);
+    for (int i = 0; i < 42; i++) {
+        const std::optional<Payload> receivedPayload = receiver.receivePayload();
+        EXPECT_FALSE(receivedPayload.has_value());
+    }
+}
+
 TEST_F(NetworkTestBase, SendAndReceiveSinglePacket) {
     const std::vector<byte> testData = {1, 2, 3, 4, 5};
 

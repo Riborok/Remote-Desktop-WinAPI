@@ -51,22 +51,19 @@ int Socket::recvFromSocket(std::vector<byte>& buffer, sockaddr_in* senderAddr, i
     return SocketErrorChecker::checkReceive(len);
 }
 
-void Socket::setReceiveTimeout(const long seconds, const long microseconds) const {
-    const int result = setTimeout(seconds, microseconds, SO_RCVTIMEO);
+void Socket::setReceiveTimeout(const DWORD milliseconds) const {
+    const int result = setTimeout(milliseconds, SO_RCVTIMEO);
     SocketErrorChecker::checkReceiveTimeoutError(result);
 }
 
-void Socket::setSendTimeout(const long seconds, const long microseconds) const {
-    const int result = setTimeout(seconds, microseconds, SO_SNDTIMEO);
+void Socket::setSendTimeout(const DWORD milliseconds) const {
+    const int result = setTimeout(milliseconds, SO_SNDTIMEO);
     SocketErrorChecker::checkSendTimeoutError(result);
 }
 
-int Socket::setTimeout(const long seconds, const long microseconds, const int option) const {
-    timeval timeout;
-    timeout.tv_sec = seconds;
-    timeout.tv_usec = microseconds;
+int Socket::setTimeout(const DWORD milliseconds, const int option) const {
     const int result = setsockopt(_sock, SOL_SOCKET, option, 
-        reinterpret_cast<const char*>(&timeout), sizeof(timeout));
+        reinterpret_cast<const char*>(&milliseconds), sizeof(milliseconds));
     return result;
 }
 

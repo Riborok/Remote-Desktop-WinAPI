@@ -3,11 +3,9 @@
 
 #include "../../../inc/sock/udp/UDPSender.hpp"
 
-UDPReceiver::UDPReceiver(const u_short port,
-        const long sendTimeoutSeconds, const long sendTimeoutMicroseconds)
-        : _socket(SOCK_DGRAM, IPPROTO_UDP) {
+UDPReceiver::UDPReceiver(const u_short port, const DWORD receiveTimeoutMs): _socket(SOCK_DGRAM, IPPROTO_UDP) {
     _socket.bindSocket(port);
-    _socket.setReceiveTimeout(sendTimeoutSeconds, sendTimeoutMicroseconds);
+    _socket.setReceiveTimeout(receiveTimeoutMs);
 }
 
 std::optional<Payload> UDPReceiver::receivePayload() const {
@@ -26,8 +24,8 @@ int UDPReceiver::receiveData(std::vector<byte>& data) const {
     return len;
 }
 
-bool UDPReceiver::isBytesReceivedValid(const size_t bytesReceived) {
-    return bytesReceived >= 3*sizeof(size_t);
+bool UDPReceiver::isBytesReceivedValid(const int bytesReceived) {
+    return bytesReceived >= static_cast<int>(3 * sizeof(size_t));
 }
 
 void UDPReceiver::populatePayload(Payload& payload, const int bytesReceived) {

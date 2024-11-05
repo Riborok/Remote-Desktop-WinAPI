@@ -22,8 +22,8 @@ public:
     int recvFromSocket(std::vector<byte>& buffer,
         sockaddr_in* senderAddr = nullptr, int* senderAddrSize = nullptr) const; // NOLINT(modernize-use-nodiscard)
 
-    void setReceiveTimeout(const long seconds, const long microseconds) const;
-    void setSendTimeout(const long seconds, const long microseconds) const;
+    void setReceiveTimeout(const DWORD milliseconds) const;
+    void setSendTimeout(const DWORD milliseconds) const;
 
     ~Socket();
     Socket(Socket&&) noexcept;
@@ -34,5 +34,5 @@ public:
 private:
     explicit Socket(const SOCKET socket);
 
-    [[nodiscard]] int setTimeout(const long seconds, const long microseconds, const int option) const;
+    [[nodiscard]] int setTimeout(const DWORD milliseconds, const int option) const;
 };
