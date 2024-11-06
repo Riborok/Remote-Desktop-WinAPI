@@ -14,13 +14,13 @@ public:
     void initializeFromPayload(const Payload& payload);
     void insertPayload(const Payload& payload);
 
-    [[nodiscard]] bool isOldPayload(const Payload& payload);
-    [[nodiscard]] bool hasExceededOldPayloadCountInRow() const;
-    [[nodiscard]] bool isNewPayload(const Payload& payload) const;
+    bool isOldPayload(const Payload& payload);
+    bool hasExceededOldPayloadCountInRow() const;
+    bool isNewPayload(const Payload& payload) const;
 
-    [[nodiscard]] bool isInitialized() const;
-    [[nodiscard]] bool isAllDataReceived() const;
-    [[nodiscard]] bool isEmpty() const;
+    bool isInitialized() const;
+    bool isAllDataReceived() const;
+    bool isEmpty() const;
     
     MaskedData&& extractMaskedData();
 };

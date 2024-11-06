@@ -12,7 +12,7 @@ class AESEncryptor {
     CryptoPP::AutoSeededRandomPool _rng;
 public:
     explicit AESEncryptor(const std::vector<byte>& key);
-    [[nodiscard]] std::vector<byte> encrypt(const std::vector<byte>& data);
+    std::vector<byte> encrypt(const std::vector<byte>& data);
 private:
     CryptoPP::SecByteBlock generateIV();
     static void appendIVToCiphertext(const CryptoPP::SecByteBlock& iv, std::vector<byte>& ciphertext);

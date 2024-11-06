@@ -34,8 +34,7 @@ void AESDecryptor::setKeyAndIV(CryptoPP::CTR_Mode<CryptoPP::AES>::Decryption& de
 
 void AESDecryptor::performDecryption(CryptoPP::CTR_Mode<CryptoPP::AES>::Decryption& decryptor,
         const std::vector<byte>& ciphertext, std::vector<byte>& decryptedData) {
-    const byte* ciphertextStart = ciphertext.data() + CryptoPP::AES::BLOCKSIZE;
     const size_t ciphertextSize = ciphertext.size() - CryptoPP::AES::BLOCKSIZE;
     decryptedData.resize(ciphertextSize);
-    decryptor.ProcessData(decryptedData.data(), ciphertextStart, ciphertextSize);
+    decryptor.ProcessData(decryptedData.data(), &ciphertext[CryptoPP::AES::BLOCKSIZE], ciphertextSize);
 }

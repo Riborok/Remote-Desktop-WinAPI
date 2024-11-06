@@ -15,6 +15,6 @@ public:
     void resize(const size_t size);
     void insertPayload(const Payload& payload);
 
-    [[nodiscard]] const std::vector<byte>& getData() const;
-    [[nodiscard]] const std::vector<byte>& getMask() const;
+    const std::vector<byte>& getData() const;
+    const std::vector<byte>& getMask() const;
 };

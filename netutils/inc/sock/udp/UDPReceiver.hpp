@@ -14,8 +14,8 @@ class UDPReceiver {
 public:
     explicit UDPReceiver(const u_short port,
         const DWORD receiveTimeoutMs = 1000, const DWORD receiveBufferSize = MemoryUnits::MEGABYTE);
-    [[nodiscard]] MaskedData receiveMaskedData();
-    [[nodiscard]] std::optional<Payload> receivePayload() const;
+    MaskedData receiveMaskedData();
+    std::optional<Payload> receivePayload() const;
 private:
     bool processPreviousPayload(MaskedDataContext& mdc);
     bool hasPayloadAndInProgress(std::optional<Payload>& optionalPayload, MaskedDataContext& mdc);

@@ -34,6 +34,5 @@ void AESEncryptor::performEncryption(CryptoPP::CTR_Mode<CryptoPP::AES>::Encrypti
         const std::vector<byte>& plaintext, std::vector<byte>& ciphertext) {
     const size_t ciphertextStartIdx = ciphertext.size();
     ciphertext.resize(ciphertextStartIdx + plaintext.size());
-    byte* ciphertextStart = ciphertext.data() + ciphertextStartIdx;
-    encryptor.ProcessData(ciphertextStart, plaintext.data(), plaintext.size());
+    encryptor.ProcessData(&ciphertext[ciphertextStartIdx], plaintext.data(), plaintext.size());
 }

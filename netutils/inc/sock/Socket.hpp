@@ -14,13 +14,13 @@ public:
     Socket acceptConnection(sockaddr_in* senderAddr = nullptr, int* senderAddrSize = nullptr) const;
     void connectToServer(sockaddr_in& serverAddr) const;
 
-    int sendSocket(const std::vector<byte>& buffer) const;  // NOLINT(modernize-use-nodiscard)
+    int sendSocket(const std::vector<byte>& buffer) const;
     int sendToSocket(const std::vector<byte>& buffer,
-        sockaddr_in& destAddr) const; // NOLINT(modernize-use-nodiscard)
+        sockaddr_in& destAddr) const;
 
-    int recvSocket(std::vector<byte>& buffer) const; // NOLINT(modernize-use-nodiscard)
+    int recvSocket(std::vector<byte>& buffer) const;
     int recvFromSocket(std::vector<byte>& buffer,
-        sockaddr_in* senderAddr = nullptr, int* senderAddrSize = nullptr) const; // NOLINT(modernize-use-nodiscard)
+        sockaddr_in* senderAddr = nullptr, int* senderAddrSize = nullptr) const;
 
     void setReceiveTimeout(const DWORD milliseconds) const;
     void setSendTimeout(const DWORD milliseconds) const;
@@ -37,5 +37,5 @@ public:
 private:
     explicit Socket(const SOCKET socket);
 
-    [[nodiscard]] int setSockOpt(const DWORD value, const int option) const;
+    int setSockOpt(const DWORD value, const int option) const;
 };

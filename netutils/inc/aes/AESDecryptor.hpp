@@ -11,10 +11,10 @@ class AESDecryptor {
     std::vector<byte> _key;
 public:
     explicit AESDecryptor(const std::vector<byte>& key);
-    [[nodiscard]] std::vector<byte> decrypt(const std::vector<byte>& ciphertext) const;
+    std::vector<byte> decrypt(const std::vector<byte>& ciphertext) const;
 private:
     static void validateCiphertextLength(const std::vector<byte>& ciphertext);
-    [[nodiscard]] static CryptoPP::SecByteBlock extractIV(const std::vector<byte>& ciphertext);
+    static CryptoPP::SecByteBlock extractIV(const std::vector<byte>& ciphertext);
     void setKeyAndIV(CryptoPP::CTR_Mode<CryptoPP::AES>::Decryption& decryptor,
         const CryptoPP::SecByteBlock& iv) const;
     static void performDecryption(CryptoPP::CTR_Mode<CryptoPP::AES>::Decryption& decryptor,
