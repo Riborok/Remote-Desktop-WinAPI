@@ -13,7 +13,7 @@ using CryptoPP::byte;
 class UDPSender {
     Socket _socket;
     sockaddr_in _addr;
-    size_t _id = 0;
+    size_t _id = 1;
 public:
     static constexpr size_t PAYLOAD_SIZE = 1500 - 20 - 8;
     static constexpr size_t DATA_SIZE = PAYLOAD_SIZE - 3*sizeof(size_t);
@@ -23,6 +23,7 @@ public:
     void send(const std::vector<byte>& data);
 private:
     [[nodiscard]] std::vector<byte> createFragmentPayload(const std::vector<byte>& data, const size_t fragmentIndex) const;
-    static void addSizeTToPacket(std::vector<byte>& packet, const size_t value);
+    static void addPayloadToPacket(std::vector<byte>& packet, const std::vector<byte>& data, const size_t offset, const size_t dataLen);
+    static void addSizeTToPacket(std::vector<byte>& packet, const size_t value, const size_t startIdx);
     void sendFragment(const std::vector<byte>& payload);
 };

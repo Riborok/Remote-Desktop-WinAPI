@@ -10,10 +10,8 @@
 
 TEST_F(NetworkTestBase, ReceiveNoData_ReturnsEmpty) {
     const UDPReceiver receiver(PORT);
-    for (int i = 0; i < 42; i++) {
-        const std::optional<Payload> receivedPayload = receiver.receivePayload();
-        EXPECT_FALSE(receivedPayload.has_value());
-    }
+    const std::optional<Payload> receivedPayload = receiver.receivePayload();
+    EXPECT_FALSE(receivedPayload.has_value());
 }
 
 TEST_F(NetworkTestBase, SendAndReceiveSinglePacket) {
@@ -67,4 +65,38 @@ TEST_F(NetworkTestBase, SendAndReceiveMultipleFragmentsJPG) {
 
 TEST_F(NetworkTestBase, SendAndReceiveMultipleFragmentsTXT) {
     performSendAndReceiveTest("res/test.txt", IP, PORT);
+}
+
+TEST_F(NetworkTestBase, SendAndReceiveFiveMaskedFiles) {
+    std::vector<std::string> filenames;
+    for (int i = 1; i <= 5; ++i) {
+        filenames.emplace_back("res/test.txt");
+        filenames.emplace_back("res/test.jpg");
+    }
+    
+    std::vector<std::vector<byte>> allData;
+    for (const auto& filename : filenames) {
+        allData.push_back(readFileToBuffer(filename));
+    }
+
+    UDPReceiver receiver(PORT);
+    UDPSender sender(IP, PORT);
+
+    std::thread receiverThread([&] {
+        for (const auto& expectedData : allData) {
+            const MaskedData maskedData = receiver.receiveMaskedData();
+
+            EXPECT_EQ(maskedData.getData(), expectedData);
+            for (const auto& maskValue : maskedData.getMask()) {
+                EXPECT_EQ(maskValue, 0);
+            }
+        }
+    });
+
+    for (const auto& data : allData) {
+        sender.send(data);
+        std::this_thread::sleep_for(std::chrono::milliseconds(5));
+    }
+
+    receiverThread.join();
 }

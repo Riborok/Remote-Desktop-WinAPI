@@ -2,6 +2,7 @@
 #include "../../../inc/sock/udp/UDPReceiver.hpp"
 
 #include "../../../inc/sock/udp/UDPSender.hpp"
+#include "../../../inc/utils/TypeLimits.hpp"
 
 UDPReceiver::UDPReceiver(const u_short port,
         const DWORD receiveTimeoutMs, const DWORD receiveBufferSize)
@@ -9,6 +10,74 @@ UDPReceiver::UDPReceiver(const u_short port,
     _socket.bindSocket(port);
     _socket.setReceiveTimeout(receiveTimeoutMs);
     _socket.setReceiveBufferSize(receiveBufferSize);
+}
+
+MaskedData UDPReceiver::receiveMaskedData() {
+    MaskedDataContext mdc;
+
+    if (processPreviousPayload(mdc)) {
+        return mdc.extractMaskedData();
+    }
+
+    std::optional<Payload> optionalPayload;
+    do {
+        optionalPayload = receivePayload();
+    } while(hasPayloadAndInProgress(optionalPayload, mdc) || mdc.isEmpty());
+    return mdc.extractMaskedData();
+}
+
+bool UDPReceiver::processPreviousPayload(MaskedDataContext& mdc) {
+    if (_prevPayload) {
+        _prevId = _prevPayload->id;
+        mdc.initializeFromPayload(*_prevPayload);
+        _prevPayload.reset();
+        return mdc.isAllDataReceived();
+    }
+    return false;
+}
+
+// ReSharper disable once CppParameterMayBeConstPtrOrRef
+bool UDPReceiver::hasPayloadAndInProgress(std::optional<Payload>& optionalPayload, MaskedDataContext& mdc) {
+    return optionalPayload.has_value() && !processPayload(*optionalPayload, mdc);
+}
+
+bool UDPReceiver::processPayload(Payload& payload, MaskedDataContext& mdc) {
+    if (!mdc.isInitialized()) {
+        return processUninitializedContext(payload, mdc);
+    }
+    if (mdc.isOldPayload(payload)) {
+        return processOldPayload(mdc);
+    }
+    if (mdc.isNewPayload(payload)) {
+        return processNewPayload(payload);
+    }
+    return processCurrentPayload(payload, mdc);
+}
+
+bool UDPReceiver::processUninitializedContext(const Payload& payload, MaskedDataContext& mdc) {
+    if (_prevId < payload.id) {
+        _prevId = payload.id;
+        mdc.initializeFromPayload(payload);
+        return mdc.isAllDataReceived();
+    }
+    return false;
+}
+
+bool UDPReceiver::processOldPayload(const MaskedDataContext& mdc) {
+    if (mdc.hasExceededOldPayloadCountInRow()) {
+        return true;
+    }
+    return false;
+}
+
+bool UDPReceiver::processNewPayload(Payload& payload) {
+    _prevPayload = std::move(payload);
+    return true;
+}
+
+bool UDPReceiver::processCurrentPayload(const Payload& payload, MaskedDataContext& mdc) {
+    mdc.insertPayload(payload);
+    return mdc.isAllDataReceived();
 }
 
 std::optional<Payload> UDPReceiver::receivePayload() const {
@@ -28,7 +97,7 @@ int UDPReceiver::receiveData(std::vector<byte>& data) const {
 }
 
 bool UDPReceiver::isBytesReceivedValid(const int bytesReceived) {
-    return bytesReceived >= static_cast<int>(3 * sizeof(size_t));
+    return bytesReceived >= static_cast<int>(3*sizeof(size_t));
 }
 
 void UDPReceiver::populatePayload(Payload& payload, const int bytesReceived) {
@@ -51,9 +120,7 @@ size_t UDPReceiver::extractId(const std::vector<byte>& data, const int bytesRece
 }
 
 size_t UDPReceiver::extractSizeTFromPacket(const std::vector<byte>& packet, const size_t startIdx) {
-    size_t value = 0;
-    for (size_t i = 0; i < sizeof(size_t); ++i) {
-        value |= static_cast<size_t>(packet[startIdx + i]) << (i * 8);
-    }
+    size_t value;
+    std::memcpy(&value, &packet[startIdx], sizeof(size_t));
     return value;
 }
