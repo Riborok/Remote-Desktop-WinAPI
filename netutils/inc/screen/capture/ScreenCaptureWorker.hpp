@@ -1,25 +1,15 @@
 ﻿#pragma once
 
 #include "ScreenCapture.hpp"
+#include "../Worker.hpp"
 
 #include "../../dt/ThreadSafeQueue.hpp"
 
-class ScreenCaptureWorker {
+class ScreenCaptureWorker final : public Worker {
     ThreadSafeQueue<std::vector<BYTE>>& _queue;
-    SIZE _targetSize;
-    int _fps;
-    std::atomic<bool> _running = false;
-    std::thread _workerThread;
+    ScreenCapture _screenCapture;
 public:
     ScreenCaptureWorker(ThreadSafeQueue<std::vector<BYTE>>& queue, const SIZE& targetSize, const int fps = 30);
-    void start();
-    void stop();
-    ~ScreenCaptureWorker();
-
-    ScreenCaptureWorker(ScreenCaptureWorker&&) = delete;
-    ScreenCaptureWorker& operator=(ScreenCaptureWorker&&) = delete;
-    ScreenCaptureWorker(const ScreenCaptureWorker&) = delete;
-    ScreenCaptureWorker& operator=(const ScreenCaptureWorker&) = delete;
-private:
-    void captureLoop() const;
+protected:
+    void process() override;
 };

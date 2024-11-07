@@ -11,6 +11,7 @@ class ThreadSafeQueue {
 public:
     void enqueue(std::unique_ptr<T> item);
     std::unique_ptr<T> dequeue();
+    void trimQueue(const size_t n);
     bool isEmpty();
 private:
     std::unique_ptr<T> extractItem();
@@ -28,6 +29,14 @@ std::unique_ptr<T> ThreadSafeQueue<T>::dequeue() {
     std::unique_lock<std::mutex> lock(_mutex);
     _cond.wait(lock, [this] { return !_queue.empty(); });
     return extractItem();
+}
+
+template<typename T>
+void ThreadSafeQueue<T>::trimQueue(const size_t n) {
+    std::lock_guard<std::mutex> lock(_mutex);
+    for (size_t i = 0; i < n && !_queue.empty(); ++i) {
+        _queue.pop();
+    }
 }
 
 template <typename T>
