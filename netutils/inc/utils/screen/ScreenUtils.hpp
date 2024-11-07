@@ -1,15 +1,14 @@
 ﻿#pragma once
 
-#include "../../screen/Cursor.hpp"
-#include "../../screen/Size.hpp"
+#include "../../screen/Icon.hpp"
 
 class ScreenUtils {
 public:
     ScreenUtils() = delete;
 
     static void enableHighQualityStretching(const HDC hdc);
-    static Size getScreenSize();
-    static Cursor getCursor();
+    static SIZE getScreenSize();
+    static Icon getCursor();
 private:
     static HICON getVisibleHCursor();
     static POINT getCursorPosition();

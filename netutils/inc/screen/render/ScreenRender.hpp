@@ -6,9 +6,12 @@
 
 class ScreenRender {
     DC _dc;
-    Size& _appSize;
+    SIZE& _appSize;
     Bitmap _diBitmap;
+    Bitmap _buffer;
 public:
-    ScreenRender(const HWND hWnd, Size& appSize, const Size& receivedSize);
+    ScreenRender(const HWND hWnd, SIZE& appSize, const SIZE& receivedSize);
     void render(const MaskedData& maskedData);
+private:
+    void ensureBufferMatchesAppSize();
 };

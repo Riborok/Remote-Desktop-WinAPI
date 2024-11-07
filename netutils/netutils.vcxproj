@@ -39,6 +39,7 @@
     <ClCompile Include="src\utils\CompressionUtils.cpp" />
     <ClCompile Include="src\utils\IntegerUtils.cpp" />
     <ClCompile Include="src\utils\screen\ScreenUtils.cpp" />
+    <ClCompile Include="src\utils\screen\SizeUtils.cpp" />
     <ClCompile Include="src\utils\sock\SockaddrUtils.cpp" />
     <ClCompile Include="src\utils\sock\SocketErrorChecker.cpp" />
     <ClCompile Include="src\utils\sock\SocketIntegerUtils.cpp" />
@@ -53,10 +54,9 @@
     <ClInclude Include="inc\screen\bitmap\BitmapFactory.hpp" />
     <ClInclude Include="inc\screen\capture\ScreenCapture.hpp" />
     <ClInclude Include="inc\screen\capture\ScreenCaptureWorker.hpp" />
-    <ClInclude Include="inc\screen\Cursor.hpp" />
+    <ClInclude Include="inc\screen\Icon.hpp" />
     <ClInclude Include="inc\screen\DC.hpp" />
     <ClInclude Include="inc\screen\render\ScreenRender.hpp" />
-    <ClInclude Include="inc\screen\Size.hpp" />
     <ClInclude Include="inc\sock\dh\DHHelper.hpp" />
     <ClInclude Include="inc\sock\dh\DHInitiator.hpp" />
     <ClInclude Include="inc\sock\dh\DHKeyExchange.hpp" />
@@ -72,6 +72,7 @@
     <ClInclude Include="inc\utils\MathUtils.hpp" />
     <ClInclude Include="inc\utils\MemoryUnits.hpp" />
     <ClInclude Include="inc\utils\screen\ScreenUtils.hpp" />
+    <ClInclude Include="inc\utils\screen\SizeUtils.hpp" />
     <ClInclude Include="inc\utils\sock\SockaddrUtils.hpp" />
     <ClInclude Include="inc\utils\sock\SocketErrorChecker.hpp" />
     <ClInclude Include="inc\utils\sock\SocketIntegerUtils.hpp" />

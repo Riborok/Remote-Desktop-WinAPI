@@ -1,6 +1,6 @@
 ﻿#include "../../../inc/screen/capture/ScreenCaptureWorker.hpp"
 
-ScreenCaptureWorker::ScreenCaptureWorker(ThreadSafeQueue<std::vector<BYTE>>& queue, const Size& targetSize,
+ScreenCaptureWorker::ScreenCaptureWorker(ThreadSafeQueue<std::vector<BYTE>>& queue, const SIZE& targetSize,
         const int fps):
     _queue(queue), _targetSize(targetSize), _fps(fps) { }
 

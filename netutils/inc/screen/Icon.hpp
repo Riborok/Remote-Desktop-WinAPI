@@ -2,7 +2,7 @@
 
 #include <windows.h>
 
-struct Cursor {
-    HICON hCursor;
+struct Icon {
+    HICON hIcon;
     POINT point;
 };

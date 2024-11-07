@@ -3,7 +3,6 @@
 #include <vector>
 
 #include "../DC.hpp"
-#include "../Size.hpp"
 #include "../bitmap/Bitmap.hpp"
 
 class ScreenCapture {
@@ -11,6 +10,6 @@ class ScreenCapture {
     Bitmap _fullScreenBitmap;
     Bitmap _scaledBitmap;
 public:
-    explicit ScreenCapture(const Size& targetSize);
+    explicit ScreenCapture(const SIZE& targetSize);
     std::vector<BYTE> capture();
 };

@@ -7,8 +7,8 @@ class BitmapFactory {
 public:
     BitmapFactory() = delete;
 
-    static Bitmap createDDBitmap(const HDC hScreenDc, const Size& size);
-    static Bitmap createDIBitmap(const HDC hScreenDc, const Size& size);
+    static Bitmap createDDBitmap(const HDC hScreenDc, const SIZE& size);
+    static Bitmap createDIBitmap(const HDC hScreenDc, const SIZE& size);
 private:
-    static BITMAPINFOHEADER createBitmapInfoHeader(const Size& size);
+    static BITMAPINFOHEADER createBitmapInfoHeader(const SIZE& size);
 };

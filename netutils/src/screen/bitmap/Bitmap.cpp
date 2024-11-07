@@ -2,7 +2,7 @@
 
 #include "../../../inc/utils/screen/ScreenUtils.hpp"
 
-Bitmap::Bitmap(const HDC hScreenDc, const HBITMAP hMemoryBitmap, const Size& size, const BITMAPINFOHEADER& bi):
+Bitmap::Bitmap(const HDC hScreenDc, const HBITMAP hMemoryBitmap, const SIZE& size, const BITMAPINFOHEADER& bi):
     _hMemoryDc(CreateCompatibleDC(hScreenDc)), _hMemoryBitmap(hMemoryBitmap),
     _oldBitmap(SelectObject(_hMemoryDc, _hMemoryBitmap)), _size(size), _bi(bi) { }
 
@@ -11,22 +11,22 @@ void Bitmap::enableHighQualityStretching() const {
 }
 
 void Bitmap::copyFrom(const HDC src) const {
-    BitBlt(_hMemoryDc, 0, 0, _size.width, _size.height, src, 0, 0, SRCCOPY);
+    BitBlt(_hMemoryDc, 0, 0, _size.cx, _size.cy, src, 0, 0, SRCCOPY);
 }
 
 void Bitmap::copyTo(const HDC dest) const {
-    BitBlt(dest, 0, 0, _size.width, _size.height, _hMemoryDc, 0, 0, SRCCOPY);
+    BitBlt(dest, 0, 0, _size.cx, _size.cy, _hMemoryDc, 0, 0, SRCCOPY);
 }
 
 void Bitmap::stretchFrom(const Bitmap& src, const DWORD rop) const {
     stretchFrom(src._hMemoryDc, src._size, rop);
 }
 
-void Bitmap::stretchFrom(const HDC src, const Size& srcSize, const DWORD rop) const {
+void Bitmap::stretchFrom(const HDC src, const SIZE& srcSize, const DWORD rop) const {
     StretchBlt(_hMemoryDc, 0, 0, 
-        _size.width, _size.height,
+        _size.cx, _size.cy,
         src, 0, 0,
-        srcSize.width, srcSize.height, rop
+        srcSize.cx, srcSize.cy, rop
     );
 }
 
@@ -34,28 +34,32 @@ void Bitmap::stretchTo(const Bitmap& dest, const DWORD rop) const {
     stretchTo(dest._hMemoryDc, dest._size, rop);
 }
 
-void Bitmap::stretchTo(const HDC dest, const Size& destSize, const DWORD rop) const {
+void Bitmap::stretchTo(const HDC dest, const SIZE& destSize, const DWORD rop) const {
     StretchBlt(dest, 0, 0, 
-        destSize.width, destSize.height,
+        destSize.cx, destSize.cy,
         _hMemoryDc, 0, 0, 
-        _size.width, _size.height, rop
+        _size.cx, _size.cy, rop
     );
 }
 
 std::vector<BYTE> Bitmap::getDIBits() {
     std::vector<BYTE> buffer(_bi.biSizeImage);
-    GetDIBits(_hMemoryDc, _hMemoryBitmap, 0, _size.height, 
+    GetDIBits(_hMemoryDc, _hMemoryBitmap, 0, _size.cy, 
         buffer.data(), reinterpret_cast<BITMAPINFO*>(&_bi), DIB_RGB_COLORS);
     return buffer;
 }
 
 void Bitmap::setDIBits(const std::vector<BYTE>& data) {
-    SetDIBits(_hMemoryDc, _hMemoryBitmap, 0, _size.height,
+    SetDIBits(_hMemoryDc, _hMemoryBitmap, 0, _size.cy,
         data.data(), reinterpret_cast<BITMAPINFO*>(&_bi), DIB_RGB_COLORS);
 }
 
-void Bitmap::drawCursor(const Cursor& cursor) const {
-    DrawIcon(_hMemoryDc, cursor.point.x, cursor.point.y, cursor.hCursor);
+void Bitmap::drawIcon(const Icon& icon) const {
+    DrawIcon(_hMemoryDc, icon.point.x, icon.point.y, icon.hIcon);
+}
+
+const SIZE& Bitmap::getSize() const {
+    return _size;
 }
 
 Bitmap::~Bitmap() {

@@ -5,11 +5,11 @@ void ScreenUtils::enableHighQualityStretching(const HDC hdc) {
     SetBrushOrgEx(hdc, 0, 0, nullptr);
 }
 
-Size ScreenUtils::getScreenSize() {
+SIZE ScreenUtils::getScreenSize() {
     return { GetSystemMetrics(SM_CXSCREEN), GetSystemMetrics(SM_CYSCREEN) };
 }
 
-Cursor ScreenUtils::getCursor() {
+Icon ScreenUtils::getCursor() {
     return { getVisibleHCursor(), getCursorPosition() };
 }
 
