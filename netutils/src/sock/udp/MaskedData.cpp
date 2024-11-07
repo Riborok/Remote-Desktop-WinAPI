@@ -1,5 +1,6 @@
 ﻿#include "../../../inc/sock/udp/MaskedData.hpp"
 
+#include "../../../inc/sock/udp/UDPSender.hpp"
 #include "../../../inc/utils/TypeLimits.hpp"
 
 void MaskedData::resize(const size_t size) {

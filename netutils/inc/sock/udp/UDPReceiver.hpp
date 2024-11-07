@@ -4,6 +4,8 @@
 #include <vector>
 
 #include "MaskedDataContext.hpp"
+#include "../Socket.hpp"
+#include "../../utils/MemoryUnits.hpp"
 
 using CryptoPP::byte;
 
