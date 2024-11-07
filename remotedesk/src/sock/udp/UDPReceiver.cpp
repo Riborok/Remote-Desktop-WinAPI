@@ -4,11 +4,11 @@
 #include "../../../inc/sock/udp/UDPSender.hpp"
 
 UDPReceiver::UDPReceiver(const u_short port,
-        const DWORD receiveTimeoutMs, const DWORD receiveBufferSize)
+        const DWORD receiveBufferSize, const DWORD receiveTimeoutMs)
         : _socket(SOCK_DGRAM, IPPROTO_UDP) {
     _socket.bindSocket(port);
-    _socket.setReceiveTimeout(receiveTimeoutMs);
     _socket.setReceiveBufferSize(receiveBufferSize);
+    _socket.setReceiveTimeout(receiveTimeoutMs);
 }
 
 MaskedData UDPReceiver::receiveMaskedData() {

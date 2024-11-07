@@ -19,7 +19,7 @@ public:
     static constexpr size_t DATA_SIZE = PAYLOAD_SIZE - 3*sizeof(size_t);
 
     UDPSender(const std::string& ip, const u_short port,
-        const DWORD sendTimeoutMs = 1000, const DWORD sendBufferSize = MemoryUnits::MEGABYTE);
+        const DWORD sendBufferSize = MemoryUnits::MEGABYTE, const DWORD sendTimeoutMs = 1000);
     void send(const std::vector<byte>& data);
 private:
     std::vector<byte> createFragmentPayload(const std::vector<byte>& data, const size_t packetNumber) const;
