@@ -7,7 +7,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "receiver", "receiver\receiv
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "sender", "sender\sender.vcxproj", "{5D3577A7-29C9-45AE-8F27-0CB0734F65F9}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "netutils", "netutils\netutils.vcxproj", "{7981B44F-9036-4CEC-AAD7-5ECF48C5DC02}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "remotedesk", "remotedesk\remotedesk.vcxproj", "{7981B44F-9036-4CEC-AAD7-5ECF48C5DC02}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tests", "tests\tests.vcxproj", "{C4B1B37B-DAE2-4F3B-994F-07B8FDE0C6B5}"
 EndProject

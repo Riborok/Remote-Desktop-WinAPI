@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="inc\aes\AESDecryptor.hpp" />
+    <ClInclude Include="inc\aes\AESEncryptor.hpp" />
+    <ClInclude Include="inc\dt\ThreadSafeQueue.hpp" />
+    <ClInclude Include="inc\screen\bitmap\Bitmap.hpp" />
+    <ClInclude Include="inc\screen\bitmap\BitmapFactory.hpp" />
+    <ClInclude Include="inc\screen\capture\ScreenCapture.hpp" />
+    <ClInclude Include="inc\screen\capture\ScreenCaptureWorker.hpp" />
+    <ClInclude Include="inc\screen\DC.hpp" />
+    <ClInclude Include="inc\screen\Icon.hpp" />
+    <ClInclude Include="inc\screen\QueueSizeMonitor.hpp" />
+    <ClInclude Include="inc\screen\render\ScreenRender.hpp" />
+    <ClInclude Include="inc\screen\render\ScreenRenderWorker.hpp" />
+    <ClInclude Include="inc\screen\Worker.hpp" />
+    <ClInclude Include="inc\sock\dh\DHHelper.hpp" />
+    <ClInclude Include="inc\sock\dh\DHInitiator.hpp" />
+    <ClInclude Include="inc\sock\dh\DHKeyExchange.hpp" />
+    <ClInclude Include="inc\sock\dh\DHResponder.hpp" />
+    <ClInclude Include="inc\sock\Socket.hpp" />
+    <ClInclude Include="inc\sock\udp\MaskedData.hpp" />
+    <ClInclude Include="inc\sock\udp\MaskedDataContext.hpp" />
+    <ClInclude Include="inc\sock\udp\Payload.hpp" />
+    <ClInclude Include="inc\sock\udp\UDPReceiver.hpp" />
+    <ClInclude Include="inc\sock\udp\UDPSender.hpp" />
+    <ClInclude Include="inc\utils\CompressionUtils.hpp" />
+    <ClInclude Include="inc\utils\IntegerUtils.hpp" />
+    <ClInclude Include="inc\utils\MathUtils.hpp" />
+    <ClInclude Include="inc\utils\MemoryUnits.hpp" />
+    <ClInclude Include="inc\utils\screen\ScreenUtils.hpp" />
+    <ClInclude Include="inc\utils\screen\SizeUtils.hpp" />
+    <ClInclude Include="inc\utils\sock\SockaddrUtils.hpp" />
+    <ClInclude Include="inc\utils\sock\SocketErrorChecker.hpp" />
+    <ClInclude Include="inc\utils\sock\SocketIntegerUtils.hpp" />
+    <ClInclude Include="inc\utils\sock\tcp\TCPUtils.hpp" />
+    <ClInclude Include="inc\utils\sock\WinSockUtils.hpp" />
+    <ClInclude Include="inc\utils\TypeLimits.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\aes\AESDecryptor.cpp" />
+    <ClCompile Include="src\aes\AESEncryptor.cpp" />
+    <ClCompile Include="src\screen\bitmap\Bitmap.cpp" />
+    <ClCompile Include="src\screen\bitmap\BitmapFactory.cpp" />
+    <ClCompile Include="src\screen\capture\ScreenCapture.cpp" />
+    <ClCompile Include="src\screen\capture\ScreenCaptureWorker.cpp" />
+    <ClCompile Include="src\screen\DC.cpp" />
+    <ClCompile Include="src\screen\render\ScreenRender.cpp" />
+    <ClCompile Include="src\screen\render\ScreenRenderWorker.cpp" />
+    <ClCompile Include="src\screen\Worker.cpp" />
+    <ClCompile Include="src\sock\dh\DHHelper.cpp" />
+    <ClCompile Include="src\sock\dh\DHInitiator.cpp" />
+    <ClCompile Include="src\sock\dh\DHKeyExchange.cpp" />
+    <ClCompile Include="src\sock\dh\DHResponder.cpp" />
+    <ClCompile Include="src\sock\Socket.cpp" />
+    <ClCompile Include="src\sock\udp\MaskedData.cpp" />
+    <ClCompile Include="src\sock\udp\MaskedDataContext.cpp" />
+    <ClCompile Include="src\sock\udp\UDPReceiver.cpp" />
+    <ClCompile Include="src\sock\udp\UDPSender.cpp" />
+    <ClCompile Include="src\utils\CompressionUtils.cpp" />
+    <ClCompile Include="src\utils\IntegerUtils.cpp" />
+    <ClCompile Include="src\utils\screen\ScreenUtils.cpp" />
+    <ClCompile Include="src\utils\screen\SizeUtils.cpp" />
+    <ClCompile Include="src\utils\sock\SockaddrUtils.cpp" />
+    <ClCompile Include="src\utils\sock\SocketErrorChecker.cpp" />
+    <ClCompile Include="src\utils\sock\SocketIntegerUtils.cpp" />
+    <ClCompile Include="src\utils\sock\tcp\TCPUtils.cpp" />
+    <ClCompile Include="src\utils\sock\WinSockUtils.cpp" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>15.0</VCProjectVersion>
+    <ProjectGuid>{7981B44F-9036-4CEC-AAD7-5ECF48C5DC02}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>remotedesk</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+    <RootNamespace>remotedesk</RootNamespace>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <AdditionalIncludeDirectories>C:\Program Files\cryptopp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <Lib>
+      <AdditionalDependencies>cryptlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Program Files\cryptopp\x64\Output\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
+      <AdditionalIncludeDirectories>C:\Program Files\cryptopp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <Lib>
+      <AdditionalDependencies>cryptlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Program Files\cryptopp\x64\Output\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
