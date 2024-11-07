@@ -9,6 +9,7 @@ public:
 
     static Bitmap createDDBitmap(const HDC hScreenDc, const SIZE& size);
     static Bitmap createDIBitmap(const HDC hScreenDc, const SIZE& size);
+    static DWORD calcBitmapSize(const SIZE& size);
 private:
     static BITMAPINFOHEADER createBitmapInfoHeader(const SIZE& size);
 };

@@ -21,6 +21,10 @@ BITMAPINFOHEADER BitmapFactory::createBitmapInfoHeader(const SIZE& size) {
     bi.biPlanes = 1;
     bi.biBitCount = 32;
     bi.biCompression = BI_RGB;
-    bi.biSizeImage = BYTES_PER_PIXEL * size.cx * size.cy;
+    bi.biSizeImage = calcBitmapSize(size);
     return bi;
+}
+
+DWORD BitmapFactory::calcBitmapSize(const SIZE& size) {
+    return BYTES_PER_PIXEL * size.cx * size.cy;
 }
