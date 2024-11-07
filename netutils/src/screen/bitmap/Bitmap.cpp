@@ -59,7 +59,43 @@ void Bitmap::drawCursor(const Cursor& cursor) const {
 }
 
 Bitmap::~Bitmap() {
-    SelectObject(_hMemoryDc, _oldBitmap);
+    releaseResources();
+}
+
+Bitmap::Bitmap(Bitmap&& other) noexcept:
+        _hMemoryDc(other._hMemoryDc), 
+        _hMemoryBitmap(other._hMemoryBitmap), 
+        _oldBitmap(other._oldBitmap), 
+        _size(other._size),
+        _bi(other._bi) {
+    other.resetResources();
+}
+
+Bitmap& Bitmap::operator=(Bitmap&& other) noexcept {
+    if (this != &other) {
+        releaseResources();
+        
+        _hMemoryDc = other._hMemoryDc;
+        _hMemoryBitmap = other._hMemoryBitmap;
+        _oldBitmap = other._oldBitmap;
+        _size = other._size;
+        _bi = other._bi;
+
+        other.resetResources();
+    }
+    return *this;
+}
+
+void Bitmap::releaseResources() const noexcept {
+    if (_hMemoryDc) {
+        SelectObject(_hMemoryDc, _oldBitmap);
+        DeleteDC(_hMemoryDc);
+    }
     DeleteObject(_hMemoryBitmap);
-    DeleteDC(_hMemoryDc);
+}
+
+void Bitmap::resetResources() noexcept {
+    _hMemoryDc = nullptr;
+    _hMemoryBitmap = nullptr;
+    _oldBitmap = nullptr;
 }

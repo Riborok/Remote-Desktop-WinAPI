@@ -30,8 +30,11 @@ public:
 
     ~Bitmap();
 
-    Bitmap(Bitmap&&) = delete;
-    Bitmap& operator=(Bitmap&&) = delete;
+    Bitmap(Bitmap&&) noexcept;
+    Bitmap& operator=(Bitmap&&) noexcept;
+    void releaseResources() const noexcept;
+    void resetResources() noexcept;
+
     Bitmap(const Bitmap&) = delete;
     Bitmap& operator=(const Bitmap&) = delete;
 };
