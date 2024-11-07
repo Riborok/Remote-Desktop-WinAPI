@@ -49,9 +49,9 @@ std::vector<BYTE> Bitmap::getDIBits() {
     return buffer;
 }
 
-void Bitmap::setDIBits(const std::vector<BYTE>& data) {
+void Bitmap::setDIBits(const std::vector<BYTE>& data) const {
     SetDIBits(_hMemoryDc, _hMemoryBitmap, 0, _size.cy,
-        data.data(), reinterpret_cast<BITMAPINFO*>(&_bi), DIB_RGB_COLORS);
+        data.data(), reinterpret_cast<const BITMAPINFO*>(&_bi), DIB_RGB_COLORS);
 }
 
 void Bitmap::drawIcon(const Icon& icon) const {

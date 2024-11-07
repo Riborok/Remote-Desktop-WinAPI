@@ -1,10 +1,10 @@
-﻿#include "../../../inc/utils/sock/TCPUtils.hpp"
+﻿#include "../../../../inc/utils/sock/tcp/TCPUtils.hpp"
 
-#include "../../../inc/utils/sock/SockaddrUtils.hpp"
+#include "../../../../inc/utils/sock/SockaddrUtils.hpp"
 
 Socket TCPUtils::connectToServer(const std::string& ip, const u_short port) {
     Socket sock(SOCK_STREAM, IPPROTO_TCP);
-    sockaddr_in serverAddr = SockaddrUtils::initializeAddress(ip.c_str(), port);
+    const sockaddr_in serverAddr = SockaddrUtils::initializeAddress(ip.c_str(), port);
     sock.connectToServer(serverAddr);
     return sock;
 }

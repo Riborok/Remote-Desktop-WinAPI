@@ -2,7 +2,6 @@
 #include "../../../inc/sock/udp/UDPReceiver.hpp"
 
 #include "../../../inc/sock/udp/UDPSender.hpp"
-#include "../../../inc/utils/TypeLimits.hpp"
 
 UDPReceiver::UDPReceiver(const u_short port,
         const DWORD receiveTimeoutMs, const DWORD receiveBufferSize)

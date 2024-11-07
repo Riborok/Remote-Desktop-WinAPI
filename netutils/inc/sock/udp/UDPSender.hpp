@@ -25,5 +25,5 @@ private:
     std::vector<byte> createFragmentPayload(const std::vector<byte>& data, const size_t fragmentIndex) const;
     static void addPayloadToPacket(std::vector<byte>& packet, const std::vector<byte>& data, const size_t offset, const size_t dataLen);
     static void addSizeTToPacket(std::vector<byte>& packet, const size_t value, const size_t startIdx);
-    void sendFragment(const std::vector<byte>& payload);
+    void sendFragment(const std::vector<byte>& payload) const;
 };

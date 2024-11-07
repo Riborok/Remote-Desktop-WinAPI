@@ -12,11 +12,10 @@ public:
     void bindSocket(const u_short port) const;
     void listenOnSocket(const int backlog) const;
     Socket acceptConnection(sockaddr_in* senderAddr = nullptr, int* senderAddrSize = nullptr) const;
-    void connectToServer(sockaddr_in& serverAddr) const;
+    void connectToServer(const sockaddr_in& serverAddr) const;
 
     int sendSocket(const std::vector<byte>& buffer) const;
-    int sendToSocket(const std::vector<byte>& buffer,
-        sockaddr_in& destAddr) const;
+    int sendToSocket(const std::vector<byte>& buffer, const sockaddr_in& destAddr) const;
 
     int recvSocket(std::vector<byte>& buffer) const;
     int recvFromSocket(std::vector<byte>& buffer,

@@ -8,8 +8,8 @@ Socket::Socket(const int type, const int protocol): _sock(socket(AF_INET, type, 
 }
 
 void Socket::bindSocket(const u_short port) const {
-    sockaddr_in serverAddr = SockaddrUtils::initializeAddress(nullptr, port);
-    const int result = bind(_sock, reinterpret_cast<sockaddr*>(&serverAddr), sizeof(serverAddr));
+    const sockaddr_in serverAddr = SockaddrUtils::initializeAddress(nullptr, port);
+    const int result = bind(_sock, reinterpret_cast<const sockaddr*>(&serverAddr), sizeof(serverAddr));
     SocketErrorChecker::checkBindError(result);
 }
 
@@ -24,8 +24,8 @@ Socket Socket::acceptConnection(sockaddr_in* senderAddr, int* senderAddrSize) co
     return Socket(clientSock);
 }
 
-void Socket::connectToServer(sockaddr_in& serverAddr) const {
-    const int result = connect(_sock, reinterpret_cast<sockaddr*>(&serverAddr), sizeof(serverAddr));
+void Socket::connectToServer(const sockaddr_in& serverAddr) const {
+    const int result = connect(_sock, reinterpret_cast<const sockaddr*>(&serverAddr), sizeof(serverAddr));
     SocketErrorChecker::checkConnectError(result);
 }
 
@@ -34,9 +34,9 @@ int Socket::sendSocket(const std::vector<byte>& buffer) const {
     return SocketErrorChecker::checkSend(result);
 }
 
-int Socket::sendToSocket(const std::vector<byte>& buffer, sockaddr_in& destAddr) const {
+int Socket::sendToSocket(const std::vector<byte>& buffer, const sockaddr_in& destAddr) const {
     const int result = sendto(_sock, reinterpret_cast<const char*>(buffer.data()), buffer.size(), 0,
-        reinterpret_cast<sockaddr*>(&destAddr), sizeof(destAddr));
+        reinterpret_cast<const sockaddr*>(&destAddr), sizeof(destAddr));
     return SocketErrorChecker::checkSend(result);
 }
 

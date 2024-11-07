@@ -9,7 +9,7 @@ Bitmap BitmapFactory::createDDBitmap(const HDC hScreenDc, const SIZE& size) {
 Bitmap BitmapFactory::createDIBitmap(const HDC hScreenDc, const SIZE& size) {
     const BITMAPINFOHEADER bi = createBitmapInfoHeader(size);
     const HBITMAP hBitmap = CreateDIBitmap(hScreenDc, &bi, CBM_INIT, nullptr,
-                                           reinterpret_cast<const BITMAPINFO*>(&bi), DIB_RGB_COLORS);
+        reinterpret_cast<const BITMAPINFO*>(&bi), DIB_RGB_COLORS);
     return {hScreenDc, hBitmap, size, bi};
 }
 

@@ -45,6 +45,6 @@ void UDPSender::addSizeTToPacket(std::vector<byte>& packet, const size_t value, 
     std::memcpy(&packet[startIdx], &value, sizeof(size_t));
 }
 
-void UDPSender::sendFragment(const std::vector<byte>& payload) {
+void UDPSender::sendFragment(const std::vector<byte>& payload) const {
     _socket.sendToSocket(payload, _addr);
 }

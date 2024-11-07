@@ -4,7 +4,7 @@
 #include <integer.h>
 
 #include "inc/utils.hpp"
-#include "utils/sock/TCPUtils.hpp"
+#include "utils/sock/tcp/TCPUtils.hpp"
 
 TEST_F(NetworkTestBase, KeyExchangeTest) {
     CryptoPP::Integer serverSharedSecret;
