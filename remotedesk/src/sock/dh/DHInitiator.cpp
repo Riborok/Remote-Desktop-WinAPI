@@ -3,7 +3,7 @@
 
 #include "../../../inc/sock/dh/DHKeyExchange.hpp"
 
-CryptoPP::Integer DHInitiator::exchangeKeys(Socket& sock) {
+CryptoPP::Integer DHInitiator::exchangeKeys(const Socket& sock) {
     DHKeyExchange dhKeyExchange(sock);
     dhKeyExchange.generateAndSendGroupParameters();
     return dhKeyExchange.exchangeKeys();

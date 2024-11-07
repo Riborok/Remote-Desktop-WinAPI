@@ -7,5 +7,5 @@ class DHResponder {
 public:
     DHResponder() = delete;
     
-    static CryptoPP::Integer exchangeKeys(Socket& sock);
+    static CryptoPP::Integer exchangeKeys(const Socket& sock);
 };
