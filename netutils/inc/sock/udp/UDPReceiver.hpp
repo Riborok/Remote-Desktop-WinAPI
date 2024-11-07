@@ -15,7 +15,7 @@ class UDPReceiver {
     size_t _prevId = 0;
 public:
     explicit UDPReceiver(const u_short port,
-        const DWORD receiveTimeoutMs = 1000, const DWORD receiveBufferSize = 256*MemoryUnits::MEGABYTE);
+        const DWORD receiveTimeoutMs = 1000, const DWORD receiveBufferSize = 8*MemoryUnits::MEGABYTE);
     MaskedData receiveMaskedData();
     std::optional<Payload> receivePayload() const;
 private:
