@@ -3,7 +3,7 @@
 #include "../../../inc/screen/bitmap/BitmapFactory.hpp"
 #include "../../../inc/utils/screen/SizeUtils.hpp"
 
-ScreenRender::ScreenRender(const HWND hWnd, SIZE& appSize, const SIZE& receivedSize):
+ScreenRender::ScreenRender(const HWND hWnd, const SIZE& appSize, const SIZE& receivedSize):
         _dc(hWnd), _appSize(appSize),
         _diBitmap(BitmapFactory::createDIBitmap(_dc.getHDC(), receivedSize)),
         _buffer(BitmapFactory::createDDBitmap(_dc.getHDC(), _appSize)) {

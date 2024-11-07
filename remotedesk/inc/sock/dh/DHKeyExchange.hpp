@@ -7,9 +7,9 @@ class DHKeyExchange {
     DHHelper _dhHelper;
     CryptoPP::SecByteBlock _privateKey;
     CryptoPP::SecByteBlock _publicKey;
-    Socket& _sock;
+    const Socket& _sock;
 public:
-    explicit DHKeyExchange(Socket& socket);
+    explicit DHKeyExchange(const Socket& socket);
     void generateAndSendGroupParameters();
     void receiveGroupParameters();
     CryptoPP::Integer exchangeKeys();

@@ -2,7 +2,7 @@
 
 #include "../../../inc/utils/sock/SocketIntegerUtils.hpp"
 
-DHKeyExchange::DHKeyExchange(Socket& socket): _sock(socket) {}
+DHKeyExchange::DHKeyExchange(const Socket& socket): _sock(socket) {}
 
 void DHKeyExchange::generateAndSendGroupParameters() {
     generateRandomGroupParameters();
