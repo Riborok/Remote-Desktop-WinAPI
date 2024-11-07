@@ -12,6 +12,7 @@ public:
     void enqueue(std::unique_ptr<T> item);
     std::unique_ptr<T> dequeue();
     void trimQueue(const size_t n);
+    size_t getSize();
     bool isEmpty();
 private:
     std::unique_ptr<T> extractItem();
@@ -37,6 +38,12 @@ void ThreadSafeQueue<T>::trimQueue(const size_t n) {
     for (size_t i = 0; i < n && !_queue.empty(); ++i) {
         _queue.pop();
     }
+}
+
+template <typename T>
+size_t ThreadSafeQueue<T>::getSize() {
+    std::lock_guard<std::mutex> lock(_mutex);
+    return _queue.size();
 }
 
 template <typename T>
