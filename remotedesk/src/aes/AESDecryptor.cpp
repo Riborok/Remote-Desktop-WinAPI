@@ -1,6 +1,7 @@
 ﻿#include "../../inc/aes/AESDecryptor.hpp"
 
-AESDecryptor::AESDecryptor(const std::vector<byte>& key): _key(key) {
+void AESDecryptor::setKey(std::vector<byte>&& key) {
+    _key = std::move(key);
 }
 
 std::vector<byte> AESDecryptor::decrypt(const std::vector<byte>& ciphertext) const {

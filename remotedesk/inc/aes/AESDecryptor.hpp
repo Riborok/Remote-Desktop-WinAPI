@@ -10,7 +10,7 @@ using CryptoPP::byte;
 class AESDecryptor {
     std::vector<byte> _key;
 public:
-    explicit AESDecryptor(const std::vector<byte>& key);
+    void setKey(std::vector<byte>&& key);
     std::vector<byte> decrypt(const std::vector<byte>& ciphertext) const;
 private:
     static void validateCiphertextLength(const std::vector<byte>& ciphertext);

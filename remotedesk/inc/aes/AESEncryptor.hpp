@@ -11,7 +11,7 @@ class AESEncryptor {
     std::vector<byte> _key;
     CryptoPP::AutoSeededRandomPool _rng;
 public:
-    explicit AESEncryptor(const std::vector<byte>& key);
+    void setKey(std::vector<byte>&& key);
     std::vector<byte> encrypt(const std::vector<byte>& data);
 private:
     CryptoPP::SecByteBlock generateIV();

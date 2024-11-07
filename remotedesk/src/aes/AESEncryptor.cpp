@@ -1,6 +1,7 @@
 ﻿#include "../../inc/aes/AESEncryptor.hpp"
 
-AESEncryptor::AESEncryptor(const std::vector<byte>& key): _key(key) {
+void AESEncryptor::setKey(std::vector<byte>&& key) {
+    _key = std::move(key);
 }
 
 std::vector<byte> AESEncryptor::encrypt(const std::vector<byte>& data) {
