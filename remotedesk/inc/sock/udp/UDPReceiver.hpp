@@ -30,7 +30,6 @@ private:
     int receiveData(std::vector<byte>& data) const;
     static bool isBytesReceivedValid(const int bytesReceived);
     static void populatePayload(Payload& payload, const int bytesReceived);
-    
     static size_t extractTotalSize(const std::vector<byte>& data, const int bytesReceived);
     static size_t extractPacketNumber(const std::vector<byte>& data, const int bytesReceived);
     static size_t extractId(const std::vector<byte>& data, const int bytesReceived);

@@ -23,22 +23,34 @@ void UDPSender::send(const std::vector<byte>& data) {
     ++_id;
 }
 
-std::vector<byte> UDPSender::createFragmentPayload(const std::vector<byte>& data, const size_t fragmentIndex) const {
-    const size_t offset = fragmentIndex * DATA_SIZE;
+std::vector<byte> UDPSender::createFragmentPayload(const std::vector<byte>& data, const size_t packetNumber) const {
+    const size_t offset = packetNumber * DATA_SIZE;
     const size_t dataLen = min(DATA_SIZE, data.size() - offset);
     const size_t payloadSize = dataLen + 3*sizeof(size_t);
 
     std::vector<byte> payload(payloadSize);
     addPayloadToPacket(payload, data, offset, dataLen);
-    addSizeTToPacket(payload, _id, dataLen);
-    addSizeTToPacket(payload, fragmentIndex, dataLen + sizeof(size_t));
-    addSizeTToPacket(payload, data.size(), dataLen + 2*sizeof(size_t));
+    addId(payload, _id, dataLen);
+    addPacketNumber(payload, packetNumber, dataLen);
+    addTotalSize(payload, data.size(), dataLen);
     return payload;
 }
 
 void UDPSender::addPayloadToPacket(std::vector<byte>& packet, const std::vector<byte>& data,
         const size_t offset, const size_t dataLen) {
     std::memcpy(packet.data(), &data[offset], dataLen);
+}
+
+void UDPSender::addId(std::vector<byte>& payload, const size_t id, const size_t dataLen) {
+    addSizeTToPacket(payload, id, dataLen);
+}
+
+void UDPSender::addPacketNumber(std::vector<byte>& payload, const size_t packetNumber, const size_t dataLen) {
+    addSizeTToPacket(payload, packetNumber, dataLen + sizeof(size_t));
+}
+
+void UDPSender::addTotalSize(std::vector<byte>& payload, const size_t totalSize, const size_t dataLen) {
+    addSizeTToPacket(payload, totalSize, dataLen + 2*sizeof(size_t));
 }
 
 void UDPSender::addSizeTToPacket(std::vector<byte>& packet, const size_t value, const size_t startIdx) {

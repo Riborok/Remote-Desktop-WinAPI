@@ -22,8 +22,11 @@ public:
         const DWORD sendTimeoutMs = 1000, const DWORD sendBufferSize = MemoryUnits::MEGABYTE);
     void send(const std::vector<byte>& data);
 private:
-    std::vector<byte> createFragmentPayload(const std::vector<byte>& data, const size_t fragmentIndex) const;
+    std::vector<byte> createFragmentPayload(const std::vector<byte>& data, const size_t packetNumber) const;
     static void addPayloadToPacket(std::vector<byte>& packet, const std::vector<byte>& data, const size_t offset, const size_t dataLen);
+    static void addId(std::vector<byte>& payload, const size_t id, const size_t dataLen);
+    static void addPacketNumber(std::vector<byte>& payload, const size_t packetNumber, const size_t dataLen);
+    static void addTotalSize(std::vector<byte>& payload, const size_t totalSize, const size_t dataLen);
     static void addSizeTToPacket(std::vector<byte>& packet, const size_t value, const size_t startIdx);
     void sendFragment(const std::vector<byte>& payload) const;
 };
