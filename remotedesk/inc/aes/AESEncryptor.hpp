@@ -8,16 +8,23 @@
 using CryptoPP::byte;
 
 class AESEncryptor {
-    std::vector<byte> _key;
+    using AESCtrEncryption = CryptoPP::CTR_Mode<CryptoPP::AES>::Encryption;
+
+    AESCtrEncryption _encryptor;
     CryptoPP::AutoSeededRandomPool _rng;
+    std::vector<byte> _key;
 public:
+    explicit AESEncryptor(std::vector<byte>&& key);
+    AESEncryptor() = default;
+    
     void setKey(std::vector<byte>&& key);
-    std::vector<byte> encrypt(const std::vector<byte>& data);
+    std::vector<byte> encrypt(const std::vector<byte>& plaintext);
+    std::vector<byte> encrypt(const byte* plaintext, const size_t plaintextLength);
 private:
+    std::vector<byte> encryptWithIV(const byte* plaintext, const size_t plaintextLength);
     CryptoPP::SecByteBlock generateIV();
-    static void appendIVToCiphertext(const CryptoPP::SecByteBlock& iv, std::vector<byte>& ciphertext);
-    void setKeyAndIV(CryptoPP::CTR_Mode<CryptoPP::AES>::Encryption& encryptor,
-        const CryptoPP::SecByteBlock& iv) const;
-    static void performEncryption(CryptoPP::CTR_Mode<CryptoPP::AES>::Encryption& encryptor,
-        const std::vector<byte>& plaintext, std::vector<byte>& ciphertext);
+    void setKeyWithIV(const CryptoPP::SecByteBlock& iv);
+    static void appendIVToCiphertext(std::vector<byte>& ciphertext, const CryptoPP::SecByteBlock& iv);
+    void performEncryption(std::vector<byte>& ciphertext, const byte* plaintext, const size_t plaintextLength);
+    static size_t getCiphertextSize(const size_t plaintextSize);
 };
