@@ -7,6 +7,8 @@ using CryptoPP::byte;
 
 class CompressionUtils {
 public:
+    CompressionUtils() = delete;
+    
     static std::vector<byte> compress(const std::vector<byte>& data);
     static std::vector<byte> decompress(const std::vector<byte>& compressedData);
 private:
