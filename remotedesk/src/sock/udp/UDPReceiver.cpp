@@ -1,5 +1,4 @@
-﻿// ReSharper disable CppClangTidyBugproneNarrowingConversions CppClangTidyClangDiagnosticShorten64To32 CppClangTidyClangDiagnosticSignCompare
-#include "../../../inc/sock/udp/UDPReceiver.hpp"
+﻿#include "../../../inc/sock/udp/UDPReceiver.hpp"
 
 #include "../../../inc/sock/udp/UDPSender.hpp"
 

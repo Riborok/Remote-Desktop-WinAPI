@@ -1,5 +1,4 @@
-﻿// ReSharper disable CppClangTidyBugproneNarrowingConversions CppClangTidyClangDiagnosticShorten64To32
-#include "../../../inc/sock/udp/UDPSender.hpp"
+﻿#include "../../../inc/sock/udp/UDPSender.hpp"
 
 #include "../../../inc/utils/MathUtils.hpp"
 #include "../../../inc/utils/TypeLimits.hpp"
