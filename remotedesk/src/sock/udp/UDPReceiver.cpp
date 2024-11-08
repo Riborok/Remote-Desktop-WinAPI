@@ -101,25 +101,25 @@ bool UDPReceiver::isBytesReceivedValid(const int bytesReceived) {
 
 void UDPReceiver::populatePayload(Payload& payload, const int bytesReceived) {
     payload.totalDataSize = extractTotalSize(payload.data, bytesReceived);
-    payload.packetNumber = extractPacketNumber(payload.data, bytesReceived);
+    payload.fragmentNumber = extractFragmentNumber(payload.data, bytesReceived);
     payload.id = extractId(payload.data, bytesReceived);
     payload.data.resize(bytesReceived - 3*sizeof(size_t));
 }
 
-size_t UDPReceiver::extractTotalSize(const std::vector<byte>& data, const int bytesReceived) {
-    return extractSizeTFromPacket(data, bytesReceived - sizeof(size_t));
+size_t UDPReceiver::extractTotalSize(const std::vector<byte>& payload, const int bytesReceived) {
+    return extractSizeTFromPayload(payload, bytesReceived - sizeof(size_t));
 }
 
-size_t UDPReceiver::extractPacketNumber(const std::vector<byte>& data, const int bytesReceived) {
-    return extractSizeTFromPacket(data, bytesReceived - 2*sizeof(size_t));
+size_t UDPReceiver::extractFragmentNumber(const std::vector<byte>& payload, const int bytesReceived) {
+    return extractSizeTFromPayload(payload, bytesReceived - 2*sizeof(size_t));
 }
 
-size_t UDPReceiver::extractId(const std::vector<byte>& data, const int bytesReceived) {
-    return extractSizeTFromPacket(data, bytesReceived - 3*sizeof(size_t));
+size_t UDPReceiver::extractId(const std::vector<byte>& payload, const int bytesReceived) {
+    return extractSizeTFromPayload(payload, bytesReceived - 3*sizeof(size_t));
 }
 
-size_t UDPReceiver::extractSizeTFromPacket(const std::vector<byte>& packet, const size_t startIdx) {
+size_t UDPReceiver::extractSizeTFromPayload(const std::vector<byte>& payload, const size_t startIdx) {
     size_t value;
-    std::memcpy(&value, &packet[startIdx], sizeof(size_t));
+    std::memcpy(&value, &payload[startIdx], sizeof(size_t));
     return value;
 }

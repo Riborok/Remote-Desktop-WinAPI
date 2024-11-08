@@ -23,7 +23,7 @@ TEST_F(NetworkTestBase, SendAndReceiveSinglePacket) {
     std::thread receiverThread([&] {
         const std::optional<Payload> receivedPayload = receiver.receivePayload();
         EXPECT_TRUE(receivedPayload.has_value());
-        EXPECT_EQ(receivedPayload.value().packetNumber, 0);
+        EXPECT_EQ(receivedPayload.value().fragmentNumber, 0);
         EXPECT_EQ(receivedPayload.value().totalDataSize, testData.size());
         EXPECT_EQ(receivedPayload.value().data, testData);
     });
@@ -41,12 +41,12 @@ void performSendAndReceiveTest(const std::string& filename, const std::string& i
 
     std::thread receiverThread([&] {
         std::vector<byte> receivedData;
-        size_t packetNumber = 0;
+        size_t fragmentNumber = 0;
 
         while (receivedData.size() < largeData.size()) {
             std::optional<Payload> receivedPayload = receiver.receivePayload();
             EXPECT_TRUE(receivedPayload.has_value());
-            EXPECT_EQ(receivedPayload.value().packetNumber, packetNumber++);
+            EXPECT_EQ(receivedPayload.value().fragmentNumber, fragmentNumber++);
             EXPECT_EQ(receivedPayload.value().totalDataSize, largeData.size());
             const auto& data = receivedPayload.value().data;
             receivedData.insert(receivedData.end(), data.begin(), data.end());

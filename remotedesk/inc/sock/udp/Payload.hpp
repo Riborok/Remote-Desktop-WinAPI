@@ -8,6 +8,6 @@ using CryptoPP::byte;
 struct Payload {
     std::vector<byte> data;
     size_t id;
-    size_t packetNumber;
+    size_t fragmentNumber;
     size_t totalDataSize;
 };
