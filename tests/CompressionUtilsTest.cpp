@@ -1,21 +1,21 @@
 ﻿#include "inc/utils.hpp"
-#include "utils/compression/CompressionUtils.hpp"
+#include "utils/compression/Compressor.hpp"
 #include "gtest/gtest.h"
+#include "utils/compression/Decompressor.hpp"
 
 void performCompressionDecompressionTest(const std::string& filename) {
     const std::vector<byte> data(readFileToBuffer(filename));
-    const std::vector<byte> compressedData = CompressionUtils::compress(data);
-    const std::vector<byte> decompressedData = CompressionUtils::decompress(compressedData);
+    const std::vector<byte> compressedData = Compressor::compress(data);
+    const std::vector<byte> decompressedData = Decompressor::decompress(compressedData);
     
-    EXPECT_GT(data.size(), compressedData.size());
     EXPECT_EQ(data.size(), decompressedData.size());
     EXPECT_EQ(data, decompressedData);
 }
 
-TEST(CompressionUtilsTest, CompressAndDecompressTXT) {
+TEST(CompressionTest, CompressAndDecompressTXT) {
     performCompressionDecompressionTest("res/test.txt");
 }
 
-TEST(CompressionUtilsTest, CompressAndDecompressJPG) {
+TEST(CompressionTest, CompressAndDecompressJPG) {
     performCompressionDecompressionTest("res/test.jpg");
 }

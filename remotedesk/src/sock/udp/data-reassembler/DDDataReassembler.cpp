@@ -2,12 +2,14 @@
 
 #include <execution>
 
-#include "../../../../inc/utils/compression/CompressionUtils.hpp"
+#include "../../../../inc/utils/compression/Compressor.hpp"
 #include "../../../../inc/utils/aes/AESToolkit.hpp"
+#include "../../../../inc/utils/compression/CompressionToolkit.hpp"
+#include "../../../../inc/utils/compression/Decompressor.hpp"
 
 DDDataReassembler::DDDataReassembler(const std::vector<byte>& key, const FragmentDescriptor& fragmentDescriptor):
     DataReassembler(fragmentDescriptor.reduceDataSize(
-        CompressionUtils::METADATA_SIZE + AESToolkit::METADATA_SIZE)),
+        CompressionToolkit::METADATA_SIZE + AESToolkit::METADATA_SIZE)),
     _decryptor(key) { }
 
 MaskedData DDDataReassembler::reassembleData(std::vector<Fragment>& fragments) {
@@ -25,7 +27,7 @@ void DDDataReassembler::decryptDataFragments(std::vector<Fragment>& fragments) {
 void DDDataReassembler::decompressDataFragments(std::vector<Fragment>& decryptedFragments) {
     std::for_each(std::execution::par, decryptedFragments.begin(), decryptedFragments.end(),
         [](Fragment& fragment) {
-            fragment.data = CompressionUtils::decompress(fragment.data);
+            fragment.data = Decompressor::decompress(fragment.data);
         }
     );
 }

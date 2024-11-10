@@ -62,8 +62,8 @@ std::tuple<UDPSender, UDPReceiver> createUDPSenderAndReceiver(const std::string&
         const std::vector<byte>& key) {
     auto dataFragmenter = std::make_unique<CEDataFragmenter>(key);
     auto dataReassembler = std::make_unique<DDDataReassembler>(key);
-    UDPSender sender(ip, port, std::move(dataFragmenter));
-    UDPReceiver receiver(port, std::move(dataReassembler));
+    UDPSender sender(ip, port, std::move(dataFragmenter), 64*MemoryUnits::MEGABYTE);
+    UDPReceiver receiver(port, std::move(dataReassembler), 64*MemoryUnits::MEGABYTE);
     return std::make_tuple(std::move(sender), std::move(receiver));
 }
 
