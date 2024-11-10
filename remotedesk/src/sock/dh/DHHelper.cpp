@@ -26,7 +26,7 @@ CryptoPP::SecByteBlock DHHelper::generatePublicKey(const CryptoPP::SecByteBlock&
     return pubKey;
 }
 
-CryptoPP::Integer DHHelper::calculateSharedSecret(const CryptoPP::SecByteBlock& privateKey, const CryptoPP::Integer& publicKey) const {
+CryptoPP::Integer DHHelper::calcSharedSecret(const CryptoPP::SecByteBlock& privateKey, const CryptoPP::Integer& publicKey) const {
     CryptoPP::SecByteBlock sharedSecret(_dh.AgreedValueLength());
     CryptoPP::SecByteBlock encodedPublicKey(IntegerUtils::toSecByteBlock(publicKey));
     const bool result = _dh.Agree(sharedSecret, privateKey, encodedPublicKey);

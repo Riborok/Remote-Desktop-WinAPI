@@ -9,19 +9,15 @@ void AESEncryptor::setKey(const std::vector<byte>& key) {
 }
 
 std::vector<byte> AESEncryptor::encrypt(const std::vector<byte>& plaintext) {
-    return encryptWithIV(plaintext.data(), plaintext.size());
+    return encrypt(plaintext.data(), plaintext.size());
 }
 
-std::vector<byte> AESEncryptor::encrypt(const byte* plaintext, const size_t plaintextLength) {
-    return encryptWithIV(plaintext, plaintextLength);
-}
-
-std::vector<byte> AESEncryptor::encryptWithIV(const byte* plaintext, const size_t plaintextLength) {
+std::vector<byte> AESEncryptor::encrypt(const byte* plaintext, const size_t plaintextSize) {
     const CryptoPP::SecByteBlock iv = generateIV();
-    std::vector<byte> ciphertext(getCiphertextSize(plaintextLength));
+    std::vector<byte> ciphertext(plaintextSize + AESToolkit::METADATA_SIZE);
     setKeyWithIV(iv);
     appendIVToCiphertext(ciphertext, iv);
-    performEncryption(ciphertext, plaintext, plaintextLength);
+    performEncryption(ciphertext, plaintext, plaintextSize);
     return ciphertext;
 }
 
@@ -39,10 +35,6 @@ void AESEncryptor::appendIVToCiphertext(std::vector<byte>& ciphertext, const Cry
     std::memcpy(ciphertext.data(), iv.data(), iv.size());
 }
 
-void AESEncryptor::performEncryption(std::vector<byte>& ciphertext, const byte* plaintext, const size_t plaintextLength) {
-    _encryptor.ProcessData(&ciphertext[AESToolkit::METADATA_SIZE], plaintext, plaintextLength);
-}
-
-size_t AESEncryptor::getCiphertextSize(const size_t plaintextSize) {
-    return plaintextSize + AESToolkit::METADATA_SIZE;
+void AESEncryptor::performEncryption(std::vector<byte>& ciphertext, const byte* plaintext, const size_t plaintextSize) {
+    _encryptor.ProcessData(&ciphertext[AESToolkit::METADATA_SIZE], plaintext, plaintextSize);
 }

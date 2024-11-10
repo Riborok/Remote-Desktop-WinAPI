@@ -19,12 +19,10 @@ public:
     
     void setKey(const std::vector<byte>& key);
     std::vector<byte> encrypt(const std::vector<byte>& plaintext);
-    std::vector<byte> encrypt(const byte* plaintext, const size_t plaintextLength);
+    std::vector<byte> encrypt(const byte* plaintext, const size_t plaintextSize);
 private:
-    std::vector<byte> encryptWithIV(const byte* plaintext, const size_t plaintextLength);
     CryptoPP::SecByteBlock generateIV();
     void setKeyWithIV(const CryptoPP::SecByteBlock& iv);
     static void appendIVToCiphertext(std::vector<byte>& ciphertext, const CryptoPP::SecByteBlock& iv);
-    void performEncryption(std::vector<byte>& ciphertext, const byte* plaintext, const size_t plaintextLength);
-    static size_t getCiphertextSize(const size_t plaintextSize);
+    void performEncryption(std::vector<byte>& ciphertext, const byte* plaintext, const size_t plaintextSize);
 };

@@ -9,32 +9,27 @@ void AESDecryptor::setKey(const std::vector<byte>& key) {
 }
 
 std::vector<byte> AESDecryptor::decrypt(const std::vector<byte>& ciphertext) {
-    validateCiphertextLength(ciphertext);
-    std::vector<byte> plaintext(getPlaintextSize(ciphertext.size()));
-    decryptWithIV(ciphertext, plaintext.data());
+    return decrypt(ciphertext.data(), ciphertext.size());
+}
+
+std::vector<byte> AESDecryptor::decrypt(const byte* ciphertext, const size_t ciphertextSize) {
+    validateCiphertextSize(ciphertextSize);
+    std::vector<byte> plaintext(ciphertextSize - AESToolkit::METADATA_SIZE);
+    const CryptoPP::SecByteBlock iv = extractIV(ciphertext);
+    setKeyWithIV(iv);
+    performDecryption(ciphertext, plaintext);
     return plaintext;
 }
 
-void AESDecryptor::decrypt(const std::vector<byte>& ciphertext, byte* plaintext) {
-    validateCiphertextLength(ciphertext);
-    decryptWithIV(ciphertext, plaintext);
-}
-
-void AESDecryptor::validateCiphertextLength(const std::vector<byte>& ciphertext) {
-    if (ciphertext.size() < AESToolkit::METADATA_SIZE) {
+void AESDecryptor::validateCiphertextSize(const size_t ciphertextSize) {
+    if (ciphertextSize < AESToolkit::METADATA_SIZE) {
         throw std::invalid_argument("Invalid ciphertext");
     }
 }
 
-void AESDecryptor::decryptWithIV(const std::vector<byte>& ciphertext, byte* plaintext) {
-    const CryptoPP::SecByteBlock iv = extractIV(ciphertext);
-    setKeyWithIV(iv);
-    performDecryption(ciphertext, plaintext);
-}
-
-CryptoPP::SecByteBlock AESDecryptor::extractIV(const std::vector<byte>& ciphertext) {
+CryptoPP::SecByteBlock AESDecryptor::extractIV(const byte* ciphertext) {
     CryptoPP::SecByteBlock iv(AESToolkit::METADATA_SIZE);
-    std::copy_n(ciphertext.begin(), iv.size(), iv.begin());
+    std::copy_n(ciphertext, iv.size(), iv.data());
     return iv;
 }
 
@@ -42,11 +37,6 @@ void AESDecryptor::setKeyWithIV(const CryptoPP::SecByteBlock& iv) {
     _decryptor.SetKeyWithIV(_key.data(), _key.size(), iv.data());
 }
 
-void AESDecryptor::performDecryption(const std::vector<byte>& ciphertext, byte* plaintext) {
-    _decryptor.ProcessData(plaintext, &ciphertext[AESToolkit::METADATA_SIZE],
-        getPlaintextSize(ciphertext.size()));
-}
-
-size_t AESDecryptor::getPlaintextSize(const size_t ciphertextSize) {
-    return ciphertextSize - AESToolkit::METADATA_SIZE;
+void AESDecryptor::performDecryption(const byte* ciphertext, std::vector<byte>& plaintext) {
+    _decryptor.ProcessData(plaintext.data(), &ciphertext[AESToolkit::METADATA_SIZE], plaintext.size());
 }

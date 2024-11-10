@@ -18,7 +18,7 @@ public:
 
     CryptoPP::SecByteBlock generatePrivateKey();
     CryptoPP::SecByteBlock generatePublicKey(const CryptoPP::SecByteBlock& privKey);
-    CryptoPP::Integer calculateSharedSecret(const CryptoPP::SecByteBlock& privateKey, const CryptoPP::Integer& publicKey) const;
+    CryptoPP::Integer calcSharedSecret(const CryptoPP::SecByteBlock& privateKey, const CryptoPP::Integer& publicKey) const;
 private:
     static void checkSharedSecretAgreement(const bool result);
 };

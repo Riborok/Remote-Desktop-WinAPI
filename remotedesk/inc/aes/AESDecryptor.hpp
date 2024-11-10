@@ -18,12 +18,10 @@ public:
     
     void setKey(const std::vector<byte>& key);
     std::vector<byte> decrypt(const std::vector<byte>& ciphertext);
-    void decrypt(const std::vector<byte>& ciphertext, byte* plaintext);
+    std::vector<byte> decrypt(const byte* ciphertext, const size_t ciphertextSize);
 private:
-    static void validateCiphertextLength(const std::vector<byte>& ciphertext);
-    void decryptWithIV(const std::vector<byte>& ciphertext, byte* plaintext);
-    static CryptoPP::SecByteBlock extractIV(const std::vector<byte>& ciphertext);
+    static void validateCiphertextSize(const size_t ciphertextSize);
+    static CryptoPP::SecByteBlock extractIV(const byte* ciphertext);
     void setKeyWithIV(const CryptoPP::SecByteBlock& iv);
-    void performDecryption(const std::vector<byte>& ciphertext, byte* plaintext);
-    static size_t getPlaintextSize(const size_t ciphertextSize);
+    void performDecryption(const byte* ciphertext, std::vector<byte>& plaintext);
 };

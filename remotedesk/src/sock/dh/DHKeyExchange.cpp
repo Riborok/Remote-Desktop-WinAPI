@@ -28,7 +28,7 @@ CryptoPP::Integer DHKeyExchange::exchangeKeys() {
     generateKeys();
     sendPublicKey();
     const CryptoPP::Integer serverPublicKey = receivePublicKey();
-    return _dhHelper.calculateSharedSecret(_privateKey, serverPublicKey);
+    return _dhHelper.calcSharedSecret(_privateKey, serverPublicKey);
 }
 
 void DHKeyExchange::generateKeys() {
