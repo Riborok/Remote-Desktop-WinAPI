@@ -5,12 +5,14 @@
 class FragmentStateTracker {
     static constexpr size_t MAX_OLD_FRAGMENTS_IN_ROW = 10;
 
+    size_t _fragmentDataSize;
     bool _isInitialized = false;
     size_t _oldFragmentCountInRow = 0;
     size_t _prevId = 0;
     size_t _currentId = 0;
     size_t _totalFragments = 0;
 public:
+    explicit FragmentStateTracker(const size_t fragmentDataSize);
     void reset();
     bool initialize(const Fragment& fragment);
     

@@ -3,8 +3,12 @@
 #include <execution>
 
 #include "../../../../inc/utils/CompressionUtils.hpp"
+#include "../../../../inc/utils/aes/AESToolkit.hpp"
 
-DDDataReassembler::DDDataReassembler(std::vector<byte>&& key): _decryptor(std::move(key)) { }
+DDDataReassembler::DDDataReassembler(const std::vector<byte>& key, const FragmentDescriptor& fragmentDescriptor):
+    DataReassembler(fragmentDescriptor.reduceDataSize(
+        CompressionUtils::METADATA_SIZE + AESToolkit::METADATA_SIZE)),
+    _decryptor(key) { }
 
 MaskedData DDDataReassembler::reassembleData(std::vector<Fragment>& fragments) {
     decryptDataFragments(fragments);

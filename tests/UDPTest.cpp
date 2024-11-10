@@ -13,6 +13,7 @@
 
 void performSendAndReceiveTest(const std::string& filename, const std::string& ip, const u_short port);
 void performSendAndReceiveMultipleFilesTest(const std::vector<std::string>& filenames, const std::string& ip, const u_short port);
+std::tuple<UDPSender, UDPReceiver> createUDPSenderAndReceiver(const std::string& ip, const u_short port, const std::vector<byte>& key);
 std::thread performReceiverTest(UDPReceiver& receiver, const std::vector<std::vector<byte>>& allData);
 std::thread performSenderTest(UDPSender& sender, const std::vector<std::vector<byte>>& allData);
 void verifyReceivedData(const MaskedData& maskedData, const std::vector<byte>& expectedData);
@@ -37,9 +38,7 @@ TEST_F(NetworkTestBase, SendAndReceiveFiveMaskedFiles) {
 void performSendAndReceiveTest(const std::string& filename, const std::string& ip, const u_short port) {
     const std::vector<byte> expectedData(readFileToBuffer(filename));
     const std::vector<byte> key(CryptoPP::AES::MAX_KEYLENGTH, 42);
-    UDPSender sender(ip, port, std::make_unique<CEDataFragmenter>(std::vector<byte>(key)));
-    UDPReceiver receiver(port, std::make_unique<DDDataReassembler>(std::vector<byte>(key)));
-    
+    auto [sender, receiver] = createUDPSenderAndReceiver(ip, port, key);
     std::thread receiverThread(performReceiverTest(receiver, {expectedData}));
     std::thread senderThread(performSenderTest(sender, {expectedData}));
     receiverThread.join();
@@ -52,12 +51,20 @@ void performSendAndReceiveMultipleFilesTest(const std::vector<std::string>& file
         allData.push_back(readFileToBuffer(filename));
     }
     const std::vector<byte> key(CryptoPP::AES::MAX_KEYLENGTH, 42);
-    UDPSender sender(ip, port, std::make_unique<CEDataFragmenter>(std::vector<byte>(key)));
-    UDPReceiver receiver(port, std::make_unique<DDDataReassembler>(std::vector<byte>(key)));
+    auto [sender, receiver] = createUDPSenderAndReceiver(ip, port, key);
     std::thread receiverThread(performReceiverTest(receiver, allData));
     std::thread senderThread(performSenderTest(sender, allData));
     receiverThread.join();
     senderThread.join();
+}
+
+std::tuple<UDPSender, UDPReceiver> createUDPSenderAndReceiver(const std::string& ip, const u_short port,
+        const std::vector<byte>& key) {
+    auto dataFragmenter = std::make_unique<CEDataFragmenter>(key);
+    auto dataReassembler = std::make_unique<DDDataReassembler>(key);
+    UDPSender sender(ip, port, std::move(dataFragmenter));
+    UDPReceiver receiver(port, std::move(dataReassembler));
+    return std::make_tuple(std::move(sender), std::move(receiver));
 }
 
 std::thread performReceiverTest(UDPReceiver& receiver, const std::vector<std::vector<byte>>& allData) {

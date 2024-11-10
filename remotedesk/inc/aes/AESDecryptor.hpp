@@ -13,10 +13,10 @@ class AESDecryptor {
     AESCtrDecryption _decryptor;
     std::vector<byte> _key;
 public:
-    explicit AESDecryptor(std::vector<byte>&& key);
+    explicit AESDecryptor(const std::vector<byte>& key);
     AESDecryptor() = default;
     
-    void setKey(std::vector<byte>&& key);
+    void setKey(const std::vector<byte>& key);
     std::vector<byte> decrypt(const std::vector<byte>& ciphertext);
     void decrypt(const std::vector<byte>& ciphertext, byte* plaintext);
 private:

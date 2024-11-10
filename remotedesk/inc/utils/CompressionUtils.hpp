@@ -8,6 +8,8 @@ using CryptoPP::byte;
 class CompressionUtils {
 public:
     CompressionUtils() = delete;
+
+    static constexpr size_t METADATA_SIZE = sizeof(size_t);
     
     static std::vector<byte> compress(const std::vector<byte>& data);
     static std::vector<byte> compress(const byte* data, const size_t dataSize);

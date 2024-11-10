@@ -1,9 +1,11 @@
 ﻿#include "../../inc/aes/AESEncryptor.hpp"
 
-AESEncryptor::AESEncryptor(std::vector<byte>&& key): _key(std::move(key)) { }
+#include "../../inc/utils/aes/AESToolkit.hpp"
 
-void AESEncryptor::setKey(std::vector<byte>&& key) {
-    _key = std::move(key);
+AESEncryptor::AESEncryptor(const std::vector<byte>& key): _key(key) { }
+
+void AESEncryptor::setKey(const std::vector<byte>& key) {
+    _key = key;
 }
 
 std::vector<byte> AESEncryptor::encrypt(const std::vector<byte>& plaintext) {
@@ -24,7 +26,7 @@ std::vector<byte> AESEncryptor::encryptWithIV(const byte* plaintext, const size_
 }
 
 CryptoPP::SecByteBlock AESEncryptor::generateIV() {
-    CryptoPP::SecByteBlock iv(CryptoPP::AES::BLOCKSIZE);
+    CryptoPP::SecByteBlock iv(AESToolkit::METADATA_SIZE);
     _rng.GenerateBlock(iv, iv.size());
     return iv;
 }
@@ -38,9 +40,9 @@ void AESEncryptor::appendIVToCiphertext(std::vector<byte>& ciphertext, const Cry
 }
 
 void AESEncryptor::performEncryption(std::vector<byte>& ciphertext, const byte* plaintext, const size_t plaintextLength) {
-    _encryptor.ProcessData(&ciphertext[CryptoPP::AES::BLOCKSIZE], plaintext, plaintextLength);
+    _encryptor.ProcessData(&ciphertext[AESToolkit::METADATA_SIZE], plaintext, plaintextLength);
 }
 
 size_t AESEncryptor::getCiphertextSize(const size_t plaintextSize) {
-    return plaintextSize + CryptoPP::AES::BLOCKSIZE;
+    return plaintextSize + AESToolkit::METADATA_SIZE;
 }

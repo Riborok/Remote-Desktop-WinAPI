@@ -2,10 +2,13 @@
 
 #include <execution>
 
-#include "../../../../inc/utils/MathUtils.hpp"
 #include "../../../../inc/utils/CompressionUtils.hpp"
+#include "../../../../inc/utils/aes/AESToolkit.hpp"
 
-CEDataFragmenter::CEDataFragmenter(std::vector<byte>&& key): _encryptor(std::move(key)) { }
+CEDataFragmenter::CEDataFragmenter(const std::vector<byte>& key, const FragmentDescriptor& fragmentDescriptor):
+    DataFragmenter(fragmentDescriptor.reduceDataSize(
+        CompressionUtils::METADATA_SIZE + AESToolkit::METADATA_SIZE)),
+    _encryptor(key) { }
 
 std::vector<std::vector<byte>> CEDataFragmenter::createDataFragments(const std::vector<byte>& data) {
     const std::vector<std::vector<byte>> compressedDFs = compressDataFragments(data);
@@ -13,8 +16,8 @@ std::vector<std::vector<byte>> CEDataFragmenter::createDataFragments(const std::
     return encryptedDFs;
 }
 
-std::vector<std::vector<byte>> CEDataFragmenter::compressDataFragments(const std::vector<byte>& data) {
-    const size_t totalFragments = UDPToolkit::calcTotalFragments(data.size());
+std::vector<std::vector<byte>> CEDataFragmenter::compressDataFragments(const std::vector<byte>& data) const {
+    const size_t totalFragments = UDPToolkit::calcTotalFragments(data.size(), getFragmentDescriptor().getDataSize());
     std::vector<std::vector<byte>> compressedDFs(totalFragments);
     std::transform(std::execution::par, compressedDFs.begin(), compressedDFs.end(), compressedDFs.begin(),
         [&](const std::vector<byte>& fragment) {

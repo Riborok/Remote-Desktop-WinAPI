@@ -10,6 +10,7 @@ class FragmentCollector {
     FragmentStateTracker _stateTracker;
     std::optional<Fragment> _prevFragment;
 public:
+    explicit FragmentCollector(const size_t fragmentDataSize);
     bool collectPreviousFragment();
     bool collectFragment(std::optional<Fragment>& optionalFragment);
     std::vector<Fragment>&& extractFragments();

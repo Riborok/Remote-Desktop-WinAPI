@@ -4,8 +4,7 @@
 #include "../../../../inc/utils/sock/udp/UDPToolkit.hpp"
 
 UDPSender::UDPSender(const std::string& ip, const u_short port, std::unique_ptr<DataFragmenter> dataFragmenter,
-        const DWORD sendBufferSize, const DWORD sendTimeoutMs)
-        : _dataFragmenter(std::move(dataFragmenter)) {
+        const DWORD sendBufferSize, const DWORD sendTimeoutMs): _dataFragmenter(std::move(dataFragmenter)) {
     _addr = SockaddrUtils::initializeAddress(ip.c_str(), port);
     _socket.setSendBufferSize(sendBufferSize);
     _socket.setSendTimeout(sendTimeoutMs);

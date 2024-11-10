@@ -42,6 +42,7 @@
     <ClInclude Include="inc\sock\udp\data-reassembler\DataReassembler.hpp" />
     <ClInclude Include="inc\sock\udp\data-reassembler\DDDataReassembler.hpp" />
     <ClInclude Include="inc\sock\udp\Fragment.hpp" />
+    <ClInclude Include="inc\sock\udp\FragmentDescriptor.hpp" />
     <ClInclude Include="inc\sock\udp\Metadata.hpp" />
     <ClInclude Include="inc\sock\udp\receiver\FragmentBuffer.hpp" />
     <ClInclude Include="inc\sock\udp\receiver\FragmentCollector.hpp" />
@@ -49,6 +50,7 @@
     <ClInclude Include="inc\sock\udp\receiver\MaskedData.hpp" />
     <ClInclude Include="inc\sock\udp\receiver\UDPReceiver.hpp" />
     <ClInclude Include="inc\sock\udp\sender\UDPSender.hpp" />
+    <ClInclude Include="inc\utils\aes\AESToolkit.hpp" />
     <ClInclude Include="inc\utils\ByteArrayUtils.hpp" />
     <ClInclude Include="inc\utils\CompressionUtils.hpp" />
     <ClInclude Include="inc\utils\IntegerUtils.hpp" />
@@ -84,6 +86,7 @@
     <ClCompile Include="src\sock\udp\data-fragmenter\DataFragmenter.cpp" />
     <ClCompile Include="src\sock\udp\data-reassembler\DataReassembler.cpp" />
     <ClCompile Include="src\sock\udp\data-reassembler\DDDataReassembler.cpp" />
+    <ClCompile Include="src\sock\udp\FragmentDescriptor.cpp" />
     <ClCompile Include="src\sock\udp\receiver\FragmentBuffer.cpp">
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>

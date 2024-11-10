@@ -4,20 +4,23 @@
 #include <vector>
 
 #include "../../../sock/udp/Fragment.hpp"
+#include "../../../sock/udp/FragmentDescriptor.hpp"
 
 using CryptoPP::byte;
 
 class UDPToolkit {
-    static constexpr size_t MAX_UDP_SIZE = 65535;
-    static constexpr size_t MTU_SIZE = 1500;
+    static constexpr size_t PROTOCOL_HEADER_SIZE = 20 + 8;
+    static constexpr size_t MAX_FRAGMENT_SIZE = 65535 - PROTOCOL_HEADER_SIZE;
+    static constexpr size_t MTU_FRAGMENT_SIZE = 1500 - PROTOCOL_HEADER_SIZE;
 public:
     UDPToolkit() = delete;
-
+    
     static constexpr size_t METADATA_SIZE = sizeof(Metadata);
-    static constexpr size_t FRAGMENT_SIZE = MAX_UDP_SIZE - 20 - 8;
-    static constexpr size_t DATA_SIZE = FRAGMENT_SIZE - METADATA_SIZE;
 
-    static size_t calcTotalFragments(const size_t dataSize);
+    static const FragmentDescriptor MAX_FRAGMENT_DESCRIPTOR;
+    static const FragmentDescriptor MTU_FRAGMENT_DESCRIPTOR;
+
+    static size_t calcTotalFragments(const size_t dataSize, const size_t fragmentDataSize);
     static std::vector<byte> createFragment(const std::vector<byte>& dataFragment, const Metadata& metadata);
     static void populateFragment(Fragment& fragment, const int bytesReceived);
 private:

@@ -3,14 +3,18 @@
 #include <config_int.h>
 #include <vector>
 
+#include "../FragmentDescriptor.hpp"
+#include "../../../utils/sock/udp/UDPToolkit.hpp"
 #include "../receiver/MaskedData.hpp"
 
 using CryptoPP::byte;
 
 class DataReassembler {
+    FragmentDescriptor _fragmentDescriptor;
 public:
-    DataReassembler() = default;
+    explicit DataReassembler(const FragmentDescriptor& fragmentDescriptor = UDPToolkit::MAX_FRAGMENT_DESCRIPTOR);
     virtual MaskedData reassembleData(std::vector<Fragment>& fragments);
+    const FragmentDescriptor& getFragmentDescriptor() const;
     virtual ~DataReassembler() = default;
     DataReassembler(DataReassembler&&) = default;
     DataReassembler& operator=(DataReassembler&&) = default;

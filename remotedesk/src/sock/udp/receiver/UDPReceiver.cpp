@@ -4,8 +4,9 @@
 #include "../../../../inc/utils/sock/udp/UDPToolkit.hpp"
 
 UDPReceiver::UDPReceiver(const u_short port, std::unique_ptr<DataReassembler> dataReassembler,
-        const DWORD receiveBufferSize, const DWORD receiveTimeoutMs)
-        : _dataReassembler(std::move(dataReassembler)) {
+        const DWORD receiveBufferSize, const DWORD receiveTimeoutMs):
+            _dataReassembler(std::move(dataReassembler)),
+            _fragmentCollector(_dataReassembler->getFragmentDescriptor().getDataSize()) {
     _socket.bindSocket(port);
     _socket.setReceiveBufferSize(receiveBufferSize);
     _socket.setReceiveTimeout(receiveTimeoutMs);
@@ -39,7 +40,7 @@ std::optional<Fragment> UDPReceiver::receiveFragment() const {
 }
 
 int UDPReceiver::receiveData(std::vector<byte>& data) const {
-    data.resize(UDPToolkit::FRAGMENT_SIZE);
+    data.resize(_dataReassembler->getFragmentDescriptor().getSize());
     const int len = _socket.recvFromSocket(data);
     return len;
 }

@@ -6,8 +6,8 @@
 void performEncryptionDecryptionTest(const std::string& filename) {
     const std::vector<byte> data(readFileToBuffer(filename));
     const std::vector<byte> key(CryptoPP::AES::MAX_KEYLENGTH, 42);
-    AESEncryptor aesEncryptor{std::vector<byte>(key)};
-    AESDecryptor aesDecryptor{std::vector<byte>(key)};
+    AESEncryptor aesEncryptor(key);
+    AESDecryptor aesDecryptor(key);
 
     const std::vector<byte> ciphertext = aesEncryptor.encrypt(data);
     const std::vector<byte> decrypted = aesDecryptor.decrypt(ciphertext);

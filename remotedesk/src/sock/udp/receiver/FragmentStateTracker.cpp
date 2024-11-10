@@ -2,6 +2,8 @@
 
 #include "../../../../inc/utils/sock/udp/UDPToolkit.hpp"
 
+FragmentStateTracker::FragmentStateTracker(const size_t fragmentDataSize): _fragmentDataSize(fragmentDataSize) { }
+
 void FragmentStateTracker::reset() {
     _isInitialized = false;
     _oldFragmentCountInRow = 0;
@@ -12,7 +14,7 @@ bool FragmentStateTracker::initialize(const Fragment& fragment) {
         _isInitialized = true;
         _prevId = _currentId;
         _currentId = fragment.id;
-        _totalFragments = UDPToolkit::calcTotalFragments(fragment.totalDataSize);
+        _totalFragments = UDPToolkit::calcTotalFragments(fragment.totalDataSize, _fragmentDataSize);
         return true;
     }
     return false;

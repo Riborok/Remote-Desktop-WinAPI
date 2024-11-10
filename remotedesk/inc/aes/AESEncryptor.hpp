@@ -14,10 +14,10 @@ class AESEncryptor {
     CryptoPP::AutoSeededRandomPool _rng;
     std::vector<byte> _key;
 public:
-    explicit AESEncryptor(std::vector<byte>&& key);
+    explicit AESEncryptor(const std::vector<byte>& key);
     AESEncryptor() = default;
     
-    void setKey(std::vector<byte>&& key);
+    void setKey(const std::vector<byte>& key);
     std::vector<byte> encrypt(const std::vector<byte>& plaintext);
     std::vector<byte> encrypt(const byte* plaintext, const size_t plaintextLength);
 private:

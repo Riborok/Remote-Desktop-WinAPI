@@ -6,7 +6,7 @@
 class DDDataReassembler final : public DataReassembler {
     AESDecryptor _decryptor;
 public:
-    explicit DDDataReassembler(std::vector<byte>&& key);
+    explicit DDDataReassembler(const std::vector<byte>& key, const FragmentDescriptor& fragmentDescriptor = UDPToolkit::MAX_FRAGMENT_DESCRIPTOR);
     MaskedData reassembleData(std::vector<Fragment>& fragments) override;
 private:
     void decryptDataFragments(std::vector<Fragment>& fragments);

@@ -3,8 +3,11 @@
 #include "../../../../inc/utils/ByteArrayUtils.hpp"
 #include "../../../../inc/utils/MathUtils.hpp"
 
-size_t UDPToolkit::calcTotalFragments(const size_t dataSize) {
-    return MathUtils::ceil(dataSize, DATA_SIZE);
+const FragmentDescriptor UDPToolkit::MAX_FRAGMENT_DESCRIPTOR = FragmentDescriptor(MAX_FRAGMENT_SIZE);
+const FragmentDescriptor UDPToolkit::MTU_FRAGMENT_DESCRIPTOR = FragmentDescriptor(MTU_FRAGMENT_SIZE);
+
+size_t UDPToolkit::calcTotalFragments(const size_t dataSize, const size_t fragmentDataSize) {
+    return MathUtils::ceil(dataSize, fragmentDataSize);
 }
 
 std::vector<byte> UDPToolkit::createFragment(const std::vector<byte>& dataFragment, const Metadata& metadata) {

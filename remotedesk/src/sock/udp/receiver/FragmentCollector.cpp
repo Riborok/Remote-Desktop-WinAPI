@@ -1,5 +1,7 @@
 ﻿#include "../../../../inc/sock/udp/receiver/FragmentCollector.hpp"
 
+FragmentCollector::FragmentCollector(const size_t fragmentDataSize): _stateTracker(fragmentDataSize) { }
+
 bool FragmentCollector::collectPreviousFragment() {
     if (_prevFragment) {
         const bool isSingleFragmentPacket = processUninitializedStateTracker(*_prevFragment);
