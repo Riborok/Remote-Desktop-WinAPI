@@ -1,9 +1,9 @@
 ﻿// ReSharper disable CppClangTidyBugproneNarrowingConversions CppClangTidyClangDiagnosticShorten64To32
-#include "../../inc/utils/CompressionUtils.hpp"
+#include "../../../inc/utils/compression/CompressionUtils.hpp"
 
 #include <lz4.h>
 
-#include "../../inc/utils/ByteArrayUtils.hpp"
+#include "../../../inc/utils/ByteArrayUtils.hpp"
 
 std::vector<byte> CompressionUtils::compress(const std::vector<byte>& data) {
     return compress(data.data(), data.size());

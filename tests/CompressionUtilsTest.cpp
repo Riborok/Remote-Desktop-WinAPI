@@ -1,5 +1,5 @@
 ﻿#include "inc/utils.hpp"
-#include "utils/CompressionUtils.hpp"
+#include "utils/compression/CompressionUtils.hpp"
 #include "gtest/gtest.h"
 
 void performCompressionDecompressionTest(const std::string& filename) {

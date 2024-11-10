@@ -2,7 +2,7 @@
 
 #include <execution>
 
-#include "../../../../inc/utils/CompressionUtils.hpp"
+#include "../../../../inc/utils/compression/CompressionUtils.hpp"
 #include "../../../../inc/utils/aes/AESToolkit.hpp"
 
 CEDataFragmenter::CEDataFragmenter(const std::vector<byte>& key, const FragmentDescriptor& fragmentDescriptor):
