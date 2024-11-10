@@ -1,5 +1,5 @@
-﻿#include "sock/dh/DHResponder.hpp"
-#include "sock/dh/DHInitiator.hpp"
+﻿#include "utils/dh/DHResponder.hpp"
+#include "utils/dh/DHInitiator.hpp"
 #include "gtest/gtest.h"
 #include <integer.h>
 

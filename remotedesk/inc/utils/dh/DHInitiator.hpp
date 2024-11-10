@@ -1,11 +1,12 @@
 ﻿#pragma once
 
 #include <integer.h>
-#include "../Socket.hpp"
 
-class DHResponder {
+#include "../../sock/Socket.hpp"
+
+class DHInitiator {
 public:
-    DHResponder() = delete;
+    DHInitiator() = delete;
     
     static CryptoPP::Integer exchangeKeys(const Socket& sock);
 };

@@ -1,4 +1,4 @@
-﻿#include "../../../inc/sock/dh/DHInitiator.hpp"
+﻿#include "../../../inc/utils/dh/DHInitiator.hpp"
 
 #include "../../../inc/sock/dh/DHKeyExchange.hpp"
 
