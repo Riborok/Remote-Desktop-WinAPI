@@ -1,4 +1,4 @@
-﻿#include "../../../inc/screen/bitmap/BitmapFactory.hpp"
+﻿#include "../../../../inc/utils/factory/bitmap/BitmapFactory.hpp"
 
 Bitmap BitmapFactory::createDDBitmap(const HDC hScreenDc, const SIZE& size) {
     const BITMAPINFOHEADER bi = createBitmapInfoHeader(size);

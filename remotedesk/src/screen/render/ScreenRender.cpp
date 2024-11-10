@@ -1,6 +1,6 @@
 ﻿#include "../../../inc/screen/render/ScreenRender.hpp"
 
-#include "../../../inc/screen/bitmap/BitmapFactory.hpp"
+#include "../../../inc/utils/factory/bitmap/BitmapFactory.hpp"
 #include "../../../inc/utils/screen/SizeUtils.hpp"
 
 ScreenRender::ScreenRender(const HWND hWnd, const SIZE& appSize, const SIZE& receivedSize):

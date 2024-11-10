@@ -1,6 +1,6 @@
 ﻿#include "../../../inc/screen/capture/ScreenCapture.hpp"
 
-#include "../../../inc/screen/bitmap/BitmapFactory.hpp"
+#include "../../../inc/utils/factory/bitmap/BitmapFactory.hpp"
 #include "../../../inc/utils/screen/ScreenUtils.hpp"
 
 ScreenCapture::ScreenCapture(const SIZE& targetSize): _dc(nullptr),

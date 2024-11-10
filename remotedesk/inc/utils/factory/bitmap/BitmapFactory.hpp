@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-#include "Bitmap.hpp"
+#include "../../../screen/bitmap/Bitmap.hpp"
 
 class BitmapFactory {
     static constexpr DWORD BYTES_PER_PIXEL = 4;
