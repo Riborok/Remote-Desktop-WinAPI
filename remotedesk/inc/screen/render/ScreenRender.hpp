@@ -1,7 +1,7 @@
 ﻿#pragma once
 
 #include "../DC.hpp"
-#include "../../sock/udp/MaskedData.hpp"
+#include "../../sock/udp/receiver/MaskedData.hpp"
 #include "../bitmap/Bitmap.hpp"
 
 class ScreenRender {

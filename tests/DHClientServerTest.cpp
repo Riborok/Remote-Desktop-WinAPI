@@ -9,10 +9,10 @@
 TEST_F(NetworkTestBase, KeyExchangeTest) {
     CryptoPP::Integer serverSharedSecret;
     std::thread serverThread([&] {
-        Socket socket = TCPUtils::acceptSingleConnection(PORT);
+        const Socket socket = TCPUtils::acceptSingleConnection(PORT);
         serverSharedSecret = DHResponder::exchangeKeys(socket);
     });
-    Socket socket = TCPUtils::connectToServer(IP, PORT);
+    const Socket socket = TCPUtils::connectToServer(IP, PORT);
     const CryptoPP::Integer clientSharedSecret = DHInitiator::exchangeKeys(socket);
     
     serverThread.join();

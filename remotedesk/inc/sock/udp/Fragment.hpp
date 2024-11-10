@@ -3,11 +3,10 @@
 #include <config_int.h>
 #include <vector>
 
+#include "Metadata.hpp"
+
 using CryptoPP::byte;
 
-struct Payload {
+struct Fragment: Metadata {
     std::vector<byte> data;
-    size_t id;
-    size_t fragmentNumber;
-    size_t totalDataSize;
 };

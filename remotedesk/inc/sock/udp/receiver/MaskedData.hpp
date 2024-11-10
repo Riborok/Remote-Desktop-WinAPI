@@ -3,7 +3,7 @@
 #include <config_int.h>
 #include <vector>
 
-#include "Payload.hpp"
+#include "../Fragment.hpp"
 
 using CryptoPP::byte;
 
@@ -12,7 +12,7 @@ class MaskedData {
     std::vector<byte> _mask;
 public:
     void resize(const size_t size);
-    void insertPayload(const Payload& payload);
+    void insert(const Fragment& fragment);
 
     const std::vector<byte>& getData() const;
     const std::vector<byte>& getMask() const;

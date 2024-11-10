@@ -10,6 +10,7 @@ std::vector<byte> readFileToBuffer(const std::string& filename) {
 }
 
 const std::string NetworkTestBase::IP = "127.0.0.1";
+
 const unsigned short NetworkTestBase::PORT = 4040;
 
 void NetworkTestBase::SetUp() {
