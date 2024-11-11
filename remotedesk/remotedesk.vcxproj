@@ -47,6 +47,7 @@
     <ClInclude Include="inc\sock\udp\receiver\MaskedData.hpp" />
     <ClInclude Include="inc\sock\udp\receiver\UDPReceiver.hpp" />
     <ClInclude Include="inc\sock\udp\sender\UDPSender.hpp" />
+    <ClInclude Include="inc\types\byte.hpp" />
     <ClInclude Include="inc\utils\aes\AESToolkit.hpp" />
     <ClInclude Include="inc\utils\ByteArrayUtils.hpp" />
     <ClInclude Include="inc\utils\compression\CompressionToolkit.hpp" />
@@ -125,7 +126,7 @@
       <WholeProgramOptimization>false</WholeProgramOptimization>
       <ObjectFileName>x64\Debug\</ObjectFileName>
       <CallingConvention>Cdecl</CallingConvention>
-      <ProgramDataBaseFileName>D:\Desktop\Remote-Desktop\remote-desktop\x64\Debug\remotedesk.pdb</ProgramDataBaseFileName>
+      <ProgramDataBaseFileName>..\x64\Debug\remotedesk.pdb</ProgramDataBaseFileName>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile>x64\Debug\remotedesk.pch</PrecompiledHeaderOutputFile>
@@ -200,7 +201,7 @@
       <WholeProgramOptimization>false</WholeProgramOptimization>
       <ObjectFileName>x64\Debug\</ObjectFileName>
       <CallingConvention>Cdecl</CallingConvention>
-      <ProgramDataBaseFileName>D:\Desktop\Remote-Desktop\remote-desktop\x64\Debug\remotedesk.pdb</ProgramDataBaseFileName>
+      <ProgramDataBaseFileName>..\x64\Debug\remotedesk.pdb</ProgramDataBaseFileName>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile>x64\Debug\remotedesk.pch</PrecompiledHeaderOutputFile>
@@ -275,7 +276,7 @@
       <WholeProgramOptimization>false</WholeProgramOptimization>
       <ObjectFileName>x64\Debug\</ObjectFileName>
       <CallingConvention>Cdecl</CallingConvention>
-      <ProgramDataBaseFileName>D:\Desktop\Remote-Desktop\remote-desktop\x64\Debug\remotedesk.pdb</ProgramDataBaseFileName>
+      <ProgramDataBaseFileName>..\x64\Debug\remotedesk.pdb</ProgramDataBaseFileName>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile>x64\Debug\remotedesk.pch</PrecompiledHeaderOutputFile>
@@ -350,7 +351,7 @@
       <WholeProgramOptimization>false</WholeProgramOptimization>
       <ObjectFileName>x64\Debug\</ObjectFileName>
       <CallingConvention>Cdecl</CallingConvention>
-      <ProgramDataBaseFileName>D:\Desktop\Remote-Desktop\remote-desktop\x64\Debug\remotedesk.pdb</ProgramDataBaseFileName>
+      <ProgramDataBaseFileName>..\x64\Debug\remotedesk.pdb</ProgramDataBaseFileName>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile>x64\Debug\remotedesk.pch</PrecompiledHeaderOutputFile>
@@ -425,7 +426,7 @@
       <WholeProgramOptimization>false</WholeProgramOptimization>
       <ObjectFileName>x64\Debug\</ObjectFileName>
       <CallingConvention>Cdecl</CallingConvention>
-      <ProgramDataBaseFileName>D:\Desktop\Remote-Desktop\remote-desktop\x64\Debug\remotedesk.pdb</ProgramDataBaseFileName>
+      <ProgramDataBaseFileName>..\x64\Debug\remotedesk.pdb</ProgramDataBaseFileName>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile>x64\Debug\remotedesk.pch</PrecompiledHeaderOutputFile>
@@ -500,7 +501,7 @@
       <WholeProgramOptimization>false</WholeProgramOptimization>
       <ObjectFileName>x64\Debug\</ObjectFileName>
       <CallingConvention>Cdecl</CallingConvention>
-      <ProgramDataBaseFileName>D:\Desktop\Remote-Desktop\remote-desktop\x64\Debug\remotedesk.pdb</ProgramDataBaseFileName>
+      <ProgramDataBaseFileName>..\x64\Debug\remotedesk.pdb</ProgramDataBaseFileName>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile>x64\Debug\remotedesk.pch</PrecompiledHeaderOutputFile>
@@ -575,7 +576,7 @@
       <WholeProgramOptimization>false</WholeProgramOptimization>
       <ObjectFileName>x64\Debug\</ObjectFileName>
       <CallingConvention>Cdecl</CallingConvention>
-      <ProgramDataBaseFileName>D:\Desktop\Remote-Desktop\remote-desktop\x64\Debug\remotedesk.pdb</ProgramDataBaseFileName>
+      <ProgramDataBaseFileName>..\x64\Debug\remotedesk.pdb</ProgramDataBaseFileName>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile>x64\Debug\remotedesk.pch</PrecompiledHeaderOutputFile>
@@ -650,7 +651,7 @@
       <WholeProgramOptimization>false</WholeProgramOptimization>
       <ObjectFileName>x64\Debug\</ObjectFileName>
       <CallingConvention>Cdecl</CallingConvention>
-      <ProgramDataBaseFileName>D:\Desktop\Remote-Desktop\remote-desktop\x64\Debug\remotedesk.pdb</ProgramDataBaseFileName>
+      <ProgramDataBaseFileName>..\x64\Debug\remotedesk.pdb</ProgramDataBaseFileName>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile>x64\Debug\remotedesk.pch</PrecompiledHeaderOutputFile>
@@ -725,7 +726,7 @@
       <WholeProgramOptimization>false</WholeProgramOptimization>
       <ObjectFileName>x64\Debug\</ObjectFileName>
       <CallingConvention>Cdecl</CallingConvention>
-      <ProgramDataBaseFileName>D:\Desktop\Remote-Desktop\remote-desktop\x64\Debug\remotedesk.pdb</ProgramDataBaseFileName>
+      <ProgramDataBaseFileName>..\x64\Debug\remotedesk.pdb</ProgramDataBaseFileName>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile>x64\Debug\remotedesk.pch</PrecompiledHeaderOutputFile>
@@ -800,7 +801,7 @@
       <WholeProgramOptimization>false</WholeProgramOptimization>
       <ObjectFileName>x64\Debug\</ObjectFileName>
       <CallingConvention>Cdecl</CallingConvention>
-      <ProgramDataBaseFileName>D:\Desktop\Remote-Desktop\remote-desktop\x64\Debug\remotedesk.pdb</ProgramDataBaseFileName>
+      <ProgramDataBaseFileName>..\x64\Debug\remotedesk.pdb</ProgramDataBaseFileName>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile>x64\Debug\remotedesk.pch</PrecompiledHeaderOutputFile>
@@ -875,7 +876,7 @@
       <WholeProgramOptimization>false</WholeProgramOptimization>
       <ObjectFileName>x64\Debug\</ObjectFileName>
       <CallingConvention>Cdecl</CallingConvention>
-      <ProgramDataBaseFileName>D:\Desktop\Remote-Desktop\remote-desktop\x64\Debug\remotedesk.pdb</ProgramDataBaseFileName>
+      <ProgramDataBaseFileName>..\x64\Debug\remotedesk.pdb</ProgramDataBaseFileName>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile>x64\Debug\remotedesk.pch</PrecompiledHeaderOutputFile>

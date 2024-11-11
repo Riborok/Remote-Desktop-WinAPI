@@ -23,8 +23,8 @@ public:
     void stretchFrom(const HDC src, const SIZE& srcSize, const DWORD rop = SRCCOPY) const;
     void stretchTo(const Bitmap& dest, const DWORD rop = SRCCOPY) const;
     void stretchTo(const HDC dest, const SIZE& destSize, const DWORD rop = SRCCOPY) const;
-    std::vector<BYTE> getDIBits();
-    void setDIBits(const std::vector<BYTE>& data) const;
+    std::vector<byte> getDIBits();
+    void setDIBits(const std::vector<byte>& data) const;
     void drawIcon(const Icon& icon) const;
     const SIZE& getSize() const;
 

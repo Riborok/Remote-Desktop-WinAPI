@@ -1,7 +1,6 @@
 ﻿#include "utils/dh/DHResponder.hpp"
 #include "utils/dh/DHInitiator.hpp"
 #include "gtest/gtest.h"
-#include <integer.h>
 
 #include "inc/utils.hpp"
 #include "utils/sock/tcp/TCPUtils.hpp"

@@ -1,12 +1,10 @@
 ﻿#pragma once
 
-#include <config_int.h>
 #include <vector>
 
 #include "../FragmentDescriptor.hpp"
+#include "../../../types/byte.hpp"
 #include "../../../utils/sock/udp/UDPToolkit.hpp"
-
-using CryptoPP::byte;
 
 class DataFragmenter {
     FragmentDescriptor _fragmentDescriptor;

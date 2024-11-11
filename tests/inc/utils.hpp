@@ -1,10 +1,9 @@
 ﻿#pragma once
 
-#include <config_int.h>
 #include <vector>
 #include <gtest/gtest.h>
 
-using CryptoPP::byte;
+#include "types/byte.hpp"
 
 std::vector<byte> readFileToBuffer(const std::string& filename);
 

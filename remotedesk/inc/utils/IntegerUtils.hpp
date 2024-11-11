@@ -2,7 +2,7 @@
 
 #include <integer.h>
 
-using CryptoPP::byte;
+#include "../types/byte.hpp"
 
 class IntegerUtils {
 public:

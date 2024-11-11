@@ -42,14 +42,14 @@ void Bitmap::stretchTo(const HDC dest, const SIZE& destSize, const DWORD rop) co
     );
 }
 
-std::vector<BYTE> Bitmap::getDIBits() {
-    std::vector<BYTE> buffer(_bi.biSizeImage);
+std::vector<byte> Bitmap::getDIBits() {
+    std::vector<byte> buffer(_bi.biSizeImage);
     GetDIBits(_hMemoryDc, _hMemoryBitmap, 0, _size.cy, 
         buffer.data(), reinterpret_cast<BITMAPINFO*>(&_bi), DIB_RGB_COLORS);
     return buffer;
 }
 
-void Bitmap::setDIBits(const std::vector<BYTE>& data) const {
+void Bitmap::setDIBits(const std::vector<byte>& data) const {
     SetDIBits(_hMemoryDc, _hMemoryBitmap, 0, _size.cy,
         data.data(), reinterpret_cast<const BITMAPINFO*>(&_bi), DIB_RGB_COLORS);
 }

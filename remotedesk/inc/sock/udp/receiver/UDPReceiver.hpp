@@ -10,8 +10,6 @@
 #include "../../../utils/MemoryUnits.hpp"
 #include "../data-reassembler/DataReassembler.hpp"
 
-using CryptoPP::byte;
-
 class UDPReceiver {
     std::unique_ptr<DataReassembler> _dataReassembler;
     Socket _socket {SOCK_DGRAM, IPPROTO_UDP};

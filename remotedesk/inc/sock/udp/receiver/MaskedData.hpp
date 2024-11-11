@@ -1,11 +1,9 @@
 ﻿#pragma once
 
-#include <config_int.h>
 #include <vector>
 
 #include "../Fragment.hpp"
-
-using CryptoPP::byte;
+#include "../../../types/byte.hpp"
 
 class MaskedData {
     size_t _fragmentDataSize;

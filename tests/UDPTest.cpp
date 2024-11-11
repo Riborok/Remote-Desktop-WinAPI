@@ -1,8 +1,6 @@
-﻿#include <aes.h>
-#include <gtest/gtest.h>
+﻿#include <gtest/gtest.h>
 #include <thread>
 #include <vector>
-#include <optional>
 #include <string>
 
 #include "inc/utils.hpp"
@@ -10,6 +8,7 @@
 #include "sock/udp/sender/UDPSender.hpp"
 #include "sock/udp/data-fragmenter/CEDataFragmenter.hpp"
 #include "sock/udp/data-reassembler/DDDataReassembler.hpp"
+#include "utils/aes/AESToolkit.hpp"
 
 void performSendAndReceiveTest(const std::string& filename, const std::string& ip, const u_short port);
 void performSendAndReceiveMultipleFilesTest(const std::vector<std::string>& filenames, const std::string& ip, const u_short port);
@@ -37,7 +36,7 @@ TEST_F(NetworkTestBase, SendAndReceiveFiveMaskedFiles) {
 
 void performSendAndReceiveTest(const std::string& filename, const std::string& ip, const u_short port) {
     const std::vector<byte> expectedData(readFileToBuffer(filename));
-    const std::vector<byte> key(CryptoPP::AES::MAX_KEYLENGTH, 42);
+    const std::vector<byte> key(AESToolkit::MAX_KEY_LENGTH, 42);
     auto [sender, receiver] = createUDPSenderAndReceiver(ip, port, key);
     std::thread receiverThread(performReceiverTest(receiver, {expectedData}));
     std::thread senderThread(performSenderTest(sender, {expectedData}));
@@ -50,7 +49,7 @@ void performSendAndReceiveMultipleFilesTest(const std::vector<std::string>& file
     for (const auto& filename : filenames) {
         allData.push_back(readFileToBuffer(filename));
     }
-    const std::vector<byte> key(CryptoPP::AES::MAX_KEYLENGTH, 42);
+    const std::vector<byte> key(AESToolkit::MAX_KEY_LENGTH, 42);
     auto [sender, receiver] = createUDPSenderAndReceiver(ip, port, key);
     std::thread receiverThread(performReceiverTest(receiver, allData));
     std::thread senderThread(performSenderTest(sender, allData));

@@ -1,9 +1,8 @@
 ﻿#pragma once
 
-#include <config_int.h>
 #include <vector>
 
-using CryptoPP::byte;
+#include "../../types/byte.hpp"
 
 class Decompressor {
 public:

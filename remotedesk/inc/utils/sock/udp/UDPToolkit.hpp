@@ -1,12 +1,9 @@
 ﻿#pragma once
 
-#include <config_int.h>
 #include <vector>
 
 #include "../../../sock/udp/Fragment.hpp"
 #include "../../../sock/udp/FragmentDescriptor.hpp"
-
-using CryptoPP::byte;
 
 class UDPToolkit {
     static constexpr size_t PROTOCOL_HEADER_SIZE = 20 + 8;

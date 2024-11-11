@@ -11,5 +11,5 @@ class ScreenCapture {
     Bitmap _scaledBitmap;
 public:
     explicit ScreenCapture(const SIZE& targetSize);
-    std::vector<BYTE> capture();
+    std::vector<byte> capture();
 };

@@ -2,10 +2,11 @@
 #include "aes/AESDecryptor.hpp"
 #include "aes/AESEncryptor.hpp"
 #include "gtest/gtest.h"
+#include "utils/aes/AESToolkit.hpp"
 
 void performEncryptionDecryptionTest(const std::string& filename) {
     const std::vector<byte> data(readFileToBuffer(filename));
-    const std::vector<byte> key(CryptoPP::AES::MAX_KEYLENGTH, 42);
+    const std::vector<byte> key(AESToolkit::MAX_KEY_LENGTH, 42);
     AESEncryptor aesEncryptor(key);
     AESDecryptor aesDecryptor(key);
 

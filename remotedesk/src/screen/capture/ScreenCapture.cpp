@@ -9,7 +9,7 @@ ScreenCapture::ScreenCapture(const SIZE& targetSize): _dc(nullptr),
     _scaledBitmap.enableHighQualityStretching();
 }
 
-std::vector<BYTE> ScreenCapture::capture() {
+std::vector<byte> ScreenCapture::capture() {
     _fullScreenBitmap.copyFrom(_dc.getHDC());
     _fullScreenBitmap.drawIcon(ScreenUtils::getCursor());
     _scaledBitmap.stretchFrom(_fullScreenBitmap);

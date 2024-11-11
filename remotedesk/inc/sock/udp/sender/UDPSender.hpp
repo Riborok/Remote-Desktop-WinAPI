@@ -1,6 +1,5 @@
 ﻿#pragma once
 
-#include <config_int.h>
 #include <memory>
 #include <vector>
 #include <string>
@@ -9,8 +8,6 @@
 #include "../../Socket.hpp"
 #include "../../../utils/MemoryUnits.hpp"
 #include "../data-fragmenter/DataFragmenter.hpp"
-
-using CryptoPP::byte;
 
 class UDPSender {
     std::unique_ptr<DataFragmenter> _dataFragmenter;

@@ -1,13 +1,10 @@
 ﻿#pragma once
 
-#include <config_int.h>
 #include <vector>
 
 #include "../FragmentDescriptor.hpp"
 #include "../../../utils/sock/udp/UDPToolkit.hpp"
 #include "../receiver/MaskedData.hpp"
-
-using CryptoPP::byte;
 
 class DataReassembler {
     FragmentDescriptor _fragmentDescriptor;

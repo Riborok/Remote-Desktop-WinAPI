@@ -1,11 +1,9 @@
 ﻿#pragma once
 
 #include <aes.h>
-#include <osrng.h>
 #include <vector>
 #include "modes.h"
-
-using CryptoPP::byte;
+#include "../types/byte.hpp"
 
 class AESDecryptor {
     using AESCtrDecryption = CryptoPP::CTR_Mode<CryptoPP::AES>::Decryption;

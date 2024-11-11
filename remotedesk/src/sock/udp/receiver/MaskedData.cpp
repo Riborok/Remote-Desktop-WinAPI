@@ -8,7 +8,7 @@ MaskedData::MaskedData(const size_t fragmentDataSize): _fragmentDataSize(fragmen
 
 void MaskedData::resize(const size_t size) {
     _data.resize(size, 0);
-    _mask.resize(size, TypeLimits::MAX_BYTE);
+    _mask.resize(size, TypeLimits::MAX_BYTE_VALUE);
 }
 
 void MaskedData::insert(const Fragment& fragment) {
