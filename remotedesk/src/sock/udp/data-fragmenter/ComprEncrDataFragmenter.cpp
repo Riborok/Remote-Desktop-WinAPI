@@ -1,4 +1,4 @@
-﻿#include "../../../../inc/sock/udp/data-fragmenter/CEDataFragmenter.hpp"
+﻿#include "../../../../inc/sock/udp/data-fragmenter/ComprEncrDataFragmenter.hpp"
 
 #include <execution>
 
@@ -6,18 +6,18 @@
 #include "../../../../inc/utils/aes/AESToolkit.hpp"
 #include "../../../../inc/utils/compression/CompressionToolkit.hpp"
 
-CEDataFragmenter::CEDataFragmenter(const std::vector<byte>& key, const FragmentDescriptor& fragmentDescriptor):
+ComprEncrDataFragmenter::ComprEncrDataFragmenter(const std::vector<byte>& key, const FragmentDescriptor& fragmentDescriptor):
     DataFragmenter(fragmentDescriptor.reduceDataSize(
         CompressionToolkit::METADATA_SIZE + AESToolkit::METADATA_SIZE)),
     _encryptor(key) { }
 
-std::vector<std::vector<byte>> CEDataFragmenter::createDataFragments(const std::vector<byte>& data) {
+std::vector<std::vector<byte>> ComprEncrDataFragmenter::createDataFragments(const std::vector<byte>& data) {
     const std::vector<std::vector<byte>> compressedDFs = compressDataFragments(data);
     const std::vector<std::vector<byte>> encryptedDFs = encryptDataFragments(compressedDFs);
     return encryptedDFs;
 }
 
-std::vector<std::vector<byte>> CEDataFragmenter::compressDataFragments(const std::vector<byte>& data) const {
+std::vector<std::vector<byte>> ComprEncrDataFragmenter::compressDataFragments(const std::vector<byte>& data) const {
     const size_t totalFragments = UDPToolkit::calcTotalFragments(data.size(), getFragmentDescriptor().getDataSize());
     std::vector<std::vector<byte>> compressedDFs(totalFragments);
     std::transform(std::execution::par, compressedDFs.begin(), compressedDFs.end(), compressedDFs.begin(),
@@ -30,7 +30,7 @@ std::vector<std::vector<byte>> CEDataFragmenter::compressDataFragments(const std
     return compressedDFs;
 }
 
-std::vector<std::vector<byte>> CEDataFragmenter::encryptDataFragments(const std::vector<std::vector<byte>>& compressedDFs) {
+std::vector<std::vector<byte>> ComprEncrDataFragmenter::encryptDataFragments(const std::vector<std::vector<byte>>& compressedDFs) {
     std::vector<std::vector<byte>> encryptedDFs(compressedDFs.size());
     for (size_t i = 0; i < compressedDFs.size(); ++i) {
         encryptedDFs[i] = _encryptor.encrypt(compressedDFs[i]);

@@ -34,10 +34,10 @@
     <ClInclude Include="inc\sock\dh\DHHelper.hpp" />
     <ClInclude Include="inc\sock\dh\DHKeyExchange.hpp" />
     <ClInclude Include="inc\sock\Socket.hpp" />
-    <ClInclude Include="inc\sock\udp\data-fragmenter\CEDataFragmenter.hpp" />
+    <ClInclude Include="inc\sock\udp\data-fragmenter\ComprEncrDataFragmenter.hpp" />
     <ClInclude Include="inc\sock\udp\data-fragmenter\DataFragmenter.hpp" />
     <ClInclude Include="inc\sock\udp\data-reassembler\DataReassembler.hpp" />
-    <ClInclude Include="inc\sock\udp\data-reassembler\DDDataReassembler.hpp" />
+    <ClInclude Include="inc\sock\udp\data-reassembler\DecrDecomprDataReassembler.hpp" />
     <ClInclude Include="inc\sock\udp\Fragment.hpp" />
     <ClInclude Include="inc\sock\udp\FragmentDescriptor.hpp" />
     <ClInclude Include="inc\sock\udp\Metadata.hpp" />
@@ -82,10 +82,10 @@
     <ClCompile Include="src\sock\dh\DHHelper.cpp" />
     <ClCompile Include="src\sock\dh\DHKeyExchange.cpp" />
     <ClCompile Include="src\sock\Socket.cpp" />
-    <ClCompile Include="src\sock\udp\data-fragmenter\CEDataFragmenter.cpp" />
+    <ClCompile Include="src\sock\udp\data-fragmenter\ComprEncrDataFragmenter.cpp" />
     <ClCompile Include="src\sock\udp\data-fragmenter\DataFragmenter.cpp" />
     <ClCompile Include="src\sock\udp\data-reassembler\DataReassembler.cpp" />
-    <ClCompile Include="src\sock\udp\data-reassembler\DDDataReassembler.cpp" />
+    <ClCompile Include="src\sock\udp\data-reassembler\DecrDecomprDataReassembler.cpp" />
     <ClCompile Include="src\sock\udp\FragmentDescriptor.cpp" />
     <ClCompile Include="src\sock\udp\receiver\FragmentBuffer.cpp">
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>

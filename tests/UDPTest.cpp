@@ -6,8 +6,8 @@
 #include "inc/utils.hpp"
 #include "sock/udp/receiver/UDPReceiver.hpp"
 #include "sock/udp/sender/UDPSender.hpp"
-#include "sock/udp/data-fragmenter/CEDataFragmenter.hpp"
-#include "sock/udp/data-reassembler/DDDataReassembler.hpp"
+#include "sock/udp/data-fragmenter/ComprEncrDataFragmenter.hpp"
+#include "sock/udp/data-reassembler/DecrDecomprDataReassembler.hpp"
 #include "utils/aes/AESToolkit.hpp"
 
 void performSendAndReceiveTest(const std::string& filename, const std::string& ip, const u_short port);
@@ -59,8 +59,8 @@ void performSendAndReceiveMultipleFilesTest(const std::vector<std::string>& file
 
 std::tuple<UDPSender, UDPReceiver> createUDPSenderAndReceiver(const std::string& ip, const u_short port,
         const std::vector<byte>& key) {
-    auto dataFragmenter = std::make_unique<CEDataFragmenter>(key);
-    auto dataReassembler = std::make_unique<DDDataReassembler>(key);
+    auto dataFragmenter = std::make_unique<ComprEncrDataFragmenter>(key);
+    auto dataReassembler = std::make_unique<DecrDecomprDataReassembler>(key);
     UDPSender sender(ip, port, std::move(dataFragmenter), 64*MemoryUnits::MEGABYTE);
     UDPReceiver receiver(port, std::move(dataReassembler), 64*MemoryUnits::MEGABYTE);
     return std::make_tuple(std::move(sender), std::move(receiver));

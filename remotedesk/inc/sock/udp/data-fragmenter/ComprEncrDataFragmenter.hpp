@@ -4,10 +4,10 @@
 #include "../../../aes/AESEncryptor.hpp"
 #include "../../../utils/sock/udp/UDPToolkit.hpp"
 
-class CEDataFragmenter final : public DataFragmenter {
+class ComprEncrDataFragmenter final : public DataFragmenter {
     AESEncryptor _encryptor;
 public:
-    explicit CEDataFragmenter(const std::vector<byte>& key, const FragmentDescriptor& fragmentDescriptor = UDPToolkit::MAX_FRAGMENT_DESCRIPTOR);
+    explicit ComprEncrDataFragmenter(const std::vector<byte>& key, const FragmentDescriptor& fragmentDescriptor = UDPToolkit::MAX_FRAGMENT_DESCRIPTOR);
     std::vector<std::vector<byte>> createDataFragments(const std::vector<byte>& data) override;
 private:
     std::vector<std::vector<byte>> compressDataFragments(const std::vector<byte>& data) const;
