@@ -56,7 +56,7 @@ bool FragmentCollector::isAllFragmentsReceived() const {
     return _stateTracker.getTotalFragments() == _fragmentBuffer.getSize();
 }
 
-std::vector<Fragment>&& FragmentCollector::extractFragments() {
+std::vector<Fragment> FragmentCollector::extractFragments() {
     _stateTracker.reset();
     return _fragmentBuffer.extractFragments();
 }

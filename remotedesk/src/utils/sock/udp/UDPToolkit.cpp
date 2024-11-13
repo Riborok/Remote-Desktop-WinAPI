@@ -35,8 +35,8 @@ void UDPToolkit::addId(std::vector<byte>& fragment, const size_t id) {
     addSizeTToFragment(fragment, id, fragment.size() - 3*sizeof(size_t));
 }
 
-void UDPToolkit::addSizeTToFragment(std::vector<byte>& fragment, const size_t value, const size_t startIdx) {
-    ByteArrayUtils::setValueByByteIndex(fragment, startIdx, value);
+void UDPToolkit::addSizeTToFragment(std::vector<byte>& fragment, const size_t value, const size_t index) {
+    ByteArrayUtils::setValueByByteIndex(fragment, index, value);
 }
 
 void UDPToolkit::populateFragment(Fragment& fragment, const int bytesReceived) {
@@ -58,6 +58,6 @@ size_t UDPToolkit::extractId(const std::vector<byte>& fragment, const int bytesR
     return extractSizeTFromFragment(fragment, bytesReceived - 3*sizeof(size_t));
 }
 
-size_t UDPToolkit::extractSizeTFromFragment(const std::vector<byte>& fragment, const size_t startIdx) {
-    return ByteArrayUtils::getValueByByteIndex<size_t>(fragment, startIdx);
+size_t UDPToolkit::extractSizeTFromFragment(const std::vector<byte>& fragment, const size_t index) {
+    return ByteArrayUtils::getValueByByteIndex<size_t>(fragment, index);
 }

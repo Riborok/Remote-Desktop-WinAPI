@@ -10,5 +10,5 @@ public:
     
     bool isEmpty() const;
     size_t getSize() const;
-    std::vector<Fragment>&& extractFragments();
+    std::vector<Fragment> extractFragments();
 };

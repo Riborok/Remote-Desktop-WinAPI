@@ -19,7 +19,7 @@ public:
                          const DWORD receiveBufferSize = 8*MemoryUnits::MEGABYTE, const DWORD receiveTimeoutMs = 1000);
     MaskedData receiveMaskedData();
 private:
-    std::vector<Fragment>&& receiveFragments();
+    std::vector<Fragment> receiveFragments();
     std::optional<Fragment> receiveFragment() const;
     int receiveData(std::vector<byte>& data) const;
     static bool isBytesReceivedValid(const int bytesReceived);

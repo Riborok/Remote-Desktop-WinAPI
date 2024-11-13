@@ -17,7 +17,7 @@ MaskedData UDPReceiver::receiveMaskedData() {
     return _dataReassembler->reassembleData(fragments);
 }
 
-std::vector<Fragment>&& UDPReceiver::receiveFragments() {
+std::vector<Fragment> UDPReceiver::receiveFragments() {
     if (_fragmentCollector.collectPreviousFragment()) {
         return _fragmentCollector.extractFragments();
     }

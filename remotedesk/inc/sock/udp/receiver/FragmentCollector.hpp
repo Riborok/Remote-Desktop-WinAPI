@@ -13,7 +13,7 @@ public:
     explicit FragmentCollector(const size_t fragmentDataSize);
     bool collectPreviousFragment();
     bool collectFragment(std::optional<Fragment>& optionalFragment);
-    std::vector<Fragment>&& extractFragments();
+    std::vector<Fragment> extractFragments();
 private:
     bool processFragment(Fragment& fragment);
     bool processUninitializedStateTracker(Fragment& fragment);
