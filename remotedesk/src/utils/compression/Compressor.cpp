@@ -26,7 +26,7 @@ bool Compressor::isDataCompressed(const int compressedSize) {
 
 std::vector<byte> Compressor::createUncompressedData(const byte* data, const size_t dataSize) {
     std::vector<byte> uncompressedData = createDataBuffer(dataSize, CompressionToolkit::UNCOMPRESSED_DATA_INDICATOR);
-    std::copy_n(data, dataSize, &uncompressedData[CompressionToolkit::METADATA_SIZE]);
+    std::memcpy(&uncompressedData[CompressionToolkit::METADATA_SIZE], data, dataSize);
     return uncompressedData;
 }
 
@@ -36,7 +36,7 @@ std::vector<byte> Compressor::createCompressedDataBuffer(const int dataSize) {
 
 std::vector<byte> Compressor::createDataBuffer(const size_t dataSize, const int metadataValue) {
     std::vector<byte> buffer(dataSize + CompressionToolkit::METADATA_SIZE);
-    ByteArrayUtils::setValue(buffer, 0, metadataValue);
+    ByteArrayUtils::setValue<Metadata>(buffer, 0, metadataValue);
     return buffer;
 }
 

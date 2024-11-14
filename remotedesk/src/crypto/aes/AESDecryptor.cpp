@@ -29,7 +29,7 @@ void AESDecryptor::validateCiphertextSize(const size_t ciphertextSize) {
 
 CryptoPP::SecByteBlock AESDecryptor::extractIV(const byte* ciphertext) {
     CryptoPP::SecByteBlock iv(AESToolkit::METADATA_SIZE);
-    std::copy_n(ciphertext, iv.size(), iv.data());
+    std::memcpy(iv.data(), ciphertext, iv.size());
     return iv;
 }
 

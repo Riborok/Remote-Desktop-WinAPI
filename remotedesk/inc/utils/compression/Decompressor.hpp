@@ -2,9 +2,11 @@
 
 #include <vector>
 
+#include "CompressionToolkit.hpp"
 #include "../../types/byte.hpp"
 
 class Decompressor {
+    using Metadata = CompressionToolkit::Metadata;
 public:
     Decompressor() = delete;
 
