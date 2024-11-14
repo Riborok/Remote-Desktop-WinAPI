@@ -49,7 +49,8 @@
     <ClInclude Include="inc\sock\udp\sender\UDPSender.hpp" />
     <ClInclude Include="inc\types\byte.hpp" />
     <ClInclude Include="inc\utils\aes\AESToolkit.hpp" />
-    <ClInclude Include="inc\utils\ByteArrayUtils.hpp" />
+    <ClInclude Include="inc\utils\array\ArrayChunkSplitter.hpp" />
+    <ClInclude Include="inc\utils\array\ByteArrayUtils.hpp" />
     <ClInclude Include="inc\utils\compression\CompressionToolkit.hpp" />
     <ClInclude Include="inc\utils\compression\Compressor.hpp" />
     <ClInclude Include="inc\utils\compression\Decompressor.hpp" />

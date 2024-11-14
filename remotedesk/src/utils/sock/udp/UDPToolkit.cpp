@@ -1,6 +1,6 @@
 ﻿#include "../../../../inc/utils/sock/udp/UDPToolkit.hpp"
 
-#include "../../../../inc/utils/ByteArrayUtils.hpp"
+#include "../../../../inc/utils/array/ByteArrayUtils.hpp"
 #include "../../../../inc/utils/MathUtils.hpp"
 
 const FragmentDescriptor UDPToolkit::MAX_FRAGMENT_DESCRIPTOR = FragmentDescriptor(MAX_FRAGMENT_SIZE);

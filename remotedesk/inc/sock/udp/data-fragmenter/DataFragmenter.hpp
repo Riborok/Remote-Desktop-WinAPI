@@ -17,6 +17,4 @@ public:
     DataFragmenter& operator=(DataFragmenter&&) = default;
     DataFragmenter(const DataFragmenter&) = default;
     DataFragmenter& operator=(const DataFragmenter&) = default;
-protected:
-    std::tuple<const byte*, size_t> getDataFragment(const std::vector<byte>& data, const size_t i) const;
 };

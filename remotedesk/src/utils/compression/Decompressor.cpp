@@ -3,7 +3,7 @@
 
 #include <lz4.h>
 
-#include "../../../inc/utils/ByteArrayUtils.hpp"
+#include "../../../inc/utils/array/ByteArrayUtils.hpp"
 #include "../../../inc/utils/compression/CompressionToolkit.hpp"
 
 std::vector<byte> Decompressor::decompress(const std::vector<byte>& compressedData) {

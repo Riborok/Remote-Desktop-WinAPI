@@ -2,6 +2,7 @@
 
 #include <execution>
 
+#include "../../../../inc/utils/array/ArrayChunkSplitter.hpp"
 #include "../../../../inc/utils/compression/Compressor.hpp"
 #include "../../../../inc/utils/aes/AESToolkit.hpp"
 #include "../../../../inc/utils/compression/CompressionToolkit.hpp"
@@ -18,12 +19,15 @@ std::vector<std::vector<byte>> ComprEncrDataFragmenter::createDataFragments(cons
 }
 
 std::vector<std::vector<byte>> ComprEncrDataFragmenter::compressDataFragments(const std::vector<byte>& data) const {
-    const size_t totalFragments = UDPToolkit::calcTotalFragments(data.size(), getFragmentDescriptor().getDataSize());
+    const size_t fragmentDataSize = getFragmentDescriptor().getDataSize();
+    const ArrayChunkSplitter<byte> dataChunker(data, fragmentDataSize);
+    const size_t totalFragments = UDPToolkit::calcTotalFragments(data.size(), fragmentDataSize);
+    
     std::vector<std::vector<byte>> compressedDFs(totalFragments);
     std::transform(std::execution::par, compressedDFs.begin(), compressedDFs.end(), compressedDFs.begin(),
         [&](const std::vector<byte>& fragment) {
             const size_t i = &fragment - compressedDFs.data();
-            const auto [begin, len] = getDataFragment(data, i);
+            const auto [begin, len] = dataChunker.getChunk(i);
             return Compressor::compress(begin, len);
         }
     );

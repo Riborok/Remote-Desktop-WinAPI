@@ -2,7 +2,7 @@
 
 #include <vector>
 
-#include "../types/byte.hpp"
+#include "../../types/byte.hpp"
 
 class ByteArrayUtils {
 public:
