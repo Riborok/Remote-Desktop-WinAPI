@@ -6,7 +6,7 @@
 #include "../../types/byte.hpp"
 
 class Decompressor {
-    using Metadata = CompressionToolkit::Metadata;
+    using OriginalSize = CompressionToolkit::OriginalSize;
 public:
     Decompressor() = delete;
 

@@ -11,7 +11,7 @@ std::vector<byte> Decompressor::decompress(const std::vector<byte>& compressedDa
 }
 
 std::vector<byte> Decompressor::decompress(const byte* compressedData, const size_t compressedDataSize) {
-    const int originalSize = ByteArrayUtils::getValue<Metadata>(compressedData, 0);
+    const int originalSize = ByteArrayUtils::getValue<OriginalSize>(compressedData, 0);
     if (isCompressedData(originalSize)) {
         std::vector<byte> decompressedData = createDecompressedDataBuffer(originalSize);
         performDecompression(compressedData, compressedDataSize, decompressedData);

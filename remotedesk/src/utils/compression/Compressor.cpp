@@ -36,7 +36,7 @@ std::vector<byte> Compressor::createCompressedDataBuffer(const int dataSize) {
 
 std::vector<byte> Compressor::createDataBuffer(const size_t dataSize, const int metadataValue) {
     std::vector<byte> buffer(dataSize + CompressionToolkit::METADATA_SIZE);
-    ByteArrayUtils::setValue<Metadata>(buffer, 0, metadataValue);
+    ByteArrayUtils::setValue<OriginalSize>(buffer, 0, metadataValue);
     return buffer;
 }
 
