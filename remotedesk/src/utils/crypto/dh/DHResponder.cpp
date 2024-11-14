@@ -1,6 +1,6 @@
-﻿#include "../../../inc/utils/dh/DHResponder.hpp"
+﻿#include "../../../../inc/utils/crypto/dh/DHResponder.hpp"
 
-#include "../../../inc/sock/dh/DHKeyExchange.hpp"
+#include "../../../../inc/sock/dh/DHKeyExchange.hpp"
 
 CryptoPP::Integer DHResponder::exchangeKeys(const Socket& sock) {
     DHKeyExchange dhKeyExchange(sock);

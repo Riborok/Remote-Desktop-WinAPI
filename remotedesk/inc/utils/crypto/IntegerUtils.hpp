@@ -2,7 +2,7 @@
 
 #include <integer.h>
 
-#include "../types/byte.hpp"
+#include "../../types/byte.hpp"
 
 class IntegerUtils {
 public:

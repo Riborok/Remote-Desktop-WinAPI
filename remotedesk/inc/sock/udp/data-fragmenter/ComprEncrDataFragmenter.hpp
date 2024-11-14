@@ -1,7 +1,7 @@
 ﻿#pragma once
 
 #include "DataFragmenter.hpp"
-#include "../../../aes/AESEncryptor.hpp"
+#include "../../../crypto/aes/AESEncryptor.hpp"
 #include "../../../utils/sock/udp/UDPToolkit.hpp"
 
 class ComprEncrDataFragmenter final : public DataFragmenter {

@@ -3,7 +3,7 @@
 #include <execution>
 
 #include "../../../../inc/utils/compression/Compressor.hpp"
-#include "../../../../inc/utils/aes/AESToolkit.hpp"
+#include "../../../../inc/utils/crypto/aes/AESToolkit.hpp"
 #include "../../../../inc/utils/compression/CompressionToolkit.hpp"
 #include "../../../../inc/utils/compression/Decompressor.hpp"
 

@@ -1,5 +1,5 @@
-﻿#include "utils/dh/DHResponder.hpp"
-#include "utils/dh/DHInitiator.hpp"
+﻿#include "utils/crypto/dh/DHResponder.hpp"
+#include "utils/crypto/dh/DHInitiator.hpp"
 #include "gtest/gtest.h"
 
 #include "inc/utils.hpp"

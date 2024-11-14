@@ -1,6 +1,6 @@
-﻿#include "../../inc/aes/AESDecryptor.hpp"
+﻿#include "../../../inc/crypto/aes/AESDecryptor.hpp"
 
-#include "../../inc/utils/aes/AESToolkit.hpp"
+#include "../../../inc/utils/crypto/aes/AESToolkit.hpp"
 
 AESDecryptor::AESDecryptor(const std::vector<byte>& key): _key(key) { }
 

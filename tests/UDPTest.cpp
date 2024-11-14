@@ -8,7 +8,7 @@
 #include "sock/udp/sender/UDPSender.hpp"
 #include "sock/udp/data-fragmenter/ComprEncrDataFragmenter.hpp"
 #include "sock/udp/data-reassembler/DecrDecomprDataReassembler.hpp"
-#include "utils/aes/AESToolkit.hpp"
+#include "utils/crypto/aes/AESToolkit.hpp"
 
 void performSendAndReceiveTest(const std::string& filename, const std::string& ip, const u_short port);
 void performSendAndReceiveMultipleFilesTest(const std::vector<std::string>& filenames, const std::string& ip, const u_short port);

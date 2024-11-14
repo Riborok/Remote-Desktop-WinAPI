@@ -1,8 +1,8 @@
 ﻿#include "inc/utils.hpp"
-#include "aes/AESDecryptor.hpp"
-#include "aes/AESEncryptor.hpp"
+#include "crypto/aes/AESDecryptor.hpp"
+#include "crypto/aes/AESEncryptor.hpp"
 #include "gtest/gtest.h"
-#include "utils/aes/AESToolkit.hpp"
+#include "utils/crypto/aes/AESToolkit.hpp"
 
 void performEncryptionDecryptionTest(const std::string& filename) {
     const std::vector<byte> data(readFileToBuffer(filename));

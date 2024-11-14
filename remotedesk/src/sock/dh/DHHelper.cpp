@@ -1,6 +1,6 @@
 ﻿#include "../../../inc/sock/dh/DHHelper.hpp"
 
-#include "../../../inc/utils/IntegerUtils.hpp"
+#include "../../../inc/utils/crypto/IntegerUtils.hpp"
 
 void DHHelper::generateRandomGroupParameters() {
     _dh.AccessGroupParameters().GenerateRandomWithKeySize(_rng, KEY_SIZE);

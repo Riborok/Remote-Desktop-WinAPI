@@ -1,7 +1,7 @@
-﻿#include "../../../inc/utils/sock/SocketIntegerUtils.hpp"
+﻿#include "../../../../inc/utils/sock/crypto/SocketIntegerUtils.hpp"
 
-#include "../../../inc/sock/dh/DHHelper.hpp"
-#include "../../../inc/utils/IntegerUtils.hpp"
+#include "../../../../inc/sock/dh/DHHelper.hpp"
+#include "../../../../inc/utils/crypto/IntegerUtils.hpp"
 
 void SocketIntegerUtils::sendInteger(const Socket& sock, const CryptoPP::Integer& value) {
     const std::vector<byte> buffer(IntegerUtils::toVector(value));

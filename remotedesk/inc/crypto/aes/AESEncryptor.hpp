@@ -4,7 +4,7 @@
 #include <osrng.h>
 #include <vector>
 #include "modes.h"
-#include "../types/byte.hpp"
+#include "../../types/byte.hpp"
 
 class AESEncryptor {
     using AESCtrEncryption = CryptoPP::CTR_Mode<CryptoPP::AES>::Encryption;

@@ -4,7 +4,7 @@
 
 #include "../../../../inc/utils/array/ArrayChunkSplitter.hpp"
 #include "../../../../inc/utils/compression/Compressor.hpp"
-#include "../../../../inc/utils/aes/AESToolkit.hpp"
+#include "../../../../inc/utils/crypto/aes/AESToolkit.hpp"
 #include "../../../../inc/utils/compression/CompressionToolkit.hpp"
 
 ComprEncrDataFragmenter::ComprEncrDataFragmenter(const std::vector<byte>& key, const FragmentDescriptor& fragmentDescriptor):

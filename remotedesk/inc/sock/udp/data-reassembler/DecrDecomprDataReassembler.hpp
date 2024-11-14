@@ -1,7 +1,7 @@
 ﻿#pragma once
 
 #include "DataReassembler.hpp"
-#include "../../../aes/AESDecryptor.hpp"
+#include "../../../crypto/aes/AESDecryptor.hpp"
 
 class DecrDecomprDataReassembler final : public DataReassembler {
     AESDecryptor _decryptor;

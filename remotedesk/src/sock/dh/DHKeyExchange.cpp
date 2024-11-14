@@ -1,6 +1,6 @@
 ﻿#include "../../../inc/sock/dh/DHKeyExchange.hpp"
 
-#include "../../../inc/utils/sock/SocketIntegerUtils.hpp"
+#include "../../../inc/utils/sock/crypto/SocketIntegerUtils.hpp"
 
 DHKeyExchange::DHKeyExchange(const Socket& socket): _sock(socket) {}
 

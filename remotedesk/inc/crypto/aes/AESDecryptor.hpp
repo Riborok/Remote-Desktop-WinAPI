@@ -3,7 +3,7 @@
 #include <aes.h>
 #include <vector>
 #include "modes.h"
-#include "../types/byte.hpp"
+#include "../../types/byte.hpp"
 
 class AESDecryptor {
     using AESCtrDecryption = CryptoPP::CTR_Mode<CryptoPP::AES>::Decryption;

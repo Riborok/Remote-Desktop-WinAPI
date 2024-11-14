@@ -1,7 +1,7 @@
 ﻿#pragma once
 
 #include <integer.h>
-#include "../../sock/Socket.hpp"
+#include "../../../sock/Socket.hpp"
 
 class SocketIntegerUtils {
 public:
