@@ -6,21 +6,21 @@
 const FragmentDescriptor UDPToolkit::MAX_FRAGMENT_DESCRIPTOR = FragmentDescriptor(MAX_FRAGMENT_SIZE);
 const FragmentDescriptor UDPToolkit::MTU_FRAGMENT_DESCRIPTOR = FragmentDescriptor(MTU_FRAGMENT_SIZE);
 
-size_t UDPToolkit::calcTotalFragments(const size_t dataSize, const size_t fragmentDataSize) {
-    return MathUtils::ceil(dataSize, fragmentDataSize);
+size_t UDPToolkit::calcTotalFragments(const size_t payloadSize, const size_t fragmentPayloadSize) {
+    return MathUtils::ceil(payloadSize, fragmentPayloadSize);
 }
 
-std::vector<byte> UDPToolkit::createFragment(const std::vector<byte>& dataFragment, const Metadata& metadata) {
-    std::vector<byte> fragment(dataFragment.size() + METADATA_SIZE);
-    addData(fragment, dataFragment);
-    addId(fragment, metadata.id);
+std::vector<byte> UDPToolkit::createFragment(const std::vector<byte>& fragmentPayload, const Metadata& metadata) {
+    std::vector<byte> fragment(fragmentPayload.size() + METADATA_SIZE);
+    addPayload(fragment, fragmentPayload);
+    addId(fragment, metadata.fragmentId);
     addFragmentNumber(fragment, metadata.fragmentNumber);
     addTotalSize(fragment, metadata.totalDataSize);
     return fragment;
 }
 
-void UDPToolkit::addData(std::vector<byte>& fragment, const std::vector<byte>& data) {
-    std::memcpy(fragment.data(), data.data(), data.size());
+void UDPToolkit::addPayload(std::vector<byte>& fragment, const std::vector<byte>& payload) {
+    std::memcpy(fragment.data(), payload.data(), payload.size());
 }
 
 void UDPToolkit::addTotalSize(std::vector<byte>& fragment, const size_t totalSize) {
@@ -40,10 +40,10 @@ void UDPToolkit::addSizeTToFragment(std::vector<byte>& fragment, const size_t va
 }
 
 void UDPToolkit::populateFragment(Fragment& fragment, const int bytesReceived) {
-    fragment.totalDataSize = extractTotalSize(fragment.data, bytesReceived);
-    fragment.fragmentNumber = extractFragmentNumber(fragment.data, bytesReceived);
-    fragment.id = extractId(fragment.data, bytesReceived);
-    fragment.data.resize(bytesReceived - METADATA_SIZE);
+    fragment.totalDataSize = extractTotalSize(fragment.payload, bytesReceived);
+    fragment.fragmentNumber = extractFragmentNumber(fragment.payload, bytesReceived);
+    fragment.fragmentId = extractId(fragment.payload, bytesReceived);
+    fragment.payload.resize(bytesReceived - METADATA_SIZE);
 }
 
 size_t UDPToolkit::extractTotalSize(const std::vector<byte>& fragment, const int bytesReceived) {

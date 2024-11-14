@@ -8,36 +8,36 @@
 #include "../../../../inc/utils/compression/CompressionToolkit.hpp"
 
 ComprEncrDataFragmenter::ComprEncrDataFragmenter(const std::vector<byte>& key, const FragmentDescriptor& fragmentDescriptor):
-    DataFragmenter(fragmentDescriptor.reduceDataSize(
+    DataFragmenter(fragmentDescriptor.reducePayloadSize(
         CompressionToolkit::METADATA_SIZE + AESToolkit::METADATA_SIZE)),
     _encryptor(key) { }
 
-std::vector<std::vector<byte>> ComprEncrDataFragmenter::createDataFragments(const std::vector<byte>& data) {
-    const std::vector<std::vector<byte>> compressedDFs = compressDataFragments(data);
-    const std::vector<std::vector<byte>> encryptedDFs = encryptDataFragments(compressedDFs);
-    return encryptedDFs;
+std::vector<std::vector<byte>> ComprEncrDataFragmenter::createFragmentPayloads(const std::vector<byte>& data) {
+    const std::vector<std::vector<byte>> compressedFPs = compressFragmentPayloads(data);
+    const std::vector<std::vector<byte>> encryptedFPs = encryptFragmentPayloads(compressedFPs);
+    return encryptedFPs;
 }
 
-std::vector<std::vector<byte>> ComprEncrDataFragmenter::compressDataFragments(const std::vector<byte>& data) const {
-    const size_t fragmentDataSize = getFragmentDescriptor().getDataSize();
-    const ArrayChunkSplitter<byte> dataChunker(data, fragmentDataSize);
+std::vector<std::vector<byte>> ComprEncrDataFragmenter::compressFragmentPayloads(const std::vector<byte>& data) const {
+    const size_t fragmentDataSize = getFragmentDescriptor().getPayloadSize();
+    const ArrayChunkSplitter<byte> chunkSplitter(data, fragmentDataSize);
     const size_t totalFragments = UDPToolkit::calcTotalFragments(data.size(), fragmentDataSize);
     
-    std::vector<std::vector<byte>> compressedDFs(totalFragments);
-    std::transform(std::execution::par, compressedDFs.begin(), compressedDFs.end(), compressedDFs.begin(),
+    std::vector<std::vector<byte>> compressedFPs(totalFragments);
+    std::transform(std::execution::par, compressedFPs.begin(), compressedFPs.end(), compressedFPs.begin(),
         [&](const std::vector<byte>& fragment) {
-            const size_t i = &fragment - compressedDFs.data();
-            const auto [begin, len] = dataChunker.getChunk(i);
+            const size_t i = &fragment - compressedFPs.data();
+            const auto [begin, len] = chunkSplitter.getChunk(i);
             return Compressor::compress(begin, len);
         }
     );
-    return compressedDFs;
+    return compressedFPs;
 }
 
-std::vector<std::vector<byte>> ComprEncrDataFragmenter::encryptDataFragments(const std::vector<std::vector<byte>>& compressedDFs) {
-    std::vector<std::vector<byte>> encryptedDFs(compressedDFs.size());
-    for (size_t i = 0; i < compressedDFs.size(); ++i) {
-        encryptedDFs[i] = _encryptor.encrypt(compressedDFs[i]);
+std::vector<std::vector<byte>> ComprEncrDataFragmenter::encryptFragmentPayloads(const std::vector<std::vector<byte>>& compressedFPs) {
+    std::vector<std::vector<byte>> encryptedFPs(compressedFPs.size());
+    for (size_t i = 0; i < compressedFPs.size(); ++i) {
+        encryptedFPs[i] = _encryptor.encrypt(compressedFPs[i]);
     }
-    return encryptedDFs;
+    return encryptedFPs;
 }

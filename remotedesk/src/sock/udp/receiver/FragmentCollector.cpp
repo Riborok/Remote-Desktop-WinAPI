@@ -1,6 +1,6 @@
 ﻿#include "../../../../inc/sock/udp/receiver/FragmentCollector.hpp"
 
-FragmentCollector::FragmentCollector(const size_t fragmentDataSize): _stateTracker(fragmentDataSize) { }
+FragmentCollector::FragmentCollector(const size_t fragmentPayloadSize): _stateTracker(fragmentPayloadSize) { }
 
 bool FragmentCollector::collectPreviousFragment() {
     if (_prevFragment) {

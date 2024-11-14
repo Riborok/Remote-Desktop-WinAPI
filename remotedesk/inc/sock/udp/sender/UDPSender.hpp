@@ -19,7 +19,7 @@ public:
               const DWORD sendBufferSize = MemoryUnits::MEGABYTE, const DWORD sendTimeoutMs = 1000);
     void send(const std::vector<byte>& data);
 private:
-    std::vector<std::vector<byte>> createFragments(const std::vector<std::vector<byte>>& dataFragments, const size_t totalSize) const;
+    std::vector<std::vector<byte>> createFragments(const std::vector<std::vector<byte>>& fragmentPayloads, const size_t totalSize) const;
     void sendFragments(const std::vector<std::vector<byte>>& fragments) const;
     void sendFragment(const std::vector<byte>& fragment) const;
 };

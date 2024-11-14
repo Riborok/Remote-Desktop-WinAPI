@@ -4,7 +4,7 @@
 #include "../../../../inc/utils/TypeLimits.hpp"
 #include "../../../../inc/utils/sock/udp/UDPToolkit.hpp"
 
-MaskedData::MaskedData(const size_t fragmentDataSize): _fragmentDataSize(fragmentDataSize) {}
+MaskedData::MaskedData(const size_t fragmentPayloadSize): _fragmentPayloadSize(fragmentPayloadSize) {}
 
 void MaskedData::resize(const size_t size) {
     _data.resize(size, 0);
@@ -12,9 +12,9 @@ void MaskedData::resize(const size_t size) {
 }
 
 void MaskedData::insert(const Fragment& fragment) {
-    const size_t offset = fragment.fragmentNumber * _fragmentDataSize;
-    std::memcpy(&_data[offset], fragment.data.data(), fragment.data.size());
-    std::memset(&_mask[offset], 0, fragment.data.size());
+    const size_t offset = fragment.fragmentNumber * _fragmentPayloadSize;
+    std::memcpy(&_data[offset], fragment.payload.data(), fragment.payload.size());
+    std::memset(&_mask[offset], 0, fragment.payload.size());
 }
 
 const std::vector<byte>& MaskedData::getData() const { return _data; }

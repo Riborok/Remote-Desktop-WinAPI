@@ -6,7 +6,7 @@
 UDPReceiver::UDPReceiver(const u_short port, std::unique_ptr<DataReassembler> dataReassembler,
         const DWORD receiveBufferSize, const DWORD receiveTimeoutMs):
             _dataReassembler(std::move(dataReassembler)),
-            _fragmentCollector(_dataReassembler->getFragmentDescriptor().getDataSize()) {
+            _fragmentCollector(_dataReassembler->getFragmentDescriptor().getPayloadSize()) {
     _socket.bindSocket(port);
     _socket.setReceiveBufferSize(receiveBufferSize);
     _socket.setReceiveTimeout(receiveTimeoutMs);
@@ -31,7 +31,7 @@ std::vector<Fragment> UDPReceiver::receiveFragments() {
 
 std::optional<Fragment> UDPReceiver::receiveFragment() const {
     Fragment fragment;
-    const int bytesReceived = receiveData(fragment.data);
+    const int bytesReceived = receiveData(fragment.payload);
     if (isBytesReceivedValid(bytesReceived)) {
         UDPToolkit::populateFragment(fragment, bytesReceived);
         return std::move(fragment);

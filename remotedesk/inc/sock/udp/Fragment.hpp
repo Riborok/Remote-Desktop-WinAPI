@@ -6,5 +6,5 @@
 #include "../../types/byte.hpp"
 
 struct Fragment: Metadata {
-    std::vector<byte> data;
+    std::vector<byte> payload;
 };

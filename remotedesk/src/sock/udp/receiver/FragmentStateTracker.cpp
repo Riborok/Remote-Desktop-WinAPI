@@ -2,7 +2,7 @@
 
 #include "../../../../inc/utils/sock/udp/UDPToolkit.hpp"
 
-FragmentStateTracker::FragmentStateTracker(const size_t fragmentDataSize): _fragmentDataSize(fragmentDataSize) { }
+FragmentStateTracker::FragmentStateTracker(const size_t fragmentPayloadSize): _fragmentPayloadSize(fragmentPayloadSize) { }
 
 void FragmentStateTracker::reset() {
     _isInitialized = false;
@@ -10,18 +10,18 @@ void FragmentStateTracker::reset() {
 }
 
 bool FragmentStateTracker::initialize(const Fragment& fragment) {
-    if (_prevId < fragment.id) {
+    if (_prevId < fragment.fragmentId) {
         _isInitialized = true;
         _prevId = _currentId;
-        _currentId = fragment.id;
-        _totalFragments = UDPToolkit::calcTotalFragments(fragment.totalDataSize, _fragmentDataSize);
+        _currentId = fragment.fragmentId;
+        _totalFragments = UDPToolkit::calcTotalFragments(fragment.totalDataSize, _fragmentPayloadSize);
         return true;
     }
     return false;
 }
 
 bool FragmentStateTracker::isOldFragment(const Fragment& fragment) {
-    if (_currentId > fragment.id) {
+    if (_currentId > fragment.fragmentId) {
         ++_oldFragmentCountInRow;
         return true;
     }
@@ -34,7 +34,7 @@ bool FragmentStateTracker::hasExceededOldFragmentCountInRow() const {
 }
 
 bool FragmentStateTracker::isNewFragment(const Fragment& fragment) const {
-    return _currentId < fragment.id;
+    return _currentId < fragment.fragmentId;
 }
 
 bool FragmentStateTracker::isInitialized() const { return _isInitialized; }

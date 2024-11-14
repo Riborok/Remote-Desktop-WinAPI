@@ -17,11 +17,11 @@ public:
     static const FragmentDescriptor MAX_FRAGMENT_DESCRIPTOR;
     static const FragmentDescriptor MTU_FRAGMENT_DESCRIPTOR;
 
-    static size_t calcTotalFragments(const size_t dataSize, const size_t fragmentDataSize);
-    static std::vector<byte> createFragment(const std::vector<byte>& dataFragment, const Metadata& metadata);
+    static size_t calcTotalFragments(const size_t payloadSize, const size_t fragmentPayloadSize);
+    static std::vector<byte> createFragment(const std::vector<byte>& fragmentPayload, const Metadata& metadata);
     static void populateFragment(Fragment& fragment, const int bytesReceived);
 private:
-    static void addData(std::vector<byte>& fragment, const std::vector<byte>& data);
+    static void addPayload(std::vector<byte>& fragment, const std::vector<byte>& payload);
     static void addTotalSize(std::vector<byte>& fragment, const size_t totalSize);
     static void addFragmentNumber(std::vector<byte>& fragment, const size_t fragmentNumber);
     static void addId(std::vector<byte>& fragment, const size_t id);

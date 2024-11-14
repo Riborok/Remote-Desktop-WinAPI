@@ -8,26 +8,26 @@
 #include "../../../../inc/utils/compression/Decompressor.hpp"
 
 DecrDecomprDataReassembler::DecrDecomprDataReassembler(const std::vector<byte>& key, const FragmentDescriptor& fragmentDescriptor):
-    DataReassembler(fragmentDescriptor.reduceDataSize(
+    DataReassembler(fragmentDescriptor.reducePayloadSize(
         CompressionToolkit::METADATA_SIZE + AESToolkit::METADATA_SIZE)),
     _decryptor(key) { }
 
 MaskedData DecrDecomprDataReassembler::reassembleData(std::vector<Fragment>& fragments) {
-    decryptDataFragments(fragments);
-    decompressDataFragments(fragments);
+    decryptFragmentPayloads(fragments);
+    decompressFragmentPayloads(fragments);
     return DataReassembler::reassembleData(fragments);
 }
 
-void DecrDecomprDataReassembler::decryptDataFragments(std::vector<Fragment>& fragments) {
+void DecrDecomprDataReassembler::decryptFragmentPayloads(std::vector<Fragment>& fragments) {
     for (auto& fragment : fragments) {
-        fragment.data = _decryptor.decrypt(fragment.data);
+        fragment.payload = _decryptor.decrypt(fragment.payload);
     }
 }
 
-void DecrDecomprDataReassembler::decompressDataFragments(std::vector<Fragment>& decryptedFragments) {
+void DecrDecomprDataReassembler::decompressFragmentPayloads(std::vector<Fragment>& decryptedFragments) {
     std::for_each(std::execution::par, decryptedFragments.begin(), decryptedFragments.end(),
         [](Fragment& fragment) {
-            fragment.data = Decompressor::decompress(fragment.data);
+            fragment.payload = Decompressor::decompress(fragment.payload);
         }
     );
 }

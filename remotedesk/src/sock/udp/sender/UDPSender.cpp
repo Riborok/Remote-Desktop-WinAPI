@@ -11,16 +11,16 @@ UDPSender::UDPSender(const std::string& ip, const u_short port, std::unique_ptr<
 }
 
 void UDPSender::send(const std::vector<byte>& data) {
-    const auto dataFragments = _dataFragmenter->createDataFragments(data);
-    const auto fragments = createFragments(dataFragments, data.size());
+    const std::vector<std::vector<byte>> fragmentPayloads = _dataFragmenter->createFragmentPayloads(data);
+    const std::vector<std::vector<byte>> fragments = createFragments(fragmentPayloads, data.size());
     sendFragments(fragments);
     ++_id;
 }
 
-std::vector<std::vector<byte>> UDPSender::createFragments(const std::vector<std::vector<byte>>& dataFragments, const size_t totalSize) const {
-    std::vector<std::vector<byte>> fragments(dataFragments.size());
-    for (size_t i = 0; i < dataFragments.size(); ++i) {
-        fragments[i] = UDPToolkit::createFragment(dataFragments[i], {_id, i, totalSize});
+std::vector<std::vector<byte>> UDPSender::createFragments(const std::vector<std::vector<byte>>& fragmentPayloads, const size_t totalSize) const {
+    std::vector<std::vector<byte>> fragments(fragmentPayloads.size());
+    for (size_t i = 0; i < fragmentPayloads.size(); ++i) {
+        fragments[i] = UDPToolkit::createFragment(fragmentPayloads[i], {_id, i, totalSize});
     }
     return fragments;
 }
