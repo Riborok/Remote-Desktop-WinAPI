@@ -3,13 +3,15 @@
 #include "gtest/gtest.h"
 #include "utils/compression/Decompressor.hpp"
 
-void performCompressionDecompressionTest(const std::string& filename) {
-    const std::vector<byte> data(readFileToBuffer(filename));
-    const std::vector<byte> compressedData = Compressor::compress(data);
-    const std::vector<byte> decompressedData = Decompressor::decompress(compressedData);
+namespace {
+    void performCompressionDecompressionTest(const std::string& filename) {
+        const std::vector<byte> data(readFileToBuffer(filename));
+        const std::vector<byte> compressedData = Compressor::compress(data);
+        const std::vector<byte> decompressedData = Decompressor::decompress(compressedData);
     
-    EXPECT_EQ(data.size(), decompressedData.size());
-    EXPECT_EQ(data, decompressedData);
+        EXPECT_EQ(data.size(), decompressedData.size());
+        EXPECT_EQ(data, decompressedData);
+    }
 }
 
 TEST(CompressionTest, CompressAndDecompressTXT) {
