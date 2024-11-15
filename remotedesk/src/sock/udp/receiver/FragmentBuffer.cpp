@@ -7,7 +7,7 @@ void FragmentBuffer::reserve(const size_t totalFragments) {
 }
 
 void FragmentBuffer::insertFragment(Fragment&& fragment) {
-    _fragments.push_back(std::move(fragment));
+    _fragments.emplace_back(std::move(fragment));
 }
 
 bool FragmentBuffer::isEmpty() const { return _fragments.empty(); }

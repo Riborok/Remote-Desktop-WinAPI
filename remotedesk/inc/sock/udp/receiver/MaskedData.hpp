@@ -6,11 +6,11 @@
 #include "../../../types/byte.hpp"
 
 class MaskedData {
-    size_t _fragmentPayloadSize;
+    size_t _fragmentDataSize;
     std::vector<byte> _data;
     std::vector<byte> _mask;
 public:
-    explicit MaskedData(const size_t fragmentPayloadSize);
+    explicit MaskedData(const size_t fragmentDataSize);
 
     void resize(const size_t size);
     void insert(const Fragment& fragment);

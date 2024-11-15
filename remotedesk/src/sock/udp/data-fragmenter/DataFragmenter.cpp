@@ -6,8 +6,19 @@
 DataFragmenter::DataFragmenter(const FragmentDescriptor& fragmentDescriptor):
     _fragmentDescriptor(fragmentDescriptor) { }
 
-std::vector<std::vector<byte>> DataFragmenter::createFragmentPayloads(const std::vector<byte>& data) {
-    const size_t fragmentDataSize = _fragmentDescriptor.getPayloadSize();
+std::vector<std::vector<byte>> DataFragmenter::createFragments(const std::vector<byte>& data) {
+    std::vector<std::vector<byte>> fragments = splitDataIntoFragments(data);
+    ++_id;
+    return fragments;
+}
+
+std::vector<std::vector<byte>> DataFragmenter::splitDataIntoFragments(const std::vector<byte>& data) {
+    const std::vector<std::vector<byte>> fragmentPayloads = createFragmentPayloads(data);
+    return createFragments(fragmentPayloads, data.size());
+}
+
+std::vector<std::vector<byte>> DataFragmenter::createFragmentPayloads(const std::vector<byte>& data) const {
+    const size_t fragmentDataSize = _fragmentDescriptor.getDataSize();
     const ArrayChunkSplitter<byte> chunkSplitter(data, fragmentDataSize);
     const size_t totalFragments = UDPToolkit::calcTotalFragments(data.size(), fragmentDataSize);
     
@@ -18,5 +29,15 @@ std::vector<std::vector<byte>> DataFragmenter::createFragmentPayloads(const std:
     }
     return fragmentPayloads;
 }
+
+std::vector<std::vector<byte>> DataFragmenter::createFragments(const std::vector<std::vector<byte>>& fragmentPayloads, const size_t totalSize) const {
+    std::vector<std::vector<byte>> fragments(fragmentPayloads.size());
+    for (size_t i = 0; i < fragmentPayloads.size(); ++i) {
+        fragments[i] = UDPToolkit::createFragment(fragmentPayloads[i], {_id, i, totalSize});
+    }
+    return fragments;
+}
+
+size_t DataFragmenter::getId() const { return _id; }
 
 const FragmentDescriptor& DataFragmenter::getFragmentDescriptor() const { return _fragmentDescriptor; }

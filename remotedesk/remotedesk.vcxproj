@@ -66,6 +66,8 @@
     <ClInclude Include="inc\utils\sock\SockaddrUtils.hpp" />
     <ClInclude Include="inc\utils\sock\SocketErrorChecker.hpp" />
     <ClInclude Include="inc\utils\sock\tcp\TCPUtils.hpp" />
+    <ClInclude Include="inc\utils\sock\udp\PayloadMerger.hpp" />
+    <ClInclude Include="inc\utils\sock\udp\PayloadSplitter.hpp" />
     <ClInclude Include="inc\utils\sock\udp\UDPToolkit.hpp" />
     <ClInclude Include="inc\utils\sock\WinSockUtils.hpp" />
     <ClInclude Include="inc\utils\TypeLimits.hpp" />
@@ -106,6 +108,8 @@
     <ClCompile Include="src\utils\sock\SockaddrUtils.cpp" />
     <ClCompile Include="src\utils\sock\SocketErrorChecker.cpp" />
     <ClCompile Include="src\utils\sock\tcp\TCPUtils.cpp" />
+    <ClCompile Include="src\utils\sock\udp\PayloadMerger.cpp" />
+    <ClCompile Include="src\utils\sock\udp\PayloadSplitter.cpp" />
     <ClCompile Include="src\utils\sock\udp\UDPToolkit.cpp" />
     <ClCompile Include="src\utils\sock\WinSockUtils.cpp" />
   </ItemGroup>

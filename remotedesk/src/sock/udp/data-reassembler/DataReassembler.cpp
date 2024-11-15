@@ -4,7 +4,7 @@ DataReassembler::DataReassembler(const FragmentDescriptor& fragmentDescriptor):
     _fragmentDescriptor(fragmentDescriptor) { }
 
 MaskedData DataReassembler::reassembleData(std::vector<Fragment>& fragments) {
-    MaskedData maskedData(_fragmentDescriptor.getPayloadSize());
+    MaskedData maskedData(_fragmentDescriptor.getDataSize());
     if (fragments.empty()) {
         return maskedData;
     }

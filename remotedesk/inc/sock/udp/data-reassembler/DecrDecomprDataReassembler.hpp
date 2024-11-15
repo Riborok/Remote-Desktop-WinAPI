@@ -10,5 +10,8 @@ public:
     MaskedData reassembleData(std::vector<Fragment>& fragments) override;
 private:
     void decryptFragmentPayloads(std::vector<Fragment>& fragments);
+    static void splitIntoChunks(std::vector<Fragment>& fragments);
+    static std::vector<Fragment> createFragmentChunks(const std::vector<Fragment>& fragments);
+    static void addFragmentChunks(std::vector<Fragment>& chunksOfFragments, const Fragment& fragment);
     static void decompressFragmentPayloads(std::vector<Fragment>& decryptedFragments);
 };

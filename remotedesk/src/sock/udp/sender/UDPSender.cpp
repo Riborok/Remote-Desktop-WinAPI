@@ -1,7 +1,6 @@
 ﻿#include "../../../../inc/sock/udp/sender/UDPSender.hpp"
 
 #include "../../../../inc/utils/sock/SockaddrUtils.hpp"
-#include "../../../../inc/utils/sock/udp/UDPToolkit.hpp"
 
 UDPSender::UDPSender(const std::string& ip, const u_short port, std::unique_ptr<DataFragmenter> dataFragmenter,
         const DWORD sendBufferSize, const DWORD sendTimeoutMs): _dataFragmenter(std::move(dataFragmenter)) {
@@ -10,19 +9,9 @@ UDPSender::UDPSender(const std::string& ip, const u_short port, std::unique_ptr<
     _socket.setSendTimeout(sendTimeoutMs);
 }
 
-void UDPSender::send(const std::vector<byte>& data) {
-    const std::vector<std::vector<byte>> fragmentPayloads = _dataFragmenter->createFragmentPayloads(data);
-    const std::vector<std::vector<byte>> fragments = createFragments(fragmentPayloads, data.size());
+void UDPSender::send(const std::vector<byte>& data) const {
+    const std::vector<std::vector<byte>> fragments = _dataFragmenter->createFragments(data);
     sendFragments(fragments);
-    ++_id;
-}
-
-std::vector<std::vector<byte>> UDPSender::createFragments(const std::vector<std::vector<byte>>& fragmentPayloads, const size_t totalSize) const {
-    std::vector<std::vector<byte>> fragments(fragmentPayloads.size());
-    for (size_t i = 0; i < fragmentPayloads.size(); ++i) {
-        fragments[i] = UDPToolkit::createFragment(fragmentPayloads[i], {_id, i, totalSize});
-    }
-    return fragments;
 }
 
 void UDPSender::sendFragments(const std::vector<std::vector<byte>>& fragments) const {

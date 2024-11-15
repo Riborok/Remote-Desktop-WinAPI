@@ -14,7 +14,7 @@ void performSendAndReceiveTest(const std::string& filename, const std::string& i
 void performSendAndReceiveMultipleFilesTest(const std::vector<std::string>& filenames, const std::string& ip, const u_short port);
 std::tuple<UDPSender, UDPReceiver> createUDPSenderAndReceiver(const std::string& ip, const u_short port, const std::vector<byte>& key);
 std::thread performReceiverTest(UDPReceiver& receiver, const std::vector<std::vector<byte>>& allData);
-std::thread performSenderTest(UDPSender& sender, const std::vector<std::vector<byte>>& allData);
+std::thread performSenderTest(const UDPSender& sender, const std::vector<std::vector<byte>>& allData);
 void verifyReceivedData(const MaskedData& maskedData, const std::vector<byte>& expectedData);
 
 TEST_F(NetworkTestBase, SendAndReceiveMultipleFragmentsJPG) {
@@ -47,7 +47,7 @@ void performSendAndReceiveTest(const std::string& filename, const std::string& i
 void performSendAndReceiveMultipleFilesTest(const std::vector<std::string>& filenames, const std::string& ip, const u_short port) {
     std::vector<std::vector<byte>> allData;
     for (const auto& filename : filenames) {
-        allData.push_back(readFileToBuffer(filename));
+        allData.emplace_back(readFileToBuffer(filename));
     }
     const std::vector<byte> key(AESToolkit::MAX_KEY_LENGTH, 42);
     auto [sender, receiver] = createUDPSenderAndReceiver(ip, port, key);
@@ -75,7 +75,7 @@ std::thread performReceiverTest(UDPReceiver& receiver, const std::vector<std::ve
     return receiverThread;
 }
 
-std::thread performSenderTest(UDPSender& sender, const std::vector<std::vector<byte>>& allData) {
+std::thread performSenderTest(const UDPSender& sender, const std::vector<std::vector<byte>>& allData) {
     std::thread senderThread([&] {
         for (const auto& data : allData) {
            sender.send(data);
