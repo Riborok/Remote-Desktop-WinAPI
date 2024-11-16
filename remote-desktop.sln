@@ -4,12 +4,21 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.9.34728.123
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "receiver", "receiver\receiver.vcxproj", "{408D8CFE-AEC6-4EAB-9DFB-555FA746B0AD}"
+	ProjectSection(ProjectDependencies) = postProject
+		{7981B44F-9036-4CEC-AAD7-5ECF48C5DC02} = {7981B44F-9036-4CEC-AAD7-5ECF48C5DC02}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "sender", "sender\sender.vcxproj", "{5D3577A7-29C9-45AE-8F27-0CB0734F65F9}"
+	ProjectSection(ProjectDependencies) = postProject
+		{7981B44F-9036-4CEC-AAD7-5ECF48C5DC02} = {7981B44F-9036-4CEC-AAD7-5ECF48C5DC02}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "remotedesk", "remotedesk\remotedesk.vcxproj", "{7981B44F-9036-4CEC-AAD7-5ECF48C5DC02}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tests", "tests\tests.vcxproj", "{C4B1B37B-DAE2-4F3B-994F-07B8FDE0C6B5}"
+	ProjectSection(ProjectDependencies) = postProject
+		{7981B44F-9036-4CEC-AAD7-5ECF48C5DC02} = {7981B44F-9036-4CEC-AAD7-5ECF48C5DC02}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

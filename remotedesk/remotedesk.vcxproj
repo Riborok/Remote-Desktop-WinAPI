@@ -23,6 +23,7 @@
     <ClInclude Include="inc\crypto\aes\AESEncryptor.hpp" />
     <ClInclude Include="inc\dt\ThreadSafeQueue.hpp" />
     <ClInclude Include="inc\screen\bitmap\Bitmap.hpp" />
+    <ClInclude Include="inc\screen\capture\CursorCapture.hpp" />
     <ClInclude Include="inc\screen\capture\ScreenCapture.hpp" />
     <ClInclude Include="inc\screen\capture\ScreenCaptureWorker.hpp" />
     <ClInclude Include="inc\screen\DC.hpp" />
@@ -60,6 +61,7 @@
     <ClInclude Include="inc\utils\factory\bitmap\BitmapFactory.hpp" />
     <ClInclude Include="inc\utils\MathUtils.hpp" />
     <ClInclude Include="inc\utils\MemoryUnits.hpp" />
+    <ClInclude Include="inc\utils\screen\Scaler.hpp" />
     <ClInclude Include="inc\utils\screen\ScreenUtils.hpp" />
     <ClInclude Include="inc\utils\screen\SizeUtils.hpp" />
     <ClInclude Include="inc\utils\sock\crypto\SocketIntegerUtils.hpp" />
@@ -76,6 +78,7 @@
     <ClCompile Include="src\crypto\aes\AESDecryptor.cpp" />
     <ClCompile Include="src\crypto\aes\AESEncryptor.cpp" />
     <ClCompile Include="src\screen\bitmap\Bitmap.cpp" />
+    <ClCompile Include="src\screen\capture\CursorCapture.cpp" />
     <ClCompile Include="src\screen\capture\ScreenCapture.cpp" />
     <ClCompile Include="src\screen\capture\ScreenCaptureWorker.cpp" />
     <ClCompile Include="src\screen\DC.cpp" />
@@ -102,6 +105,7 @@
     <ClCompile Include="src\utils\crypto\dh\DHResponder.cpp" />
     <ClCompile Include="src\utils\crypto\IntegerUtils.cpp" />
     <ClCompile Include="src\utils\factory\bitmap\BitmapFactory.cpp" />
+    <ClCompile Include="src\utils\screen\Scaler.cpp" />
     <ClCompile Include="src\utils\screen\ScreenUtils.cpp" />
     <ClCompile Include="src\utils\screen\SizeUtils.cpp" />
     <ClCompile Include="src\utils\sock\crypto\SocketIntegerUtils.cpp" />

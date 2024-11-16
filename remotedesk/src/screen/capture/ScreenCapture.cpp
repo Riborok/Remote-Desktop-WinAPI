@@ -4,14 +4,15 @@
 #include "../../../inc/utils/screen/ScreenUtils.hpp"
 
 ScreenCapture::ScreenCapture(const SIZE& targetSize): _dc(nullptr),
-        _fullScreenBitmap(BitmapFactory::createDDBitmap(_dc.getHDC(), ScreenUtils::getScreenSize())),
+        _originalSize(ScreenUtils::getScreenSize()),
         _scaledBitmap(BitmapFactory::createDDBitmap(_dc.getHDC(), targetSize)) {
     _scaledBitmap.enableHighQualityStretching();
 }
 
 std::vector<byte> ScreenCapture::capture() {
-    _fullScreenBitmap.copyFrom(_dc.getHDC());
-    _fullScreenBitmap.drawIcon(ScreenUtils::getCursor());
-    _scaledBitmap.stretchFrom(_fullScreenBitmap);
+    _scaledBitmap.stretchFrom(_dc.getHDC(), _originalSize);
+    if (const auto cursor = _cursorCapture.capture()) {
+        _scaledBitmap.drawScaledIcon(*cursor, _originalSize);   
+    }
     return _scaledBitmap.getDIBits();
 }

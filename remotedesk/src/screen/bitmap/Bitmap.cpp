@@ -1,5 +1,6 @@
 ﻿#include "../../../inc/screen/bitmap/Bitmap.hpp"
 
+#include "../../../inc/utils/screen/Scaler.hpp"
 #include "../../../inc/utils/screen/ScreenUtils.hpp"
 
 Bitmap::Bitmap(const HDC hScreenDc, const HBITMAP hMemoryBitmap, const SIZE& size, const BITMAPINFOHEADER& bi):
@@ -56,6 +57,13 @@ void Bitmap::setDIBits(const std::vector<byte>& data) const {
 
 void Bitmap::drawIcon(const Icon& icon) const {
     DrawIcon(_hMemoryDc, icon.point.x, icon.point.y, icon.hIcon);
+}
+
+void Bitmap::drawScaledIcon(const Icon& icon, const SIZE& iconSourceSize) const {
+    const Scaler scaler(iconSourceSize, _size);
+    const auto [x, y] = scaler.scalePoint(icon.point);
+    const auto [width, height] = scaler.scaleSize(icon.size);
+    DrawIconEx(_hMemoryDc, x, y, icon.hIcon, width, height, 0, nullptr, DI_NORMAL);
 }
 
 const SIZE& Bitmap::getSize() const {

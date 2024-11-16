@@ -26,15 +26,17 @@ public:
     std::vector<byte> getDIBits();
     void setDIBits(const std::vector<byte>& data) const;
     void drawIcon(const Icon& icon) const;
+    void drawScaledIcon(const Icon& icon, const SIZE& iconSourceSize) const;
     const SIZE& getSize() const;
 
     ~Bitmap();
 
     Bitmap(Bitmap&&) noexcept;
     Bitmap& operator=(Bitmap&&) noexcept;
-    void releaseResources() const noexcept;
-    void resetResources() noexcept;
-
+    
     Bitmap(const Bitmap&) = delete;
     Bitmap& operator=(const Bitmap&) = delete;
+private:
+    void releaseResources() const noexcept;
+    void resetResources() noexcept;
 };
