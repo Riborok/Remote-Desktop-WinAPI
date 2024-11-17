@@ -12,7 +12,7 @@ UDPReceiver::UDPReceiver(const u_short port, std::unique_ptr<DataReassembler> da
     _socket.setReceiveTimeout(receiveTimeoutMs);
 }
 
-MaskedData UDPReceiver::receiveMaskedData() {
+std::vector<byte> UDPReceiver::receive() {
     std::vector<Fragment> fragments(receiveFragments());
     return _dataReassembler->reassembleData(fragments);
 }

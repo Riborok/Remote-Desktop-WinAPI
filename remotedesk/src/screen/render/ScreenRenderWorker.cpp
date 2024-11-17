@@ -1,6 +1,6 @@
 ﻿#include "../../../inc/screen/render/ScreenRenderWorker.hpp"
 
-ScreenRenderWorker::ScreenRenderWorker(ThreadSafeQueue<MaskedData>& queue,
+ScreenRenderWorker::ScreenRenderWorker(ThreadSafeQueue<std::vector<byte>>& queue,
         const HWND hWnd, const SIZE& appSize, const SIZE& receivedSize, const int fps) :
     Worker(fps), _queue(queue), _screenRender(hWnd, appSize, receivedSize) { }
 

@@ -17,12 +17,8 @@ class Bitmap {
     Bitmap(const HDC hScreenDc, const HBITMAP hMemoryBitmap, const SIZE& size, const BITMAPINFOHEADER& bi);
 public:
     void enableHighQualityStretching() const;
-    void copyFrom(const HDC src) const;
-    void copyTo(const HDC dest) const;
-    void stretchFrom(const Bitmap& src, const DWORD rop = SRCCOPY) const;
-    void stretchFrom(const HDC src, const SIZE& srcSize, const DWORD rop = SRCCOPY) const;
-    void stretchTo(const Bitmap& dest, const DWORD rop = SRCCOPY) const;
-    void stretchTo(const HDC dest, const SIZE& destSize, const DWORD rop = SRCCOPY) const;
+    void stretchedCopyFrom(const HDC src, const SIZE& srcSize) const;
+    void stretchedCopyTo(const HDC dest, const SIZE& destSize) const;
     std::vector<byte> getDIBits();
     void setDIBits(const std::vector<byte>& data) const;
     void drawIcon(const Icon& icon) const;

@@ -65,11 +65,11 @@ void asyncReceiveData(const Socket& socket) {
     const SIZE remoteSize = receiveSize(socket);
     std::vector<byte> key(AESToolkit::MAX_KEY_LENGTH, 42);
     UDPReceiver receiver(config.udpPort, std::make_unique<DecrDecomprDataReassembler>(key));
-    ThreadSafeQueue<MaskedData> queue;
+    ThreadSafeQueue<std::vector<byte>> queue;
     ScreenRenderWorker screenRender(queue, hwnd, size, remoteSize, 70);
     screenRender.start();
     while (isRunning) {
-        queue.enqueue(std::make_unique<MaskedData>(receiver.receiveMaskedData()));
+        queue.enqueue(std::make_unique<std::vector<byte>>(receiver.receive()));
     }
 }
 

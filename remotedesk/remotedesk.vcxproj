@@ -45,7 +45,6 @@
     <ClInclude Include="inc\sock\udp\receiver\FragmentBuffer.hpp" />
     <ClInclude Include="inc\sock\udp\receiver\FragmentCollector.hpp" />
     <ClInclude Include="inc\sock\udp\receiver\FragmentStateTracker.hpp" />
-    <ClInclude Include="inc\sock\udp\receiver\MaskedData.hpp" />
     <ClInclude Include="inc\sock\udp\receiver\UDPReceiver.hpp" />
     <ClInclude Include="inc\sock\udp\sender\UDPSender.hpp" />
     <ClInclude Include="inc\types\byte.hpp" />
@@ -96,7 +95,6 @@
     <ClCompile Include="src\sock\udp\receiver\FragmentBuffer.cpp" />
     <ClCompile Include="src\sock\udp\receiver\FragmentCollector.cpp" />
     <ClCompile Include="src\sock\udp\receiver\FragmentStateTracker.cpp" />
-    <ClCompile Include="src\sock\udp\receiver\MaskedData.cpp" />
     <ClCompile Include="src\sock\udp\receiver\UDPReceiver.cpp" />
     <ClCompile Include="src\sock\udp\sender\UDPSender.cpp" />
     <ClCompile Include="src\utils\compression\Compressor.cpp" />

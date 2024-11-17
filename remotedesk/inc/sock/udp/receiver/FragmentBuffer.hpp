@@ -1,6 +1,8 @@
 ﻿#pragma once
 
-#include "MaskedData.hpp"
+#include <vector>
+
+#include "../Fragment.hpp"
 
 class FragmentBuffer {
     std::vector<Fragment> _fragments;

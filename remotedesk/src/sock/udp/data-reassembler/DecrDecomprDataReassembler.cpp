@@ -15,7 +15,7 @@ DecrDecomprDataReassembler::DecrDecomprDataReassembler(const std::vector<byte>& 
             .reduceDataSize(PayloadMerger::PREFIX_SIZE)),
     _decryptor(key) { }
 
-MaskedData DecrDecomprDataReassembler::reassembleData(std::vector<Fragment>& fragments) {
+std::vector<byte> DecrDecomprDataReassembler::reassembleData(std::vector<Fragment>& fragments) {
     decryptFragmentPayloads(fragments);
     splitIntoChunks(fragments);
     decompressFragmentPayloads(fragments);

@@ -10,7 +10,7 @@ ScreenCapture::ScreenCapture(const SIZE& targetSize): _dc(nullptr),
 }
 
 std::vector<byte> ScreenCapture::capture() {
-    _scaledBitmap.stretchFrom(_dc.getHDC(), _originalSize);
+    _scaledBitmap.stretchedCopyFrom(_dc.getHDC(), _originalSize);
     if (const auto cursor = _cursorCapture.capture()) {
         _scaledBitmap.drawScaledIcon(*cursor, _originalSize);   
     }

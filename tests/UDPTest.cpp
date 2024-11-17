@@ -17,7 +17,7 @@ namespace {
     std::tuple<UDPSender, UDPReceiver> createPlainUDPSenderAndReceiver(const std::string& ip, const u_short port);
     std::thread performReceiverTest(UDPReceiver& receiver, const std::vector<std::vector<byte>>& allData);
     std::thread performSenderTest(const UDPSender& sender, const std::vector<std::vector<byte>>& allData);
-    void verifyReceivedData(const MaskedData& maskedData, const std::vector<byte>& expectedData);
+    void verifyReceivedData(const std::vector<byte>& data, const std::vector<byte>& expectedData);
 }
 
 TEST_F(NetworkTestBase, SendAndReceivePlainMultipleFragmentsJPG) {
@@ -49,7 +49,7 @@ TEST_F(NetworkTestBase, SendAndReceiveMultipleFragmentsTXT) {
     performSendAndReceiveTest("res/test.txt", IP, PORT, udpSenderReceiver);
 }
 
-TEST_F(NetworkTestBase, SendAndReceiveFiveMaskedFiles) {
+TEST_F(NetworkTestBase, SendAndReceiveFiveFiles) {
     const std::vector<std::string> filenames = {"res/test.txt", "res/test.jpg"};
     const std::vector<byte> key(AESToolkit::MAX_KEY_LENGTH, 42);
     auto udpSenderReceiver = createSecureUDPSenderAndReceiver(IP, PORT, key);
@@ -97,7 +97,7 @@ namespace {
     std::thread performReceiverTest(UDPReceiver& receiver, const std::vector<std::vector<byte>>& allData) {
         return std::thread([&] {
             for (const auto& expectedData : allData) {
-                verifyReceivedData(receiver.receiveMaskedData(), expectedData);
+                verifyReceivedData(receiver.receive(), expectedData);
             }
         });
     }
@@ -111,8 +111,7 @@ namespace {
         });
     }
 
-    void verifyReceivedData(const MaskedData& maskedData, const std::vector<byte>& expectedData) {
-        EXPECT_EQ(maskedData.getData(), expectedData);
-        EXPECT_EQ(maskedData.getMask(), std::vector<byte>(maskedData.getData().size(), 0));
+    void verifyReceivedData(const std::vector<byte>& data, const std::vector<byte>& expectedData) {
+        EXPECT_EQ(data, expectedData);
     }
 }

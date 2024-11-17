@@ -17,7 +17,7 @@ class UDPReceiver {
 public:
     explicit UDPReceiver(const u_short port, std::unique_ptr<DataReassembler> dataReassembler,
                          const DWORD receiveBufferSize = 8*MemoryUnits::MEGABYTE, const DWORD receiveTimeoutMs = 1000);
-    MaskedData receiveMaskedData();
+    std::vector<byte> receive();
 private:
     std::vector<Fragment> receiveFragments();
     std::optional<Fragment> receiveFragment() const;

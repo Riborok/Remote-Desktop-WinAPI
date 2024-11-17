@@ -7,7 +7,7 @@ class DecrDecomprDataReassembler final : public DataReassembler {
     AESDecryptor _decryptor;
 public:
     explicit DecrDecomprDataReassembler(const std::vector<byte>& key, const FragmentDescriptor& fragmentDescriptor = UDPToolkit::MAX_FRAGMENT_DESCRIPTOR);
-    MaskedData reassembleData(std::vector<Fragment>& fragments) override;
+    std::vector<byte> reassembleData(std::vector<Fragment>& fragments) override;
 private:
     void decryptFragmentPayloads(std::vector<Fragment>& fragments);
     static void splitIntoChunks(std::vector<Fragment>& fragments);
