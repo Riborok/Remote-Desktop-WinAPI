@@ -11,6 +11,7 @@ class ScreenRenderWorker final : public Worker {
 public:
     ScreenRenderWorker(ThreadSafeQueue<std::vector<byte>>& queue,
         const HWND hWnd, const SIZE& appSize, const SIZE& receivedSize, const int fps = 30);
+    void updateAppSize(const SIZE& appSize);
 protected:
     void process() override;
 };

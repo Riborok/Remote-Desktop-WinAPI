@@ -1,6 +1,7 @@
 ﻿#include <atomic>
 #include <fstream>
 #include <thread>
+#include <sstream>
 
 #include "sock/Socket.hpp"
 #include "utils/sock/tcp/TCPUtils.hpp"
@@ -48,7 +49,6 @@ Config parseConfig(const std::string& filename) {
 }
 
 HWND hwnd;
-SIZE size;
 Config config;
 
 SIZE receiveSize(const Socket& s) {
@@ -60,14 +60,15 @@ SIZE receiveSize(const Socket& s) {
 }
 
 std::atomic<bool> isRunning(true);
+std::unique_ptr<ScreenRenderWorker> screenRender = nullptr;
 
 void asyncReceiveData(const Socket& socket) {
     const SIZE remoteSize = receiveSize(socket);
     std::vector<byte> key(AESToolkit::MAX_KEY_LENGTH, 42);
     UDPReceiver receiver(config.udpPort, std::make_unique<DecrDecomprDataReassembler>(key));
     ThreadSafeQueue<std::vector<byte>> queue;
-    ScreenRenderWorker screenRender(queue, hwnd, size, remoteSize, 70);
-    screenRender.start();
+    screenRender = std::make_unique<ScreenRenderWorker>(queue, hwnd, SIZE{5, 5}, remoteSize, 70);
+    screenRender->start();
     while (isRunning) {
         queue.enqueue(std::make_unique<std::vector<byte>>(receiver.receive()));
     }
@@ -102,10 +103,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
             DispatchMessage(&msg);
         }
     }
-
+    
+    screenRender->stop();
     isRunning = false;
     receivingThread.join();
-    
     WinSockUtils::cleanupWinSock();
     return 0;
 }
@@ -118,8 +119,9 @@ LRESULT CALLBACK windowProc(const HWND hwnd, const UINT uMsg, const WPARAM wPara
             PostQuitMessage(0);
             break;
         case WM_SIZE: {
-            size.cx = LOWORD(lParam);
-            size.cy = HIWORD(lParam);
+            if (wParam != SIZE_MINIMIZED) {
+                screenRender->updateAppSize({LOWORD(lParam), HIWORD(lParam)});
+            }
             break;
         }
     }

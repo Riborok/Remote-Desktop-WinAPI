@@ -60,7 +60,8 @@
     <ClInclude Include="inc\utils\factory\bitmap\BitmapFactory.hpp" />
     <ClInclude Include="inc\utils\MathUtils.hpp" />
     <ClInclude Include="inc\utils\MemoryUnits.hpp" />
-    <ClInclude Include="inc\utils\screen\Scaler.hpp" />
+    <ClInclude Include="inc\utils\screen\ImageScaler.hpp" />
+    <ClInclude Include="inc\utils\screen\PointScaler.hpp" />
     <ClInclude Include="inc\utils\screen\ScreenUtils.hpp" />
     <ClInclude Include="inc\utils\screen\SizeUtils.hpp" />
     <ClInclude Include="inc\utils\sock\crypto\SocketIntegerUtils.hpp" />
@@ -103,7 +104,8 @@
     <ClCompile Include="src\utils\crypto\dh\DHResponder.cpp" />
     <ClCompile Include="src\utils\crypto\IntegerUtils.cpp" />
     <ClCompile Include="src\utils\factory\bitmap\BitmapFactory.cpp" />
-    <ClCompile Include="src\utils\screen\Scaler.cpp" />
+    <ClCompile Include="src\utils\screen\ImageScaler.cpp" />
+    <ClCompile Include="src\utils\screen\PointScaler.cpp" />
     <ClCompile Include="src\utils\screen\ScreenUtils.cpp" />
     <ClCompile Include="src\utils\screen\SizeUtils.cpp" />
     <ClCompile Include="src\utils\sock\crypto\SocketIntegerUtils.cpp" />
@@ -176,12 +178,16 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
+    <ExternalIncludePath>C:\Program Files\opencv\static_build\include</ExternalIncludePath>
+    <LibraryPath>C:\Program Files\opencv\static_build\x64</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
+    <ExternalIncludePath>C:\Program Files\opencv\static_build\include</ExternalIncludePath>
+    <LibraryPath>C:\Program Files\opencv\static_build\x64</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -217,7 +223,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalDependencies>cryptlib.lib;liblz4_static.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>cryptlib.lib;liblz4_static.lib;opencv_core4100d.lib;opencv_imgproc4100d.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>C:\Program Files\lz4\build\VS2022\bin\x64_Debug;C:\Program Files\cryptopp\x64\Output\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
@@ -263,7 +269,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalDependencies>cryptlib.lib;liblz4_static.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>cryptlib.lib;liblz4_static.lib;opencv_core4100.lib;opencv_imgproc4100.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>C:\Program Files\lz4\build\VS2022\bin\x64_Release;C:\Program Files\cryptopp\x64\Output\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>

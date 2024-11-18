@@ -8,8 +8,9 @@
 
 class ScreenCapture {
     DC _dc;
-    SIZE _originalSize;
-    Bitmap _scaledBitmap;
+    SIZE _desktopSize;
+    SIZE _targetSize;
+    Bitmap _bitmap;
     CursorCapture _cursorCapture;
 public:
     explicit ScreenCapture(const SIZE& targetSize);

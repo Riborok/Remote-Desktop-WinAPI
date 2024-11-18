@@ -1,16 +1,16 @@
 ﻿#include "../../../inc/screen/capture/CursorCapture.hpp"
 
 std::optional<Icon> CursorCapture::capture() {
-    const CURSORINFO cursorInfo = retrieveCursorInfo();
+    const CURSORINFO cursorInfo = getCursorInfo();
     if (cursorInfo.flags == CURSOR_SHOWING) {
-        if (const auto iconData = fetchIconData(cursorInfo.hCursor)) {
-            return createCursorIcon(cursorInfo, *iconData);
+        if (const POINT* hotspot = getHotspotFromCache(cursorInfo.hCursor)) {
+            return createCursorIcon(cursorInfo, *hotspot);
         }
     }
     return std::nullopt;
 }
 
-CURSORINFO CursorCapture::retrieveCursorInfo() {
+CURSORINFO CursorCapture::getCursorInfo() {
     CURSORINFO cursorInfo;
     cursorInfo.cbSize = sizeof(CURSORINFO);
     if (!GetCursorInfo(&cursorInfo)) {
@@ -19,49 +19,39 @@ CURSORINFO CursorCapture::retrieveCursorInfo() {
     return cursorInfo;
 }
 
-Icon CursorCapture::createCursorIcon(const CURSORINFO& cursorInfo, const CachedIconInfo& iconData) {
+Icon CursorCapture::createCursorIcon(const CURSORINFO& cursorInfo, const POINT& hotspot) {
     return {
         cursorInfo.hCursor,
         {
-            cursorInfo.ptScreenPos.x - iconData.hotspot.x,
-            cursorInfo.ptScreenPos.y - iconData.hotspot.y
-        },
-        iconData.size
+            cursorInfo.ptScreenPos.x - hotspot.x,
+            cursorInfo.ptScreenPos.y - hotspot.y
+        }
     };
 }
 
-std::optional<CursorCapture::CachedIconInfo> CursorCapture::fetchIconData(const HICON hIcon) {
-    const auto it = _cachedIcons.find(hIcon);
-    if (it != _cachedIcons.end()) {
-        return it->second;
+POINT* CursorCapture::getHotspotFromCache(const HICON hIcon) {
+    const auto it = _cachedHotspots.find(hIcon);
+    if (it != _cachedHotspots.end()) {
+        return &it->second;
     }
-        
-    if (const auto iconInfo = extractIconInfo(hIcon)) {
-        _cachedIcons[hIcon] = *iconInfo;
-        return iconInfo;
+    
+    if (const auto hotspot = getHotspotFromIconInfo(hIcon)) {
+        return &_cachedHotspots.emplace(hIcon, *hotspot).first->second;
     }
 
-    return std::nullopt;
+    return nullptr;
 }
 
-std::optional<CursorCapture::CachedIconInfo> CursorCapture::extractIconInfo(const HICON hIcon) {
+std::optional<POINT> CursorCapture::getHotspotFromIconInfo(const HICON hIcon) {
     ICONINFO iconInfo;
     if (GetIconInfo(hIcon, &iconInfo)) {
-        BITMAP bitmap;
-        GetObject(iconInfo.hbmColor ? iconInfo.hbmColor : iconInfo.hbmMask, sizeof(bitmap), &bitmap);
-
-        CachedIconInfo result = {
-            {static_cast<LONG>(iconInfo.xHotspot), static_cast<LONG>(iconInfo.yHotspot)},
-            {bitmap.bmWidth, bitmap.bmHeight}
-        };
-
-        releaseIconResources(iconInfo);
-        return result;
+        releaseIconInfoResources(iconInfo);
+        return POINT{static_cast<LONG>(iconInfo.xHotspot), static_cast<LONG>(iconInfo.yHotspot)};
     }
     return std::nullopt;
 }
 
-void CursorCapture::releaseIconResources(const ICONINFO& iconInfo) noexcept {
+void CursorCapture::releaseIconInfoResources(const ICONINFO& iconInfo) noexcept {
     DeleteObject(iconInfo.hbmMask);
     DeleteObject(iconInfo.hbmColor);
 }

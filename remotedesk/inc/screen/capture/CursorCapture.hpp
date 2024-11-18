@@ -7,18 +7,13 @@
 #include "../Icon.hpp"
 
 class CursorCapture {
-    struct CachedIconInfo {
-        POINT hotspot;
-        SIZE size;
-    };
-    
-    std::map<HICON, CachedIconInfo> _cachedIcons;
+    std::map<HICON, POINT> _cachedHotspots;
 public:
     std::optional<Icon> capture();
 private:
-    static CURSORINFO retrieveCursorInfo();
-    static Icon createCursorIcon(const CURSORINFO& cursorInfo, const CachedIconInfo& iconData);
-    std::optional<CachedIconInfo> fetchIconData(const HICON hIcon);
-    static std::optional<CachedIconInfo> extractIconInfo(const HICON hIcon);
-    static void releaseIconResources(const ICONINFO& iconInfo) noexcept;
+    static CURSORINFO getCursorInfo();
+    static Icon createCursorIcon(const CURSORINFO& cursorInfo, const POINT& hotspot);
+    POINT* getHotspotFromCache(const HICON hIcon);
+    static std::optional<POINT> getHotspotFromIconInfo(const HICON hIcon);
+    static void releaseIconInfoResources(const ICONINFO& iconInfo) noexcept;
 };

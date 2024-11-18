@@ -16,13 +16,11 @@ class Bitmap {
 
     Bitmap(const HDC hScreenDc, const HBITMAP hMemoryBitmap, const SIZE& size, const BITMAPINFOHEADER& bi);
 public:
-    void enableHighQualityStretching() const;
-    void stretchedCopyFrom(const HDC src, const SIZE& srcSize) const;
-    void stretchedCopyTo(const HDC dest, const SIZE& destSize) const;
+    void copyFrom(const HDC src) const;
+    void copyTo(const HDC dest) const;
     std::vector<byte> getDIBits();
     void setDIBits(const std::vector<byte>& data) const;
     void drawIcon(const Icon& icon) const;
-    void drawScaledIcon(const Icon& icon, const SIZE& iconSourceSize) const;
     const SIZE& getSize() const;
 
     ~Bitmap();

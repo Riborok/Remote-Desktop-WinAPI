@@ -1,30 +1,17 @@
 ﻿#include "../../../inc/screen/bitmap/Bitmap.hpp"
 
-#include "../../../inc/utils/screen/Scaler.hpp"
-#include "../../../inc/utils/screen/ScreenUtils.hpp"
+#include "../../../inc/utils/screen/PointScaler.hpp"
 
 Bitmap::Bitmap(const HDC hScreenDc, const HBITMAP hMemoryBitmap, const SIZE& size, const BITMAPINFOHEADER& bi):
     _hMemoryDc(CreateCompatibleDC(hScreenDc)), _hMemoryBitmap(hMemoryBitmap),
     _oldBitmap(SelectObject(_hMemoryDc, _hMemoryBitmap)), _size(size), _bi(bi) { }
 
-void Bitmap::enableHighQualityStretching() const {
-    ScreenUtils::enableHighQualityStretching(_hMemoryDc);
+void Bitmap::copyFrom(const HDC src) const {
+    BitBlt(_hMemoryDc, 0, 0, _size.cx, _size.cy, src, 0, 0, SRCCOPY);
 }
 
-void Bitmap::stretchedCopyFrom(const HDC src, const SIZE& srcSize) const {
-    StretchBlt(_hMemoryDc, 0, 0, 
-        _size.cx, _size.cy,
-        src, 0, 0,
-        srcSize.cx, srcSize.cy, SRCCOPY
-    );
-}
-
-void Bitmap::stretchedCopyTo(const HDC dest, const SIZE& destSize) const {
-    StretchBlt(dest, 0, 0, 
-        destSize.cx, destSize.cy,
-        _hMemoryDc, 0, 0, 
-        _size.cx, _size.cy, SRCCOPY
-    );
+void Bitmap::copyTo(const HDC dest) const {
+    BitBlt(dest, 0, 0, _size.cx, _size.cy, _hMemoryDc, 0, 0, SRCCOPY);
 }
 
 std::vector<byte> Bitmap::getDIBits() {
@@ -41,13 +28,6 @@ void Bitmap::setDIBits(const std::vector<byte>& data) const {
 
 void Bitmap::drawIcon(const Icon& icon) const {
     DrawIcon(_hMemoryDc, icon.point.x, icon.point.y, icon.hIcon);
-}
-
-void Bitmap::drawScaledIcon(const Icon& icon, const SIZE& iconSourceSize) const {
-    const Scaler scaler(iconSourceSize, _size);
-    const auto [x, y] = scaler.scalePoint(icon.point);
-    const auto [width, height] = scaler.scaleSize(icon.size);
-    DrawIconEx(_hMemoryDc, x, y, icon.hIcon, width, height, 0, nullptr, DI_NORMAL);
 }
 
 const SIZE& Bitmap::getSize() const {

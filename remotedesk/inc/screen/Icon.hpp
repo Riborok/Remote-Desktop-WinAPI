@@ -5,5 +5,4 @@
 struct Icon {
     HICON hIcon;
     POINT point;
-    SIZE size;
 };

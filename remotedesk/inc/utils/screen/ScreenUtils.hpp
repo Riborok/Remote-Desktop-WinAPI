@@ -1,11 +1,10 @@
 ﻿#pragma once
 
-#include "../../screen/Icon.hpp"
+#include <windows.h>
 
 class ScreenUtils {
 public:
     ScreenUtils() = delete;
-
-    static void enableHighQualityStretching(const HDC hdc);
+    
     static SIZE getScreenSize();
 };

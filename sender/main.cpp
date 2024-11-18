@@ -1,5 +1,6 @@
 ﻿#include <fstream>
 #include <winsock2.h>
+#include <sstream>
 
 #include "dt/ThreadSafeQueue.hpp"
 #include "screen/capture/ScreenCaptureWorker.hpp"
@@ -85,7 +86,8 @@ int main() {
         const auto data = queue.dequeue();
         sender.send(*data);
     } while(!GetAsyncKeyState(VK_ESCAPE));
-    
+
+    screenCaptureWorker.stop();
     WinSockUtils::cleanupWinSock();
     return 0;
 }
