@@ -6,6 +6,8 @@
 
 class Socket {
     SOCKET _sock;
+
+    explicit Socket(const SOCKET socket);
 public:
     Socket(const int type, const int protocol);
 
@@ -29,12 +31,12 @@ public:
     
     ~Socket();
     Socket(Socket&&) noexcept;
-
-    Socket& operator=(Socket&&) = delete;
+    Socket& operator=(Socket&&) noexcept;
+    
     Socket(const Socket&) = delete;
     Socket& operator=(const Socket&) = delete;
 private:
-    explicit Socket(const SOCKET socket);
-
+    void releaseResources() const noexcept;
+    void resetResources() noexcept;
     int setSockOpt(const DWORD value, const int option) const;
 };

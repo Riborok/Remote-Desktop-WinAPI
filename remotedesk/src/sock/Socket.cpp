@@ -3,6 +3,10 @@
 
 #include "../../inc/utils/sock/SockaddrUtils.hpp"
 
+Socket::Socket(const SOCKET socket): _sock(socket) {
+    SocketErrorChecker::checkSocket(_sock);
+}
+
 Socket::Socket(const int type, const int protocol): _sock(socket(AF_INET, type, protocol)) {
     SocketErrorChecker::checkSocket(_sock);
 }
@@ -77,13 +81,26 @@ int Socket::setSockOpt(const DWORD value, const int option) const {
 }
 
 Socket::~Socket() {
-    closesocket(_sock);
+    releaseResources();
 }
 
 Socket::Socket(Socket&& other) noexcept : _sock(other._sock) {
-    other._sock = INVALID_SOCKET;
+    other.resetResources();
 }
 
-Socket::Socket(const SOCKET socket): _sock(socket) {
-    SocketErrorChecker::checkSocket(_sock);
+Socket& Socket::operator=(Socket&& other) noexcept {
+    if (this != &other) {
+        releaseResources();
+        _sock = other._sock;
+        other.resetResources();
+    }
+    return *this;
+}
+
+void Socket::releaseResources() const noexcept {
+    closesocket(_sock);
+}
+
+void Socket::resetResources() noexcept {
+    _sock = INVALID_SOCKET;
 }
