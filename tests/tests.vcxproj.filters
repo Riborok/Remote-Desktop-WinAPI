@@ -18,9 +18,6 @@
     <ClCompile Include="AESEncryptorTest.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="CompressionUtilsTest.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
     <ClCompile Include="DHClientServerTest.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>

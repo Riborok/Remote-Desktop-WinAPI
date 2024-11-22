@@ -1,7 +1,7 @@
 ﻿#include "../../../inc/screen/render/ScreenRender.hpp"
 
 #include "../../../inc/utils/factory/bitmap/BitmapFactory.hpp"
-#include "../../../inc/utils/screen/ImageScaler.hpp"
+#include "../../../inc/utils/img/ImageUtils.hpp"
 #include "../../../inc/utils/screen/SizeUtils.hpp"
 
 ScreenRender::ScreenRender(const HWND hWnd, const SIZE& appSize, const SIZE& originalSize):
@@ -12,7 +12,7 @@ void ScreenRender::render(const std::vector<byte>& screen) {
     std::lock_guard<std::mutex> lock(_appSizeMutex);
     _bitmap.setDIBits(_originalSize == _appSize
         ? screen
-        : ImageScaler::scaleImage(screen, _originalSize, _appSize)
+        : ImageUtils::scaleImageBuffer(screen, _originalSize, _appSize)
     );
     _bitmap.copyTo(_dc.getHDC());
 }

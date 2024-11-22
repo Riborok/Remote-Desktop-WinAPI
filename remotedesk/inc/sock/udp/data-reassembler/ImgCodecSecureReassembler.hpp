@@ -2,16 +2,17 @@
 
 #include "DataReassembler.hpp"
 #include "../../../crypto/aes/AESDecryptor.hpp"
+#include "../../../img/ImageTileComposer.hpp"
 
-class DecrDecomprDataReassembler final : public DataReassembler {
+class ImgCodecSecureReassembler final : public DataReassembler {
+    ImageTileComposer _imageTileComposer;
     AESDecryptor _decryptor;
 public:
-    explicit DecrDecomprDataReassembler(const std::vector<byte>& key, const FragmentDescriptor& fragmentDescriptor = UDPToolkit::MAX_FRAGMENT_DESCRIPTOR);
+    explicit ImgCodecSecureReassembler(const SIZE& size, const std::vector<byte>& key, const FragmentDescriptor& fragmentDescriptor = UDPToolkit::MAX_FRAGMENT_DESCRIPTOR);
     std::vector<byte> reassembleData(std::vector<Fragment>& fragments) override;
 private:
     void decryptFragmentPayloads(std::vector<Fragment>& fragments);
     static void splitIntoChunks(std::vector<Fragment>& fragments);
     static std::vector<Fragment> createFragmentChunks(const std::vector<Fragment>& fragments);
     static void addFragmentChunks(std::vector<Fragment>& chunksOfFragments, const Fragment& fragment);
-    static void decompressFragmentPayloads(std::vector<Fragment>& decryptedFragments);
 };

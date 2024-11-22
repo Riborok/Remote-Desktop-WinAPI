@@ -5,7 +5,7 @@
 #include "dt/ThreadSafeQueue.hpp"
 #include "screen/capture/ScreenCaptureWorker.hpp"
 #include "sock/udp/sender/UDPSender.hpp"
-#include "sock/udp/data-fragmenter/ComprEncrDataFragmenter.hpp"
+#include "sock/udp/data-fragmenter/ImgCodecSecureFragmenter.hpp"
 #include "utils/array/ByteArrayUtils.hpp"
 #include "utils/crypto/aes/AESToolkit.hpp"
 #include "utils/sock/tcp/TCPUtils.hpp"
@@ -81,7 +81,7 @@ int main() {
     screenCaptureWorker.start();
 
     std::vector<byte> key(AESToolkit::MAX_KEY_LENGTH, 42);
-    UDPSender sender(ip, udpPort, std::make_unique<ComprEncrDataFragmenter>(key));
+    UDPSender sender(ip, udpPort, std::make_unique<ImgCodecSecureFragmenter>(screenResolution, key));
     do {
         const auto data = queue.dequeue();
         sender.send(*data);

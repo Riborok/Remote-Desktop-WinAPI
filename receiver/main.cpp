@@ -9,7 +9,7 @@
 #include "screen/render/ScreenRender.hpp"
 #include "screen/render/ScreenRenderWorker.hpp"
 #include "sock/udp/receiver/UDPReceiver.hpp"
-#include "sock/udp/data-reassembler/DecrDecomprDataReassembler.hpp"
+#include "sock/udp/data-reassembler/ImgCodecSecureReassembler.hpp"
 #include "utils/array/ByteArrayUtils.hpp"
 #include "utils/crypto/aes/AESToolkit.hpp"
 
@@ -65,7 +65,7 @@ std::unique_ptr<ScreenRenderWorker> screenRender = nullptr;
 void asyncReceiveData(const Socket& socket) {
     const SIZE remoteSize = receiveSize(socket);
     std::vector<byte> key(AESToolkit::MAX_KEY_LENGTH, 42);
-    UDPReceiver receiver(config.udpPort, std::make_unique<DecrDecomprDataReassembler>(key));
+    UDPReceiver receiver(config.udpPort, std::make_unique<ImgCodecSecureReassembler>(remoteSize, key));
     ThreadSafeQueue<std::vector<byte>> queue;
     screenRender = std::make_unique<ScreenRenderWorker>(queue, hwnd, SIZE{5, 5}, remoteSize, 70);
     screenRender->start();

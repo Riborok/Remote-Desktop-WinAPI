@@ -1,7 +1,7 @@
 ﻿#include "../../../inc/screen/capture/ScreenCapture.hpp"
 
 #include "../../../inc/utils/factory/bitmap/BitmapFactory.hpp"
-#include "../../../inc/utils/screen/ImageScaler.hpp"
+#include "../../../inc/utils/img/ImageUtils.hpp"
 #include "../../../inc/utils/screen/ScreenUtils.hpp"
 #include "../../../inc/utils/screen/SizeUtils.hpp"
 
@@ -17,5 +17,5 @@ std::vector<byte> ScreenCapture::capture() {
     }
     return _desktopSize == _targetSize
         ? _bitmap.getDIBits()
-        : ImageScaler::scaleImage(_bitmap.getDIBits(), _desktopSize, _targetSize);
+        : ImageUtils::scaleImageBuffer(_bitmap.getDIBits(), _desktopSize, _targetSize);
 }
