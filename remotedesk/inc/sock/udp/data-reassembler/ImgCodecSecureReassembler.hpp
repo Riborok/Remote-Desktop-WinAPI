@@ -12,7 +12,7 @@ public:
     std::vector<byte> reassembleData(std::vector<Fragment>& fragments) override;
 private:
     void decryptFragmentPayloads(std::vector<Fragment>& fragments);
-    static void splitIntoChunks(std::vector<Fragment>& fragments);
-    static std::vector<Fragment> createFragmentChunks(const std::vector<Fragment>& fragments);
-    static void addFragmentChunks(std::vector<Fragment>& chunksOfFragments, const Fragment& fragment);
+    static std::vector<Chunk> splitIntoChunks(const std::vector<Fragment>& fragments);
+    static std::vector<Chunk> createChunks(const std::vector<Fragment>& fragments);
+    static void addChunksOfFragment(std::vector<Chunk>& chunksOfFragments, const Fragment& fragment);
 };

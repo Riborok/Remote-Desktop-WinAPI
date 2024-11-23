@@ -34,9 +34,11 @@ std::vector<std::vector<byte>> ImgCodecSecureFragmenter::encryptFragmentPayloads
 std::vector<std::vector<byte>> ImgCodecSecureFragmenter::createFragments(const std::vector<std::vector<byte>>& encryptedFPs,
         const std::vector<size_t>& chunkCounts, const size_t totalSize) const {
     const size_t fragmentId = getId();
-    std::vector<std::vector<byte>> fragments(encryptedFPs.size());
-    for (size_t fragmentNumber = 0, i = 0; i < encryptedFPs.size(); ++i) {
-        fragments[i] = UDPToolkit::createFragment(encryptedFPs[i], {fragmentId, fragmentNumber, totalSize});
+    const size_t totalFragments = encryptedFPs.size();
+    
+    std::vector<std::vector<byte>> fragments(totalFragments);
+    for (size_t fragmentNumber = 0, i = 0; i < totalFragments; ++i) {
+        fragments[i] = UDPToolkit::createFragment(encryptedFPs[i], {fragmentId, fragmentNumber, totalSize, totalFragments});
         fragmentNumber += chunkCounts[i];
     }
     return fragments;

@@ -31,9 +31,10 @@ std::vector<std::vector<byte>> DataFragmenter::createFragmentPayloads(const std:
 }
 
 std::vector<std::vector<byte>> DataFragmenter::createFragments(const std::vector<std::vector<byte>>& fragmentPayloads, const size_t totalSize) const {
-    std::vector<std::vector<byte>> fragments(fragmentPayloads.size());
-    for (size_t i = 0; i < fragmentPayloads.size(); ++i) {
-        fragments[i] = UDPToolkit::createFragment(fragmentPayloads[i], {_id, i, totalSize});
+    const size_t totalFragments = fragmentPayloads.size();
+    std::vector<std::vector<byte>> fragments(totalFragments);
+    for (size_t i = 0; i < totalFragments; ++i) {
+        fragments[i] = UDPToolkit::createFragment(fragmentPayloads[i], {_id, i, totalSize, totalFragments});
     }
     return fragments;
 }

@@ -15,7 +15,7 @@ class UDPSender {
     sockaddr_in _addr;
 public:
     UDPSender(const std::string& ip, const u_short port, std::unique_ptr<DataFragmenter> dataFragmenter,
-              const DWORD sendBufferSize = MemoryUnits::MEGABYTE, const DWORD sendTimeoutMs = 1000);
+              const DWORD sendBufferSize = MemoryUnits::MEGABYTE, const DWORD sendTimeoutMs = 100);
     void send(const std::vector<byte>& data) const;
 private:
     void sendFragments(const std::vector<std::vector<byte>>& fragments) const;

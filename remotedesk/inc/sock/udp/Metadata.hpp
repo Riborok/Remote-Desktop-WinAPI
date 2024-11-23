@@ -6,4 +6,5 @@ struct Metadata {
     FieldType fragmentId;
     FieldType fragmentNumber;
     FieldType totalDataSize;
+    FieldType totalFragments;
 };

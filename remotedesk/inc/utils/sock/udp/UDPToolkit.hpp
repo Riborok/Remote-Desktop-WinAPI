@@ -22,11 +22,13 @@ public:
     static void populateFragment(Fragment& fragment, const int bytesReceived);
 private:
     static void addPayload(std::vector<byte>& fragment, const std::vector<byte>& payload);
+    static void addTotalFragments(std::vector<byte>& fragment, const size_t totalFragments);
     static void addTotalSize(std::vector<byte>& fragment, const size_t totalSize);
     static void addFragmentNumber(std::vector<byte>& fragment, const size_t fragmentNumber);
     static void addId(std::vector<byte>& fragment, const size_t id);
     static void addSizeTToFragment(std::vector<byte>& fragment, const size_t value, const size_t index);
 
+    static size_t extractTotalFragments(const std::vector<byte>& fragment, const int bytesReceived);
     static size_t extractTotalSize(const std::vector<byte>& fragment, const int bytesReceived);
     static size_t extractFragmentNumber(const std::vector<byte>& fragment, const int bytesReceived);
     static size_t extractId(const std::vector<byte>& fragment, const int bytesReceived);

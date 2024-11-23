@@ -5,14 +5,14 @@ ImageTileComposer::ImageTileComposer(const SIZE& size, const int tileWidth, cons
     _image(ImageUtils::createBlackImage(size)),
     _tileSplitter(tileWidth, tileHeight) { }
 
-std::vector<byte> ImageTileComposer::overlayTiles(const std::vector<Fragment>& tiles) const {
+std::vector<byte> ImageTileComposer::overlayTiles(const std::vector<Chunk>& tiles) const {
     const int imageWidth = _image.cols;
     const int imageHeight = _image.rows;
         
     cv::parallel_for_(cv::Range(0, tiles.size()), [&](const cv::Range& range) {
         for (int i = range.start; i < range.end; ++i) {
-            cv::Rect tileRegion = _tileSplitter.computeTileRegion(tiles[i].fragmentNumber, imageWidth, imageHeight);
-            cv::Mat tile = decompressTile(tiles[i].payload);
+            cv::Rect tileRegion = _tileSplitter.computeTileRegion(tiles[i].chunkId, imageWidth, imageHeight);
+            cv::Mat tile = decompressTile(tiles[i].data);
             placeTile(tile, tileRegion);
         }
     });

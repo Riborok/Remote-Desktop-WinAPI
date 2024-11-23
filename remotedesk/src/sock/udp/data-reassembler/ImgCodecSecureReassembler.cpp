@@ -13,8 +13,8 @@ ImgCodecSecureReassembler::ImgCodecSecureReassembler(const SIZE& size, const std
 
 std::vector<byte> ImgCodecSecureReassembler::reassembleData(std::vector<Fragment>& fragments) {
     decryptFragmentPayloads(fragments);
-    splitIntoChunks(fragments);
-    return _imageTileComposer.overlayTiles(fragments);
+    const std::vector<Chunk> chunks = splitIntoChunks(fragments);
+    return _imageTileComposer.overlayTiles(chunks);
 }
 
 void ImgCodecSecureReassembler::decryptFragmentPayloads(std::vector<Fragment>& fragments) {
@@ -23,31 +23,27 @@ void ImgCodecSecureReassembler::decryptFragmentPayloads(std::vector<Fragment>& f
     }
 }
 
-void ImgCodecSecureReassembler::splitIntoChunks(std::vector<Fragment>& fragments) {
-    std::vector<Fragment> chunksOfFragments = createFragmentChunks(fragments);
+std::vector<Chunk> ImgCodecSecureReassembler::splitIntoChunks(const std::vector<Fragment>& fragments) {
+    std::vector<Chunk> chunksOfFragments = createChunks(fragments);
     for (const auto& fragment : fragments) {
-        addFragmentChunks(chunksOfFragments, fragment);
+        addChunksOfFragment(chunksOfFragments, fragment);
     }
-    fragments = std::move(chunksOfFragments);
+    return chunksOfFragments;
 }
 
-std::vector<Fragment> ImgCodecSecureReassembler::createFragmentChunks(const std::vector<Fragment>& fragments) {
-    std::vector<Fragment> fragmentChunks;
-    fragmentChunks.reserve(fragments.size() * 64);
-    return fragmentChunks;
+std::vector<Chunk> ImgCodecSecureReassembler::createChunks(const std::vector<Fragment>& fragments) {
+    std::vector<Chunk> chunks;
+    chunks.reserve(fragments.size() * 64);
+    return chunks;
 }
 
-void ImgCodecSecureReassembler::addFragmentChunks(std::vector<Fragment>& chunksOfFragments, const Fragment& fragment) {
-    std::vector<std::vector<byte>> chunks = PayloadSplitter::splitIntoChunks(fragment.payload);
+void ImgCodecSecureReassembler::addChunksOfFragment(std::vector<Chunk>& chunksOfFragments, const Fragment& fragment) {
+    std::vector<std::vector<byte>> chunksOfFragment = PayloadSplitter::splitIntoChunks(fragment.payload);
     size_t fragmentNumber = fragment.fragmentNumber;
-    for (auto& chunk : chunks) {
+    for (auto& chunkOfFragment : chunksOfFragment) {
         chunksOfFragments.emplace_back(
-            Metadata{
-                fragment.fragmentId,
-                fragmentNumber++,
-                fragment.totalDataSize
-            },
-            std::move(chunk)
+            fragmentNumber++,
+            std::move(chunkOfFragment)
         );
     }
 }

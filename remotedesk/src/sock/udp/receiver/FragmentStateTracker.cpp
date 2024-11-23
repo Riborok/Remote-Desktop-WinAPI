@@ -14,7 +14,7 @@ bool FragmentStateTracker::initialize(const Fragment& fragment) {
         _isInitialized = true;
         _prevId = _currentId;
         _currentId = fragment.fragmentId;
-        _totalFragments = UDPToolkit::calcTotalFragments(fragment.totalDataSize, _fragmentPayloadSize);
+        _totalFragments = fragment.totalFragments;
         return true;
     }
     return false;

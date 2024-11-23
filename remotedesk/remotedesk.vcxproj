@@ -40,6 +40,7 @@
     <ClInclude Include="inc\sock\Socket.hpp" />
     <ClInclude Include="inc\sock\udp\data-fragmenter\ImgCodecSecureFragmenter.hpp" />
     <ClInclude Include="inc\sock\udp\data-fragmenter\DataFragmenter.hpp" />
+    <ClInclude Include="inc\sock\udp\data-reassembler\Chunk.hpp" />
     <ClInclude Include="inc\sock\udp\data-reassembler\DataReassembler.hpp" />
     <ClInclude Include="inc\sock\udp\data-reassembler\ImgCodecSecureReassembler.hpp" />
     <ClInclude Include="inc\sock\udp\Fragment.hpp" />
