@@ -1,15 +1,15 @@
 ﻿#pragma once
 
 #include "DHHelper.hpp"
-#include "../Socket.hpp"
+#include "../tcp/TCPConnection.hpp"
 
-class DHKeyExchange {
+class DHKeyExchanger {
     DHHelper _dhHelper;
     CryptoPP::SecByteBlock _privateKey;
     CryptoPP::SecByteBlock _publicKey;
-    const Socket& _sock;
+    const TCPConnection& _tcpConnection;
 public:
-    explicit DHKeyExchange(const Socket& socket);
+    explicit DHKeyExchanger(const TCPConnection& tcpConnection);
     void generateAndSendGroupParameters();
     void receiveGroupParameters();
     CryptoPP::Integer exchangeKeys();

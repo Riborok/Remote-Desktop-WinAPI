@@ -1,18 +1,19 @@
-﻿#include "utils/crypto/dh/DHResponder.hpp"
-#include "utils/crypto/dh/DHInitiator.hpp"
+﻿#include "crypto/dh/DHInitiator.hpp"
+#include "crypto/dh/DHResponder.hpp"
 #include "gtest/gtest.h"
 
 #include "inc/utils.hpp"
-#include "utils/sock/tcp/TCPUtils.hpp"
+#include "sock/tcp/TCPServer.hpp"
 
 TEST_F(NetworkTestBase, KeyExchangeTest) {
-    CryptoPP::Integer serverSharedSecret;
+    std::vector<byte> serverSharedSecret;
     std::thread serverThread([&] {
-        const Socket socket = TCPUtils::acceptSingleConnection(PORT);
-        serverSharedSecret = DHResponder::exchangeKeys(socket);
+        const TCPServer server(PORT);
+        const TCPConnection tcpConnection = server.acceptConnection();
+        serverSharedSecret = DHResponder().exchangeKeys(tcpConnection);
     });
-    const Socket socket = TCPUtils::connectToServer(IP, PORT);
-    const CryptoPP::Integer clientSharedSecret = DHInitiator::exchangeKeys(socket);
+    const TCPConnection tcpConnection(IP, PORT);
+    const std::vector<byte> clientSharedSecret = DHInitiator().exchangeKeys(tcpConnection);
     
     serverThread.join();
     EXPECT_EQ(serverSharedSecret, clientSharedSecret);

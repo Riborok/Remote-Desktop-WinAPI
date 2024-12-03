@@ -21,6 +21,10 @@
   <ItemGroup>
     <ClInclude Include="inc\crypto\aes\AESDecryptor.hpp" />
     <ClInclude Include="inc\crypto\aes\AESEncryptor.hpp" />
+    <ClInclude Include="inc\crypto\aes\AESKeyController.hpp" />
+    <ClInclude Include="inc\crypto\dh\DHInitiator.hpp" />
+    <ClInclude Include="inc\crypto\dh\DHResponder.hpp" />
+    <ClInclude Include="inc\crypto\KeyExchanger.hpp" />
     <ClInclude Include="inc\dt\ThreadSafeQueue.hpp" />
     <ClInclude Include="inc\img\ImageTileComposer.hpp" />
     <ClInclude Include="inc\img\ImageTileSplitter.hpp" />
@@ -36,12 +40,13 @@
     <ClInclude Include="inc\screen\render\ScreenRenderWorker.hpp" />
     <ClInclude Include="inc\screen\Worker.hpp" />
     <ClInclude Include="inc\sock\dh\DHHelper.hpp" />
-    <ClInclude Include="inc\sock\dh\DHKeyExchange.hpp" />
+    <ClInclude Include="inc\sock\dh\DHKeyExchanger.hpp" />
     <ClInclude Include="inc\sock\Socket.hpp" />
+    <ClInclude Include="inc\sock\tcp\SecureTCPConnection.hpp" />
     <ClInclude Include="inc\sock\tcp\TCPConnection.hpp" />
     <ClInclude Include="inc\sock\tcp\TCPServer.hpp" />
-    <ClInclude Include="inc\sock\udp\data-fragmenter\ImgCodecSecureFragmenter.hpp" />
     <ClInclude Include="inc\sock\udp\data-fragmenter\DataFragmenter.hpp" />
+    <ClInclude Include="inc\sock\udp\data-fragmenter\ImgCodecSecureFragmenter.hpp" />
     <ClInclude Include="inc\sock\udp\data-reassembler\Chunk.hpp" />
     <ClInclude Include="inc\sock\udp\data-reassembler\DataReassembler.hpp" />
     <ClInclude Include="inc\sock\udp\data-reassembler\ImgCodecSecureReassembler.hpp" />
@@ -57,8 +62,6 @@
     <ClInclude Include="inc\utils\array\ArrayChunkSplitter.hpp" />
     <ClInclude Include="inc\utils\array\ByteArrayUtils.hpp" />
     <ClInclude Include="inc\utils\crypto\aes\AESToolkit.hpp" />
-    <ClInclude Include="inc\utils\crypto\dh\DHInitiator.hpp" />
-    <ClInclude Include="inc\utils\crypto\dh\DHResponder.hpp" />
     <ClInclude Include="inc\utils\crypto\IntegerUtils.hpp" />
     <ClInclude Include="inc\utils\factory\bitmap\BitmapFactory.hpp" />
     <ClInclude Include="inc\utils\img\ImageUtils.hpp" />
@@ -67,10 +70,9 @@
     <ClInclude Include="inc\utils\screen\PointScaler.hpp" />
     <ClInclude Include="inc\utils\screen\ScreenUtils.hpp" />
     <ClInclude Include="inc\utils\screen\SizeUtils.hpp" />
-    <ClInclude Include="inc\utils\sock\crypto\SocketIntegerUtils.hpp" />
     <ClInclude Include="inc\utils\sock\SockaddrUtils.hpp" />
     <ClInclude Include="inc\utils\sock\SocketErrorChecker.hpp" />
-    <ClInclude Include="inc\utils\sock\tcp\TCPUtils.hpp" />
+    <ClInclude Include="inc\utils\sock\tcp\crypto\TCPIntegerUtils.hpp" />
     <ClInclude Include="inc\utils\sock\udp\PayloadMerger.hpp" />
     <ClInclude Include="inc\utils\sock\udp\PayloadSplitter.hpp" />
     <ClInclude Include="inc\utils\sock\udp\UDPToolkit.hpp" />
@@ -80,6 +82,9 @@
   <ItemGroup>
     <ClCompile Include="src\crypto\aes\AESDecryptor.cpp" />
     <ClCompile Include="src\crypto\aes\AESEncryptor.cpp" />
+    <ClCompile Include="src\crypto\aes\AESKeyController.cpp" />
+    <ClCompile Include="src\crypto\dh\DHInitiator.cpp" />
+    <ClCompile Include="src\crypto\dh\DHResponder.cpp" />
     <ClCompile Include="src\img\ImageTileComposer.cpp" />
     <ClCompile Include="src\img\ImageTileSplitter.cpp" />
     <ClCompile Include="src\img\TileSplitter.cpp" />
@@ -92,164 +97,13 @@
     <ClCompile Include="src\screen\render\ScreenRenderWorker.cpp" />
     <ClCompile Include="src\screen\Worker.cpp" />
     <ClCompile Include="src\sock\dh\DHHelper.cpp" />
-    <ClCompile Include="src\sock\dh\DHKeyExchange.cpp" />
+    <ClCompile Include="src\sock\dh\DHKeyExchanger.cpp" />
     <ClCompile Include="src\sock\Socket.cpp" />
-    <ClCompile Include="src\sock\tcp\TCPConnection.cpp">
-      <AssemblerOutput>NoListing</AssemblerOutput>
-      <AssemblerListingLocation>x64\Release\</AssemblerListingLocation>
-      <UndefineAllPreprocessorDefinitions>false</UndefineAllPreprocessorDefinitions>
-      <BrowseInformation>false</BrowseInformation>
-      <BrowseInformationFile>x64\Release\</BrowseInformationFile>
-      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
-      <CompileAs>Default</CompileAs>
-      <ConformanceMode>true</ConformanceMode>
-      <DiagnosticsFormat>Column</DiagnosticsFormat>
-      <DisableLanguageExtensions>false</DisableLanguageExtensions>
-      <ErrorReporting>Prompt</ErrorReporting>
-      <ExpandAttributedSource>false</ExpandAttributedSource>
-      <ExceptionHandling>Sync</ExceptionHandling>
-      <EnableASAN>false</EnableASAN>
-      <EnableFuzzer>false</EnableFuzzer>
-      <EnableFiberSafeOptimizations>false</EnableFiberSafeOptimizations>
-      <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
-      <FloatingPointModel>Precise</FloatingPointModel>
-      <ForceConformanceInForLoopScope>true</ForceConformanceInForLoopScope>
-      <GenerateModuleDependencies>false</GenerateModuleDependencies>
-      <GenerateSourceDependencies>false</GenerateSourceDependencies>
-      <GenerateXMLDocumentationFiles>false</GenerateXMLDocumentationFiles>
-      <InlineFunctionExpansion>Default</InlineFunctionExpansion>
-      <IntrinsicFunctions>true</IntrinsicFunctions>
-      <IgnoreStandardIncludePath>false</IgnoreStandardIncludePath>
-      <LanguageStandard>stdcpp17</LanguageStandard>
-      <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <MinimalRebuild>false</MinimalRebuild>
-      <ModuleDependenciesFile>x64\Release\</ModuleDependenciesFile>
-      <ModuleOutputFile>x64\Release\</ModuleOutputFile>
-      <OmitDefaultLibName>false</OmitDefaultLibName>
-      <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
-      <WholeProgramOptimization>true</WholeProgramOptimization>
-      <Optimization>MaxSpeed</Optimization>
-      <ObjectFileName>x64\Release\</ObjectFileName>
-      <CallingConvention>Cdecl</CallingConvention>
-      <ProgramDataBaseFileName>D:\Desktop\Remote-Desktop\remote-desktop\x64\Release\remotedesk.pdb</ProgramDataBaseFileName>
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <PrecompiledHeaderOutputFile>x64\Release\remotedesk.pch</PrecompiledHeaderOutputFile>
-      <PreprocessToFile>false</PreprocessToFile>
-      <PreprocessKeepComments>false</PreprocessKeepComments>
-      <PreprocessSuppressLineNumbers>false</PreprocessSuppressLineNumbers>
-      <RemoveUnreferencedCodeData>true</RemoveUnreferencedCodeData>
-      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
-      <ShowIncludes>false</ShowIncludes>
-      <SourceDependenciesFile>x64\Release\</SourceDependenciesFile>
-      <SuppressStartupBanner>true</SuppressStartupBanner>
-      <BufferSecurityCheck>true</BufferSecurityCheck>
-      <SmallerTypeCheck>false</SmallerTypeCheck>
-      <SpectreMitigation>false</SpectreMitigation>
-      <StructMemberAlignment>Default</StructMemberAlignment>
-      <SupportJustMyCode>false</SupportJustMyCode>
-      <TrackerLogDirectory>x64\Release\remotedesk.tlog\</TrackerLogDirectory>
-      <TranslateIncludes>false</TranslateIncludes>
-      <MinimalRebuildFromTracking>true</MinimalRebuildFromTracking>
-      <TreatWarningAsError>false</TreatWarningAsError>
-      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
-      <UseFullPaths>true</UseFullPaths>
-      <WarningLevel>Level3</WarningLevel>
-      <XMLDocumentationFileName>x64\Release\</XMLDocumentationFileName>
-      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <IntelJCCErratum>false</IntelJCCErratum>
-      <BuildStlModules>false</BuildStlModules>
-      <TreatAngleIncludeAsExternal>false</TreatAngleIncludeAsExternal>
-      <ExternalWarningLevel>InheritWarningLevel</ExternalWarningLevel>
-      <TreatExternalTemplatesAsInternal>true</TreatExternalTemplatesAsInternal>
-      <DisableAnalyzeExternal>false</DisableAnalyzeExternal>
-      <PreprocessorDefinitions>NDEBUG;_LIB;_UNICODE;UNICODE;</PreprocessorDefinitions>
-      <FunctionLevelLinking>true</FunctionLevelLinking>
-      <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>C:\Program Files\cryptopp;</AdditionalIncludeDirectories>
-      <OpenMPSupport>true</OpenMPSupport>
-      <LibCompiled>true</LibCompiled>
-    </ClCompile>
-    <ClCompile Include="src\sock\tcp\TCPServer.cpp">
-      <AssemblerOutput>NoListing</AssemblerOutput>
-      <AssemblerListingLocation>x64\Release\</AssemblerListingLocation>
-      <UndefineAllPreprocessorDefinitions>false</UndefineAllPreprocessorDefinitions>
-      <BrowseInformation>false</BrowseInformation>
-      <BrowseInformationFile>x64\Release\</BrowseInformationFile>
-      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
-      <CompileAs>Default</CompileAs>
-      <ConformanceMode>true</ConformanceMode>
-      <DiagnosticsFormat>Column</DiagnosticsFormat>
-      <DisableLanguageExtensions>false</DisableLanguageExtensions>
-      <ErrorReporting>Prompt</ErrorReporting>
-      <ExpandAttributedSource>false</ExpandAttributedSource>
-      <ExceptionHandling>Sync</ExceptionHandling>
-      <EnableASAN>false</EnableASAN>
-      <EnableFuzzer>false</EnableFuzzer>
-      <EnableFiberSafeOptimizations>false</EnableFiberSafeOptimizations>
-      <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
-      <FloatingPointModel>Precise</FloatingPointModel>
-      <ForceConformanceInForLoopScope>true</ForceConformanceInForLoopScope>
-      <GenerateModuleDependencies>false</GenerateModuleDependencies>
-      <GenerateSourceDependencies>false</GenerateSourceDependencies>
-      <GenerateXMLDocumentationFiles>false</GenerateXMLDocumentationFiles>
-      <InlineFunctionExpansion>Default</InlineFunctionExpansion>
-      <IntrinsicFunctions>true</IntrinsicFunctions>
-      <IgnoreStandardIncludePath>false</IgnoreStandardIncludePath>
-      <LanguageStandard>stdcpp17</LanguageStandard>
-      <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <MinimalRebuild>false</MinimalRebuild>
-      <ModuleDependenciesFile>x64\Release\</ModuleDependenciesFile>
-      <ModuleOutputFile>x64\Release\</ModuleOutputFile>
-      <OmitDefaultLibName>false</OmitDefaultLibName>
-      <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
-      <WholeProgramOptimization>true</WholeProgramOptimization>
-      <Optimization>MaxSpeed</Optimization>
-      <ObjectFileName>x64\Release\</ObjectFileName>
-      <CallingConvention>Cdecl</CallingConvention>
-      <ProgramDataBaseFileName>D:\Desktop\Remote-Desktop\remote-desktop\x64\Release\remotedesk.pdb</ProgramDataBaseFileName>
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <PrecompiledHeaderOutputFile>x64\Release\remotedesk.pch</PrecompiledHeaderOutputFile>
-      <PreprocessToFile>false</PreprocessToFile>
-      <PreprocessKeepComments>false</PreprocessKeepComments>
-      <PreprocessSuppressLineNumbers>false</PreprocessSuppressLineNumbers>
-      <RemoveUnreferencedCodeData>true</RemoveUnreferencedCodeData>
-      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
-      <ShowIncludes>false</ShowIncludes>
-      <SourceDependenciesFile>x64\Release\</SourceDependenciesFile>
-      <SuppressStartupBanner>true</SuppressStartupBanner>
-      <BufferSecurityCheck>true</BufferSecurityCheck>
-      <SmallerTypeCheck>false</SmallerTypeCheck>
-      <SpectreMitigation>false</SpectreMitigation>
-      <StructMemberAlignment>Default</StructMemberAlignment>
-      <SupportJustMyCode>false</SupportJustMyCode>
-      <TrackerLogDirectory>x64\Release\remotedesk.tlog\</TrackerLogDirectory>
-      <TranslateIncludes>false</TranslateIncludes>
-      <MinimalRebuildFromTracking>true</MinimalRebuildFromTracking>
-      <TreatWarningAsError>false</TreatWarningAsError>
-      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
-      <UseFullPaths>true</UseFullPaths>
-      <WarningLevel>Level3</WarningLevel>
-      <XMLDocumentationFileName>x64\Release\</XMLDocumentationFileName>
-      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <IntelJCCErratum>false</IntelJCCErratum>
-      <BuildStlModules>false</BuildStlModules>
-      <TreatAngleIncludeAsExternal>false</TreatAngleIncludeAsExternal>
-      <ExternalWarningLevel>InheritWarningLevel</ExternalWarningLevel>
-      <TreatExternalTemplatesAsInternal>true</TreatExternalTemplatesAsInternal>
-      <DisableAnalyzeExternal>false</DisableAnalyzeExternal>
-      <PreprocessorDefinitions>NDEBUG;_LIB;_UNICODE;UNICODE;</PreprocessorDefinitions>
-      <FunctionLevelLinking>true</FunctionLevelLinking>
-      <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>C:\Program Files\cryptopp;</AdditionalIncludeDirectories>
-      <OpenMPSupport>true</OpenMPSupport>
-      <LibCompiled>true</LibCompiled>
-    </ClCompile>
-    <ClCompile Include="src\sock\udp\data-fragmenter\ImgCodecSecureFragmenter.cpp" />
+    <ClCompile Include="src\sock\tcp\SecureTCPConnection.cpp" />
+    <ClCompile Include="src\sock\tcp\TCPConnection.cpp" />
+    <ClCompile Include="src\sock\tcp\TCPServer.cpp" />
     <ClCompile Include="src\sock\udp\data-fragmenter\DataFragmenter.cpp" />
+    <ClCompile Include="src\sock\udp\data-fragmenter\ImgCodecSecureFragmenter.cpp" />
     <ClCompile Include="src\sock\udp\data-reassembler\DataReassembler.cpp" />
     <ClCompile Include="src\sock\udp\data-reassembler\ImgCodecSecureReassembler.cpp" />
     <ClCompile Include="src\sock\udp\FragmentDescriptor.cpp" />
@@ -258,18 +112,15 @@
     <ClCompile Include="src\sock\udp\receiver\FragmentStateTracker.cpp" />
     <ClCompile Include="src\sock\udp\receiver\UDPReceiver.cpp" />
     <ClCompile Include="src\sock\udp\sender\UDPSender.cpp" />
-    <ClCompile Include="src\utils\crypto\dh\DHInitiator.cpp" />
-    <ClCompile Include="src\utils\crypto\dh\DHResponder.cpp" />
     <ClCompile Include="src\utils\crypto\IntegerUtils.cpp" />
     <ClCompile Include="src\utils\factory\bitmap\BitmapFactory.cpp" />
     <ClCompile Include="src\utils\img\ImageUtils.cpp" />
     <ClCompile Include="src\utils\screen\PointScaler.cpp" />
     <ClCompile Include="src\utils\screen\ScreenUtils.cpp" />
     <ClCompile Include="src\utils\screen\SizeUtils.cpp" />
-    <ClCompile Include="src\utils\sock\crypto\SocketIntegerUtils.cpp" />
     <ClCompile Include="src\utils\sock\SockaddrUtils.cpp" />
     <ClCompile Include="src\utils\sock\SocketErrorChecker.cpp" />
-    <ClCompile Include="src\utils\sock\tcp\TCPUtils.cpp" />
+    <ClCompile Include="src\utils\sock\tcp\crypto\TCPIntegerUtils.cpp" />
     <ClCompile Include="src\utils\sock\udp\PayloadMerger.cpp" />
     <ClCompile Include="src\utils\sock\udp\PayloadSplitter.cpp" />
     <ClCompile Include="src\utils\sock\udp\UDPToolkit.cpp" />
