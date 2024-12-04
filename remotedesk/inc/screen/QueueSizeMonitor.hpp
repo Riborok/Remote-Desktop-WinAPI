@@ -5,7 +5,7 @@
 template <typename T>
 class QueueSizeMonitor {
     ThreadSafeQueue<T>& _queue;
-    size_t _maxFrames;
+    std::atomic<size_t> _maxFrames;
 public:
     QueueSizeMonitor(ThreadSafeQueue<T>& queue, const int fps, const int maxDelayMs);
     void setMaxFrames(const int fps, const int maxDelayMs);
@@ -26,7 +26,7 @@ QueueSizeMonitor<T>::QueueSizeMonitor(ThreadSafeQueue<T>& queue, const int fps, 
 
 template <typename T>
 void QueueSizeMonitor<T>::setMaxFrames(const int fps, const int maxDelayMs) {
-    _maxFrames = FrameUtils::calcFrames(fps, maxDelayMs);
+    _maxFrames = static_cast<size_t>(FrameUtils::calcFrames(fps, maxDelayMs));
 }
 
 template <typename T>
