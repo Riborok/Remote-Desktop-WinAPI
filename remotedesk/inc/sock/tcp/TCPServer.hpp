@@ -7,7 +7,7 @@ class TCPServer {
 public:
     explicit TCPServer(const u_short port);
 
-    TCPConnection acceptConnection() const;
+    TCPConnection acceptConnection(sockaddr_in* clientAddr = nullptr, int* clientAddrSize = nullptr) const;
 
     ~TCPServer() = default;
     TCPServer(TCPServer&&) noexcept = default;

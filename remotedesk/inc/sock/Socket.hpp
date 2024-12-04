@@ -13,7 +13,7 @@ public:
 
     void bindSocket(const u_short port) const;
     void listenOnSocket(const int backlog) const;
-    Socket acceptConnection(sockaddr_in* senderAddr = nullptr, int* senderAddrSize = nullptr) const;
+    Socket acceptConnection(sockaddr_in* clientAddr = nullptr, int* clientAddrSize = nullptr) const;
     void connectToServer(const sockaddr_in& serverAddr) const;
 
     int sendSocket(const std::vector<byte>& buffer) const;

@@ -22,8 +22,8 @@ void Socket::listenOnSocket(const int backlog) const {
     SocketErrorChecker::checkListenError(result);
 }
 
-Socket Socket::acceptConnection(sockaddr_in* senderAddr, int* senderAddrSize) const {
-    const SOCKET clientSock = accept(_sock, reinterpret_cast<sockaddr*>(senderAddr), senderAddrSize);
+Socket Socket::acceptConnection(sockaddr_in* clientAddr, int* clientAddrSize) const {
+    const SOCKET clientSock = accept(_sock, reinterpret_cast<sockaddr*>(clientAddr), clientAddrSize);
     SocketErrorChecker::checkAcceptError(clientSock);
     return Socket(clientSock);
 }

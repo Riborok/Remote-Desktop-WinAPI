@@ -6,6 +6,6 @@ TCPServer::TCPServer(const u_short port)
     _listenSocket.listenOnSocket(SOMAXCONN);
 }
 
-TCPConnection TCPServer::acceptConnection() const {
-    return TCPConnection(_listenSocket.acceptConnection());
+TCPConnection TCPServer::acceptConnection(sockaddr_in* clientAddr, int* clientAddrSize) const {
+    return TCPConnection(_listenSocket.acceptConnection(clientAddr, clientAddrSize));
 }
