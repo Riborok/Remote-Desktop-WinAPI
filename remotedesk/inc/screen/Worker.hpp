@@ -3,7 +3,7 @@
 #include <thread>
 
 class Worker {
-    std::chrono::milliseconds _frameDuration;
+    std::atomic<long long> _frameDuration;
     std::atomic<bool> _running = false;
     std::thread _workerThread;
 protected:
@@ -11,6 +11,7 @@ protected:
 public:
     void start();
     void stop();
+    void setFrameDuration(const int fps);
     virtual ~Worker();
 
     Worker(Worker&&) = delete;

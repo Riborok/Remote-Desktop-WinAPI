@@ -1,14 +1,14 @@
 ﻿#pragma once
 #include "../dt/ThreadSafeQueue.hpp"
+#include "../utils/screen/FrameUtils.hpp"
 
 template <typename T>
 class QueueSizeMonitor {
     ThreadSafeQueue<T>& _queue;
-    int _fps;
-    int _maxDelayMs;
-    size_t _maxItems;
+    size_t _maxFrames;
 public:
     QueueSizeMonitor(ThreadSafeQueue<T>& queue, const int fps, const int maxDelayMs);
+    void setMaxFrames(const int fps, const int maxDelayMs);
     void maintainQueueSize();
 
     ~QueueSizeMonitor() = default;
@@ -16,25 +16,24 @@ public:
     QueueSizeMonitor& operator=(QueueSizeMonitor&&) = delete;
     QueueSizeMonitor(const QueueSizeMonitor&) = delete;
     QueueSizeMonitor& operator=(const QueueSizeMonitor&) = delete;
-private:
-    size_t calcMaxItems() const;
 };
 
 template <typename T>
 QueueSizeMonitor<T>::QueueSizeMonitor(ThreadSafeQueue<T>& queue, const int fps, const int maxDelayMs):
-    _queue(queue), _fps(fps), _maxDelayMs(maxDelayMs),
-    _maxItems(calcMaxItems()) { }
+    _queue(queue) {
+    setMaxFrames(fps, maxDelayMs);
+}
+
+template <typename T>
+void QueueSizeMonitor<T>::setMaxFrames(const int fps, const int maxDelayMs) {
+    _maxFrames = FrameUtils::calcFrames(fps, maxDelayMs);
+}
 
 template <typename T>
 void QueueSizeMonitor<T>::maintainQueueSize() {
     const size_t size = _queue.size();
-    if (size > _maxItems) {
-        const size_t excess = size - _maxItems;
+    if (size > _maxFrames) {
+        const size_t excess = size - _maxFrames;
         _queue.trimQueue(excess);
     }
-}
-
-template <typename T>
-size_t QueueSizeMonitor<T>::calcMaxItems() const {
-    return static_cast<size_t>(_fps * _maxDelayMs / 1000.0);
 }
