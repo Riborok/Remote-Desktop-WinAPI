@@ -4,7 +4,11 @@
 
 #include "../../../inc/utils/sock/SocketErrorChecker.hpp"
 
-sockaddr_in SockaddrUtils::initializeAddress(const PCSTR ip, const u_short port) {
+sockaddr_in SockaddrUtils::createAddr(const std::string& ip, const u_short port) {
+    return createAddr(ip.c_str(), port);
+}
+
+sockaddr_in SockaddrUtils::createAddr(const PCSTR ip, const u_short port) {
     sockaddr_in address;
     address.sin_family = AF_INET;
     address.sin_port = htons(port);

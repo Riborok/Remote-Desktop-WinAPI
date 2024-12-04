@@ -9,7 +9,7 @@ class TCPConnection {
 
     explicit TCPConnection(Socket&& socket);
 public:
-    explicit TCPConnection(const std::string& ip, const u_short port);
+    explicit TCPConnection(const sockaddr_in& addr);
     int sendData(const std::vector<byte>& buffer) const;
     int receiveData(std::vector<byte>& buffer) const;
     void setReceiveTimeout(const DWORD milliseconds) const;

@@ -8,6 +8,7 @@
 #include "sock/udp/sender/UDPSender.hpp"
 #include "sock/udp/data-fragmenter/ImgCodecSecureFragmenter.hpp"
 #include "sock/udp/data-reassembler/ImgCodecSecureReassembler.hpp"
+#include "utils/sock/SockaddrUtils.hpp"
 
 namespace {
     void performSendAndReceiveTest(const std::string& filename, const std::string& ip, const u_short port, std::tuple<UDPSender, UDPReceiver>& udpSenderReceiver);
@@ -59,7 +60,7 @@ namespace {
     std::tuple<UDPSender, UDPReceiver> createPlainUDPSenderAndReceiver(const std::string& ip, const u_short port) {
         auto dataFragmenter = std::make_unique<DataFragmenter>();
         auto dataReassembler = std::make_unique<DataReassembler>();
-        UDPSender sender(ip, port, std::move(dataFragmenter), 64 * MemoryUnits::MEGABYTE);
+        UDPSender sender(SockaddrUtils::createAddr(ip, port), std::move(dataFragmenter), 64 * MemoryUnits::MEGABYTE);
         UDPReceiver receiver(port, std::move(dataReassembler), 64 * MemoryUnits::MEGABYTE);
         return std::make_tuple(std::move(sender), std::move(receiver));
     }

@@ -2,9 +2,9 @@
 
 #include "../../../../inc/utils/sock/SockaddrUtils.hpp"
 
-UDPSender::UDPSender(const std::string& ip, const u_short port, std::unique_ptr<DataFragmenter> dataFragmenter,
-        const DWORD sendBufferSize, const DWORD sendTimeoutMs): _dataFragmenter(std::move(dataFragmenter)) {
-    _addr = SockaddrUtils::initializeAddress(ip.c_str(), port);
+UDPSender::UDPSender(const sockaddr_in& addr, std::unique_ptr<DataFragmenter> dataFragmenter,
+        const DWORD sendBufferSize, const DWORD sendTimeoutMs):
+        _dataFragmenter(std::move(dataFragmenter)), _addr(addr) {
     _socket.setSendBufferSize(sendBufferSize);
     _socket.setSendTimeout(sendTimeoutMs);
 }

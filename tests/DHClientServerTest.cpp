@@ -4,6 +4,7 @@
 
 #include "inc/utils.hpp"
 #include "sock/tcp/TCPServer.hpp"
+#include "utils/sock/SockaddrUtils.hpp"
 
 TEST_F(NetworkTestBase, KeyExchangeTest) {
     std::vector<byte> serverSharedSecret;
@@ -12,7 +13,7 @@ TEST_F(NetworkTestBase, KeyExchangeTest) {
         const TCPConnection tcpConnection = server.acceptConnection();
         serverSharedSecret = DHResponder().exchangeKeys(tcpConnection);
     });
-    const TCPConnection tcpConnection(IP, PORT);
+    const TCPConnection tcpConnection(SockaddrUtils::createAddr(IP, PORT));
     const std::vector<byte> clientSharedSecret = DHInitiator().exchangeKeys(tcpConnection);
     
     serverThread.join();

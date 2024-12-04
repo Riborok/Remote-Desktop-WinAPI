@@ -2,7 +2,6 @@
 
 #include <memory>
 #include <vector>
-#include <string>
 #include <winsock2.h>
 
 #include "../../Socket.hpp"
@@ -14,7 +13,7 @@ class UDPSender {
     Socket _socket {SOCK_DGRAM, IPPROTO_UDP};
     sockaddr_in _addr;
 public:
-    UDPSender(const std::string& ip, const u_short port, std::unique_ptr<DataFragmenter> dataFragmenter,
+    UDPSender(const sockaddr_in& addr, std::unique_ptr<DataFragmenter> dataFragmenter,
               const DWORD sendBufferSize = MemoryUnits::MEGABYTE, const DWORD sendTimeoutMs = 100);
     void send(const std::vector<byte>& data) const;
 private:

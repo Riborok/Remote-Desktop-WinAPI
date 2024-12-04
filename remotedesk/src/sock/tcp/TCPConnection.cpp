@@ -4,10 +4,9 @@
 
 TCPConnection::TCPConnection(Socket&& socket): _socket(std::move(socket)) {}
 
-TCPConnection::TCPConnection(const std::string& ip, const u_short port)
+TCPConnection::TCPConnection(const sockaddr_in& addr)
         : _socket(SOCK_STREAM, IPPROTO_TCP){
-    const sockaddr_in serverAddr = SockaddrUtils::initializeAddress(ip.c_str(), port);
-    _socket.connectToServer(serverAddr);
+    _socket.connectToServer(addr);
 }
 
 int TCPConnection::sendData(const std::vector<byte>& buffer) const {
