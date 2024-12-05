@@ -24,3 +24,11 @@ void TCPConnection::setReceiveTimeout(const DWORD milliseconds) const {
 void TCPConnection::setSendTimeout(const DWORD milliseconds) const {
     _socket.setSendTimeout(milliseconds);
 }
+
+void TCPConnection::setSendBufferSize(const DWORD bufferSize) const {
+    _socket.setSendBufferSize(bufferSize);
+}
+
+void TCPConnection::setReceiveBufferSize(const DWORD bufferSize) const {
+    _socket.setReceiveBufferSize(bufferSize);
+}

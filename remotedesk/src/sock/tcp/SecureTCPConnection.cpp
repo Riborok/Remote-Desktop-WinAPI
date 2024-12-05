@@ -3,12 +3,8 @@
 
 #include "../../../inc/utils/crypto/aes/AESToolkit.hpp"
 
-SecureTCPConnection::SecureTCPConnection(const KeyExchanger& keyExchanger, TCPConnection&& connection)
-        : _connection(std::move(connection)) {
-    const std::vector<byte> key = keyExchanger.exchangeKeys(_connection);
-    _encryptor.setKey(key);
-    _decryptor.setKey(key);
-}
+SecureTCPConnection::SecureTCPConnection(const std::vector<byte>& key, TCPConnection&& connection)
+        : _connection(std::move(connection)), _encryptor(key), _decryptor(key) { }
 
 int SecureTCPConnection::sendData(const std::vector<byte>& buffer) {
     return _connection.sendData(_encryptor.encrypt(buffer));
@@ -28,4 +24,12 @@ void SecureTCPConnection::setReceiveTimeout(const DWORD milliseconds) const {
 
 void SecureTCPConnection::setSendTimeout(const DWORD milliseconds) const {
     _connection.setSendTimeout(milliseconds);
+}
+
+void SecureTCPConnection::setSendBufferSize(const DWORD bufferSize) const {
+    _connection.setSendBufferSize(bufferSize);
+}
+
+void SecureTCPConnection::setReceiveBufferSize(const DWORD bufferSize) const {
+    _connection.setReceiveBufferSize(bufferSize);
 }

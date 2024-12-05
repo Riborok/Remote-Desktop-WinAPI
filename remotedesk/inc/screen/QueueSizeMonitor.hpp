@@ -1,4 +1,5 @@
 ﻿#pragma once
+
 #include "../dt/ThreadSafeQueue.hpp"
 #include "../utils/screen/FrameUtils.hpp"
 
@@ -31,7 +32,7 @@ void QueueSizeMonitor<T>::setMaxFrames(const int fps, const int maxDelayMs) {
 
 template <typename T>
 void QueueSizeMonitor<T>::maintainQueueSize() {
-    const size_t size = _queue.size();
+    const size_t size = _queue.getSize();
     if (size > _maxFrames) {
         const size_t excess = size - _maxFrames;
         _queue.trimQueue(excess);

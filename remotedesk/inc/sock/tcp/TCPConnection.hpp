@@ -14,6 +14,8 @@ public:
     int receiveData(std::vector<byte>& buffer) const;
     void setReceiveTimeout(const DWORD milliseconds) const;
     void setSendTimeout(const DWORD milliseconds) const;
+    void setSendBufferSize(const DWORD bufferSize) const;
+    void setReceiveBufferSize(const DWORD bufferSize) const;
 
     ~TCPConnection() = default;
     TCPConnection(TCPConnection&&) noexcept = default;
