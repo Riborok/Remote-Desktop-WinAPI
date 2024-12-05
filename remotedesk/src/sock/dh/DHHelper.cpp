@@ -3,7 +3,7 @@
 #include "../../../inc/utils/crypto/IntegerUtils.hpp"
 
 void DHHelper::generateRandomGroupParameters() {
-    _dh.AccessGroupParameters().GenerateRandomWithKeySize(_rng, KEY_SIZE);
+    _dh.AccessGroupParameters().GenerateRandomWithKeySize(_rng, 8*KEY_SIZE);
 }
 
 void DHHelper::initializeGroupParameters(const CryptoPP::Integer& p, const CryptoPP::Integer& g) {

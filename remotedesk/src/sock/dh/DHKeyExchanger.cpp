@@ -14,13 +14,11 @@ void DHKeyExchanger::generateRandomGroupParameters() {
 }
 
 void DHKeyExchanger::sendGroupParameters() const {
-    TCPIntegerUtils::sendInteger(_tcpConnection, _dhHelper.getP());
-    TCPIntegerUtils::sendInteger(_tcpConnection, _dhHelper.getG());
+    TCPIntegerUtils::sendIntegers(_tcpConnection, _dhHelper.getP(), _dhHelper.getG());
 }
 
 void DHKeyExchanger::receiveGroupParameters() {
-    const CryptoPP::Integer p = TCPIntegerUtils::receiveInteger(_tcpConnection);
-    const CryptoPP::Integer g = TCPIntegerUtils::receiveInteger(_tcpConnection);
+    const auto [p, g] = TCPIntegerUtils::receiveIntegers(_tcpConnection);
     _dhHelper.initializeGroupParameters(p, g);
 }
 

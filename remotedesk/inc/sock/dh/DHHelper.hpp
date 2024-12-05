@@ -9,7 +9,7 @@ class DHHelper {
     CryptoPP::DH _dh;
     CryptoPP::AutoSeededRandomPool _rng;
 public:
-    static constexpr int KEY_SIZE = 8 * 32;
+    static constexpr size_t KEY_SIZE = 32;
     
     void generateRandomGroupParameters();
     void initializeGroupParameters(const CryptoPP::Integer& p, const CryptoPP::Integer& g);

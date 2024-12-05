@@ -10,4 +10,10 @@ public:
 
     static void sendInteger(const TCPConnection& tcpConnection, const CryptoPP::Integer& value);
     static CryptoPP::Integer receiveInteger(const TCPConnection& tcpConnection);
+    static void sendIntegers(const TCPConnection& tcpConnection, const CryptoPP::Integer& p, const CryptoPP::Integer& g);
+    static std::pair<CryptoPP::Integer, CryptoPP::Integer> receiveIntegers(const TCPConnection& tcpConnection);
+private:
+    static std::vector<byte> combineBuffers(const std::vector<byte>& bufferP, const std::vector<byte>& bufferG);
+    static std::vector<byte> receiveDataFromConnection(const TCPConnection& tcpConnection);
+    static std::pair<std::vector<byte>, std::vector<byte>> extractIntegerBuffers(const std::vector<byte>& combinedBuffer);
 };
