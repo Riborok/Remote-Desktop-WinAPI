@@ -11,9 +11,10 @@ class SecureTCPConnection {
 public:
     SecureTCPConnection(const std::vector<byte>& key, TCPConnection &&connection);
     int sendData(const std::vector<byte>& buffer);
-    int receiveData(std::vector<byte>& buffer);
+    std::vector<byte> receiveData(int& bufferSize);
     void setReceiveTimeout(const DWORD milliseconds) const;
     void setSendTimeout(const DWORD milliseconds) const;
     void setSendBufferSize(const DWORD bufferSize) const;
     void setReceiveBufferSize(const DWORD bufferSize) const;
+    sockaddr_in getPeerAddress() const;
 };

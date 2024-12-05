@@ -10,12 +10,13 @@ int SecureTCPConnection::sendData(const std::vector<byte>& buffer) {
     return _connection.sendData(_encryptor.encrypt(buffer));
 }
 
-int SecureTCPConnection::receiveData(std::vector<byte>& buffer) {
-    const int result = _connection.receiveData(buffer);
-    if (result >= AESToolkit::METADATA_SIZE) {
+std::vector<byte> SecureTCPConnection::receiveData(int& bufferSize) {
+    std::vector<byte> buffer(bufferSize + AESToolkit::METADATA_SIZE);
+    bufferSize = _connection.receiveData(buffer);
+    if (bufferSize >= AESToolkit::METADATA_SIZE) {
         buffer = _decryptor.decrypt(buffer);
     }
-    return result;
+    return buffer;
 }
 
 void SecureTCPConnection::setReceiveTimeout(const DWORD milliseconds) const {
@@ -32,4 +33,8 @@ void SecureTCPConnection::setSendBufferSize(const DWORD bufferSize) const {
 
 void SecureTCPConnection::setReceiveBufferSize(const DWORD bufferSize) const {
     _connection.setReceiveBufferSize(bufferSize);
+}
+
+sockaddr_in SecureTCPConnection::getPeerAddress() const {
+    return _connection.getPeerAddress();
 }

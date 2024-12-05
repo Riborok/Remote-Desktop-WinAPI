@@ -16,6 +16,12 @@ sockaddr_in SockaddrUtils::createAddr(const PCSTR ip, const u_short port) {
     return address;
 }
 
+std::string SockaddrUtils::getIpAddress(const sockaddr_in& clientAddr) {
+    char ipStr[INET_ADDRSTRLEN];
+    inet_ntop(AF_INET, &clientAddr.sin_addr, ipStr, sizeof(ipStr));
+    return {ipStr};
+}
+
 void SockaddrUtils::setIpAddress(sockaddr_in& address, const PCSTR ip) {
     address.sin_addr.s_addr = ip == nullptr ? INADDR_ANY : getAddressFromIp(ip);
 }

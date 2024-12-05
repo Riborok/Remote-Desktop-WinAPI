@@ -29,6 +29,8 @@ public:
     void setSendBufferSize(const DWORD bufferSize) const;
     void setReceiveBufferSize(const DWORD bufferSize) const;
     
+    sockaddr_in getPeerAddress() const;
+    
     ~Socket();
     Socket(Socket&&) noexcept;
     Socket& operator=(Socket&&) noexcept;

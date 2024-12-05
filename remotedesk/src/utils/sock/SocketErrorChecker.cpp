@@ -76,10 +76,15 @@ void SocketErrorChecker::checkSetReceiveBufferError(const int result) {
     checkSetSockOptError(result, "receive buffer size");
 }
 
-
 void SocketErrorChecker::checkSetSockOptError(const int result, const std::string& option) {
     if (result == SOCKET_ERROR) {
         throwWSAError("Failed to set socket option: " + option);
+    }
+}
+
+void SocketErrorChecker::checkGetPeerAddress(const int result) {
+    if (result == SOCKET_ERROR) {
+        throwWSAError("Failed to get peer address");
     }
 }
 

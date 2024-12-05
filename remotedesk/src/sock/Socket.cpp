@@ -75,6 +75,14 @@ void Socket::setReceiveBufferSize(const DWORD bufferSize) const {
     SocketErrorChecker::checkSetReceiveBufferError(result);
 }
 
+sockaddr_in Socket::getPeerAddress() const {
+    sockaddr_in peerAddr;
+    int peerAddrSize = sizeof(peerAddr);
+    const int result = getpeername(_sock, reinterpret_cast<sockaddr*>(&peerAddr), &peerAddrSize);
+    SocketErrorChecker::checkGetPeerAddress(result);
+    return peerAddr;
+}
+
 int Socket::setSockOpt(const DWORD value, const int option) const {
     return setsockopt(_sock, SOL_SOCKET, option, 
         reinterpret_cast<const char*>(&value), sizeof(value));
