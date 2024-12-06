@@ -25,10 +25,10 @@
     <ClInclude Include="inc\crypto\dh\DHInitiator.hpp" />
     <ClInclude Include="inc\crypto\dh\DHResponder.hpp" />
     <ClInclude Include="inc\crypto\KeyExchanger.hpp" />
-    <ClInclude Include="inc\dt\ThreadSafeQueue.hpp" />
     <ClInclude Include="inc\img\ImageTileComposer.hpp" />
     <ClInclude Include="inc\img\ImageTileSplitter.hpp" />
     <ClInclude Include="inc\img\TileSplitter.hpp" />
+    <ClInclude Include="inc\remote-desk\sender\RemoteEventExecutor.hpp" />
     <ClInclude Include="inc\screen\bitmap\Bitmap.hpp" />
     <ClInclude Include="inc\screen\capture\CursorCapture.hpp" />
     <ClInclude Include="inc\screen\capture\ScreenCapture.hpp" />
@@ -38,7 +38,7 @@
     <ClInclude Include="inc\screen\QueueSizeMonitor.hpp" />
     <ClInclude Include="inc\screen\render\ScreenRender.hpp" />
     <ClInclude Include="inc\screen\render\ScreenRenderWorker.hpp" />
-    <ClInclude Include="inc\screen\Worker.hpp" />
+    <ClInclude Include="inc\screen\FrameWorker.hpp" />
     <ClInclude Include="inc\sock\dh\DHHelper.hpp" />
     <ClInclude Include="inc\sock\dh\DHKeyExchanger.hpp" />
     <ClInclude Include="inc\sock\Socket.hpp" />
@@ -58,6 +58,8 @@
     <ClInclude Include="inc\sock\udp\receiver\FragmentStateTracker.hpp" />
     <ClInclude Include="inc\sock\udp\receiver\UDPReceiver.hpp" />
     <ClInclude Include="inc\sock\udp\sender\UDPSender.hpp" />
+    <ClInclude Include="inc\thread\ThreadWorker.hpp" />
+    <ClInclude Include="inc\thread\ThreadSafeQueue.hpp" />
     <ClInclude Include="inc\types\byte.hpp" />
     <ClInclude Include="inc\utils\array\ArrayChunkSplitter.hpp" />
     <ClInclude Include="inc\utils\array\ByteArrayUtils.hpp" />
@@ -89,6 +91,7 @@
     <ClCompile Include="src\img\ImageTileComposer.cpp" />
     <ClCompile Include="src\img\ImageTileSplitter.cpp" />
     <ClCompile Include="src\img\TileSplitter.cpp" />
+    <ClCompile Include="src\remote-desk\sender\RemoteEventExecutor.cpp" />
     <ClCompile Include="src\screen\bitmap\Bitmap.cpp" />
     <ClCompile Include="src\screen\capture\CursorCapture.cpp" />
     <ClCompile Include="src\screen\capture\ScreenCapture.cpp" />
@@ -96,7 +99,7 @@
     <ClCompile Include="src\screen\DC.cpp" />
     <ClCompile Include="src\screen\render\ScreenRender.cpp" />
     <ClCompile Include="src\screen\render\ScreenRenderWorker.cpp" />
-    <ClCompile Include="src\screen\Worker.cpp" />
+    <ClCompile Include="src\screen\FrameWorker.cpp" />
     <ClCompile Include="src\sock\dh\DHHelper.cpp" />
     <ClCompile Include="src\sock\dh\DHKeyExchanger.cpp" />
     <ClCompile Include="src\sock\Socket.cpp" />
@@ -113,86 +116,11 @@
     <ClCompile Include="src\sock\udp\receiver\FragmentStateTracker.cpp" />
     <ClCompile Include="src\sock\udp\receiver\UDPReceiver.cpp" />
     <ClCompile Include="src\sock\udp\sender\UDPSender.cpp" />
+    <ClCompile Include="src\thread\ThreadWorker.cpp" />
     <ClCompile Include="src\utils\crypto\IntegerUtils.cpp" />
     <ClCompile Include="src\utils\factory\bitmap\BitmapFactory.cpp" />
     <ClCompile Include="src\utils\img\ImageUtils.cpp" />
-    <ClCompile Include="src\utils\screen\FrameUtils.cpp">
-      <AssemblerOutput>NoListing</AssemblerOutput>
-      <AssemblerListingLocation>x64\Release\</AssemblerListingLocation>
-      <UndefineAllPreprocessorDefinitions>false</UndefineAllPreprocessorDefinitions>
-      <BrowseInformation>false</BrowseInformation>
-      <BrowseInformationFile>x64\Release\</BrowseInformationFile>
-      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
-      <CompileAs>Default</CompileAs>
-      <ConformanceMode>true</ConformanceMode>
-      <DiagnosticsFormat>Column</DiagnosticsFormat>
-      <DisableLanguageExtensions>false</DisableLanguageExtensions>
-      <ErrorReporting>Prompt</ErrorReporting>
-      <ExpandAttributedSource>false</ExpandAttributedSource>
-      <ExceptionHandling>Sync</ExceptionHandling>
-      <EnableASAN>false</EnableASAN>
-      <EnableFuzzer>false</EnableFuzzer>
-      <EnableFiberSafeOptimizations>false</EnableFiberSafeOptimizations>
-      <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
-      <FloatingPointModel>Precise</FloatingPointModel>
-      <ForceConformanceInForLoopScope>true</ForceConformanceInForLoopScope>
-      <GenerateModuleDependencies>false</GenerateModuleDependencies>
-      <GenerateSourceDependencies>false</GenerateSourceDependencies>
-      <GenerateXMLDocumentationFiles>false</GenerateXMLDocumentationFiles>
-      <InlineFunctionExpansion>Default</InlineFunctionExpansion>
-      <IntrinsicFunctions>true</IntrinsicFunctions>
-      <IgnoreStandardIncludePath>false</IgnoreStandardIncludePath>
-      <LanguageStandard>stdcpp17</LanguageStandard>
-      <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <MinimalRebuild>false</MinimalRebuild>
-      <ModuleDependenciesFile>x64\Release\</ModuleDependenciesFile>
-      <ModuleOutputFile>x64\Release\</ModuleOutputFile>
-      <OmitDefaultLibName>false</OmitDefaultLibName>
-      <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
-      <WholeProgramOptimization>true</WholeProgramOptimization>
-      <Optimization>MaxSpeed</Optimization>
-      <ObjectFileName>x64\Release\</ObjectFileName>
-      <CallingConvention>Cdecl</CallingConvention>
-      <ProgramDataBaseFileName>D:\Desktop\Remote-Desktop\remote-desktop\x64\Release\remotedesk.pdb</ProgramDataBaseFileName>
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <PrecompiledHeaderOutputFile>x64\Release\remotedesk.pch</PrecompiledHeaderOutputFile>
-      <PreprocessToFile>false</PreprocessToFile>
-      <PreprocessKeepComments>false</PreprocessKeepComments>
-      <PreprocessSuppressLineNumbers>false</PreprocessSuppressLineNumbers>
-      <RemoveUnreferencedCodeData>true</RemoveUnreferencedCodeData>
-      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
-      <ShowIncludes>false</ShowIncludes>
-      <SourceDependenciesFile>x64\Release\</SourceDependenciesFile>
-      <SuppressStartupBanner>true</SuppressStartupBanner>
-      <BufferSecurityCheck>true</BufferSecurityCheck>
-      <SmallerTypeCheck>false</SmallerTypeCheck>
-      <SpectreMitigation>false</SpectreMitigation>
-      <StructMemberAlignment>Default</StructMemberAlignment>
-      <SupportJustMyCode>false</SupportJustMyCode>
-      <TrackerLogDirectory>x64\Release\remotedesk.tlog\</TrackerLogDirectory>
-      <TranslateIncludes>false</TranslateIncludes>
-      <MinimalRebuildFromTracking>true</MinimalRebuildFromTracking>
-      <TreatWarningAsError>false</TreatWarningAsError>
-      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
-      <UseFullPaths>true</UseFullPaths>
-      <WarningLevel>Level3</WarningLevel>
-      <XMLDocumentationFileName>x64\Release\</XMLDocumentationFileName>
-      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <IntelJCCErratum>false</IntelJCCErratum>
-      <BuildStlModules>false</BuildStlModules>
-      <TreatAngleIncludeAsExternal>false</TreatAngleIncludeAsExternal>
-      <ExternalWarningLevel>InheritWarningLevel</ExternalWarningLevel>
-      <TreatExternalTemplatesAsInternal>true</TreatExternalTemplatesAsInternal>
-      <DisableAnalyzeExternal>false</DisableAnalyzeExternal>
-      <PreprocessorDefinitions>NDEBUG;_LIB;_UNICODE;UNICODE;</PreprocessorDefinitions>
-      <FunctionLevelLinking>true</FunctionLevelLinking>
-      <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>C:\Program Files\cryptopp;</AdditionalIncludeDirectories>
-      <OpenMPSupport>true</OpenMPSupport>
-      <LibCompiled>true</LibCompiled>
-    </ClCompile>
+    <ClCompile Include="src\utils\screen\FrameUtils.cpp" />
     <ClCompile Include="src\utils\screen\PointScaler.cpp" />
     <ClCompile Include="src\utils\screen\ScreenUtils.cpp" />
     <ClCompile Include="src\utils\screen\SizeUtils.cpp" />
@@ -205,8 +133,8 @@
     <ClCompile Include="src\utils\sock\WinSockUtils.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="inc\remote-desk\" />
-    <Folder Include="src\remote-desk\" />
+    <Folder Include="inc\remote-desk\receiver\" />
+    <Folder Include="src\remote-desk\receiver\" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

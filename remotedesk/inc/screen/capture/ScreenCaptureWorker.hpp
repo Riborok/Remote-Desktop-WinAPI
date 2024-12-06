@@ -1,9 +1,9 @@
 ﻿#pragma once
 
 #include "ScreenCapture.hpp"
-#include "../Worker.hpp"
+#include "../FrameWorker.hpp"
 
-class ScreenCaptureWorker final : public Worker {
+class ScreenCaptureWorker final : public FrameWorker {
     ScreenCapture _screenCapture;
 public:
     ScreenCaptureWorker(ThreadSafeQueue<std::vector<byte>>& queue, const SIZE& targetSize,

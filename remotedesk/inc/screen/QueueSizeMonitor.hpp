@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-#include "../dt/ThreadSafeQueue.hpp"
+#include "../thread/ThreadSafeQueue.hpp"
 #include "../utils/screen/FrameUtils.hpp"
 
 template <typename T>

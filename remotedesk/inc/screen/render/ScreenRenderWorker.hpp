@@ -1,9 +1,9 @@
 ﻿#pragma once
 
 #include "ScreenRender.hpp"
-#include "../Worker.hpp"
+#include "../FrameWorker.hpp"
 
-class ScreenRenderWorker final : public Worker {
+class ScreenRenderWorker final : public FrameWorker {
     ScreenRender _screenRender;
 public:
     ScreenRenderWorker(ThreadSafeQueue<std::vector<byte>>& queue, const HWND hWnd,
