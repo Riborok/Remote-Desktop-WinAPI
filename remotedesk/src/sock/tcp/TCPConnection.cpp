@@ -36,3 +36,7 @@ void TCPConnection::setReceiveBufferSize(const DWORD bufferSize) const {
 sockaddr_in TCPConnection::getPeerAddress() const {
     return _socket.getPeerAddress();
 }
+
+void TCPConnection::shutdownSocket(const int how) const {
+    return _socket.shutdownSocket(how);
+}

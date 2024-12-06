@@ -17,4 +17,5 @@ public:
     void setSendBufferSize(const DWORD bufferSize) const;
     void setReceiveBufferSize(const DWORD bufferSize) const;
     sockaddr_in getPeerAddress() const;
+    void shutdownSocket(const int how = SD_BOTH) const;
 };

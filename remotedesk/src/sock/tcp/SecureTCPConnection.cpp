@@ -38,3 +38,7 @@ void SecureTCPConnection::setReceiveBufferSize(const DWORD bufferSize) const {
 sockaddr_in SecureTCPConnection::getPeerAddress() const {
     return _connection.getPeerAddress();
 }
+
+void SecureTCPConnection::shutdownSocket(const int how) const {
+    return _connection.shutdownSocket(how);
+}

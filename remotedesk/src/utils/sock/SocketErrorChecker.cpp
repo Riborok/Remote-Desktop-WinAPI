@@ -88,6 +88,12 @@ void SocketErrorChecker::checkGetPeerAddress(const int result) {
     }
 }
 
+void SocketErrorChecker::checkShutdownSocket(const int result) {
+    if (result == SOCKET_ERROR) {
+        throwWSAError("Failed to shutdown socket");
+    }
+}
+
 void SocketErrorChecker::throwWSAError(const std::string& message) {
     const int errorCode = WSAGetLastError();
     throwWSAError(message, errorCode);

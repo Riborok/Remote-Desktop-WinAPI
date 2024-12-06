@@ -22,6 +22,7 @@ public:
     static void checkSetSendBufferError(const int result);
     static void checkSetReceiveBufferError(const int result);
     static void checkGetPeerAddress(const int result);
+    static void checkShutdownSocket(const int result);
 private:
     static void checkSetSockOptError(const int result, const std::string& option);
     [[noreturn]] static void throwWSAError(const std::string& message);

@@ -83,6 +83,11 @@ sockaddr_in Socket::getPeerAddress() const {
     return peerAddr;
 }
 
+void Socket::shutdownSocket(const int how) const {
+    const int result = shutdown(_sock, how);
+    SocketErrorChecker::checkShutdownSocket(result);
+}
+
 int Socket::setSockOpt(const DWORD value, const int option) const {
     return setsockopt(_sock, SOL_SOCKET, option, 
         reinterpret_cast<const char*>(&value), sizeof(value));
