@@ -3,7 +3,7 @@
 #include "../../../inc/sock/dh/DHKeyExchanger.hpp"
 #include "../../../inc/utils/crypto/IntegerUtils.hpp"
 
-std::vector<byte> DHResponder::exchangeKeys(const TCPConnection& tcpConnection) const {
+std::vector<byte> DHResponder::exchangeKeys(TCPConnection& tcpConnection) {
     DHKeyExchanger keyExchanger(tcpConnection);
     keyExchanger.receiveGroupParameters();
     return IntegerUtils::toVector(keyExchanger.exchangeKeys());

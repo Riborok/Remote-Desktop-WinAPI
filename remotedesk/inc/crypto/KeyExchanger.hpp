@@ -4,7 +4,7 @@
 
 class KeyExchanger {
 public:
-    virtual std::vector<byte> exchangeKeys(const TCPConnection& tcpConnection) const = 0;
+    virtual std::vector<byte> exchangeKeys(TCPConnection& tcpConnection) = 0;
 
     KeyExchanger() = default;
     virtual ~KeyExchanger() = default;

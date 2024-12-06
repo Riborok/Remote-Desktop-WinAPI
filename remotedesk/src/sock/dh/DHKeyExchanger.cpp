@@ -2,7 +2,7 @@
 
 #include "../../../inc/utils/sock/tcp/crypto/TCPIntegerUtils.hpp"
 
-DHKeyExchanger::DHKeyExchanger(const TCPConnection& tcpConnection): _tcpConnection(tcpConnection) {}
+DHKeyExchanger::DHKeyExchanger(TCPConnection& tcpConnection): _tcpConnection(tcpConnection) {}
 
 void DHKeyExchanger::generateAndSendGroupParameters() {
     generateRandomGroupParameters();

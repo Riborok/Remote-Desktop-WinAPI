@@ -10,10 +10,10 @@ TEST_F(NetworkTestBase, KeyExchangeTest) {
     std::vector<byte> serverSharedSecret;
     std::thread serverThread([&] {
         const TCPServer server(PORT);
-        const TCPConnection tcpConnection = server.acceptConnection();
+        TCPConnection tcpConnection = server.acceptConnection();
         serverSharedSecret = DHResponder().exchangeKeys(tcpConnection);
     });
-    const TCPConnection tcpConnection(SockaddrUtils::createAddr(IP, PORT));
+    TCPConnection tcpConnection(SockaddrUtils::createAddr(IP, PORT));
     const std::vector<byte> clientSharedSecret = DHInitiator().exchangeKeys(tcpConnection);
     
     serverThread.join();

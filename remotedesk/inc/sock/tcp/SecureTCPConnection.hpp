@@ -4,18 +4,16 @@
 #include "../../crypto/aes/AESDecryptor.hpp"
 #include "../../crypto/aes/AESEncryptor.hpp"
 
-class SecureTCPConnection {
-    TCPConnection _connection;
+class SecureTCPConnection final : public TCPConnection {
     AESEncryptor _encryptor;
     AESDecryptor _decryptor;
 public:
     SecureTCPConnection(const std::vector<byte>& key, TCPConnection &&connection);
-    int sendData(const std::vector<byte>& buffer);
-    std::vector<byte> receiveData(int& bufferSize);
-    void setReceiveTimeout(const DWORD milliseconds) const;
-    void setSendTimeout(const DWORD milliseconds) const;
-    void setSendBufferSize(const DWORD bufferSize) const;
-    void setReceiveBufferSize(const DWORD bufferSize) const;
-    sockaddr_in getPeerAddress() const;
-    void shutdownSocket(const int how = SD_BOTH) const;
+    int sendData(const std::vector<byte>& buffer) override;
+    std::vector<byte> receiveData(int& bufferSize) override;
+private:
+    static void adjustBufferSizeForMetadata(int& bufferSize);
+    static bool isBufferSizeSufficient(const int bufferSize);
+    std::vector<byte> createDecryptedData(const std::vector<byte>& buffer, int& bufferSize);
+    static std::vector<byte> createEmptyData(int& bufferSize);
 };

@@ -4,5 +4,5 @@
 
 class DHInitiator final : public KeyExchanger {
 public:
-    std::vector<byte> exchangeKeys(const TCPConnection& tcpConnection) const override;
+    std::vector<byte> exchangeKeys(TCPConnection& tcpConnection) override;
 };

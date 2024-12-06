@@ -4,18 +4,18 @@
 #include "../../../../../inc/utils/array/ByteArrayUtils.hpp"
 #include "../../../../../inc/utils/crypto/IntegerUtils.hpp"
 
-void TCPIntegerUtils::sendInteger(const TCPConnection& tcpConnection, const CryptoPP::Integer& value) {
+void TCPIntegerUtils::sendInteger(TCPConnection& tcpConnection, const CryptoPP::Integer& value) {
     const std::vector<byte> buffer(IntegerUtils::toVector(value));
     tcpConnection.sendData(buffer);
 }
 
-CryptoPP::Integer TCPIntegerUtils::receiveInteger(const TCPConnection& tcpConnection) {
-    std::vector<byte> buffer(DHHelper::KEY_SIZE);
-    const int len = tcpConnection.receiveData(buffer);
-    return {buffer.data(), static_cast<size_t>(len)};
+CryptoPP::Integer TCPIntegerUtils::receiveInteger(TCPConnection& tcpConnection) {
+    int bufferSize = DHHelper::KEY_SIZE;
+    std::vector<byte> buffer = tcpConnection.receiveData(bufferSize);
+    return {buffer.data(), static_cast<size_t>(bufferSize)};
 }
 
-void TCPIntegerUtils::sendIntegers(const TCPConnection& tcpConnection, const CryptoPP::Integer& p,
+void TCPIntegerUtils::sendIntegers(TCPConnection& tcpConnection, const CryptoPP::Integer& p,
         const CryptoPP::Integer& g) {
     const std::vector<byte> bufferP = IntegerUtils::toVector(p);
     const std::vector<byte> bufferG = IntegerUtils::toVector(g);
@@ -34,7 +34,7 @@ std::vector<byte> TCPIntegerUtils::combineBuffers(const std::vector<byte>& buffe
     return combinedBuffer;
 }
 
-std::pair<CryptoPP::Integer, CryptoPP::Integer> TCPIntegerUtils::receiveIntegers(const TCPConnection& tcpConnection) {
+std::pair<CryptoPP::Integer, CryptoPP::Integer> TCPIntegerUtils::receiveIntegers(TCPConnection& tcpConnection) {
     const std::vector<byte> combinedBuffer = receiveDataFromConnection(tcpConnection);
     auto [bufferP, bufferG] = extractIntegerBuffers(combinedBuffer);
     CryptoPP::Integer p(bufferP.data(), bufferP.size());
@@ -42,10 +42,10 @@ std::pair<CryptoPP::Integer, CryptoPP::Integer> TCPIntegerUtils::receiveIntegers
     return {p, g};
 }
 
-std::vector<byte> TCPIntegerUtils::receiveDataFromConnection(const TCPConnection& tcpConnection) {
-    std::vector<byte> combinedBuffer(2 * sizeof(size_t) + 2 * DHHelper::KEY_SIZE);
-    const int receivedSize = tcpConnection.receiveData(combinedBuffer);
-    if (receivedSize < static_cast<int>(2 * sizeof(size_t))) {
+std::vector<byte> TCPIntegerUtils::receiveDataFromConnection(TCPConnection& tcpConnection) {
+    int bufferSize = 2 * sizeof(size_t) + 2 * DHHelper::KEY_SIZE;
+    std::vector<byte> combinedBuffer = tcpConnection.receiveData(bufferSize);
+    if (bufferSize < static_cast<int>(2 * sizeof(size_t))) {
         throw std::runtime_error("Received incomplete data for integers");
     }
     return combinedBuffer;

@@ -9,12 +9,14 @@ TCPConnection::TCPConnection(const sockaddr_in& addr)
     _socket.connectToServer(addr);
 }
 
-int TCPConnection::sendData(const std::vector<byte>& buffer) const {
+int TCPConnection::sendData(const std::vector<byte>& buffer) {
     return _socket.sendSocket(buffer);
 }
 
-int TCPConnection::receiveData(std::vector<byte>& buffer) const {
-    return _socket.recvSocket(buffer);
+std::vector<byte> TCPConnection::receiveData(int& bufferSize) {
+    std::vector<byte> buffer(bufferSize);
+    bufferSize = _socket.recvSocket(buffer);
+    return buffer;
 }
 
 void TCPConnection::setReceiveTimeout(const DWORD milliseconds) const {

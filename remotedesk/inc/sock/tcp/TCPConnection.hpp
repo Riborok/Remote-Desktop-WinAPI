@@ -10,8 +10,8 @@ class TCPConnection {
     explicit TCPConnection(Socket&& socket);
 public:
     explicit TCPConnection(const sockaddr_in& addr);
-    int sendData(const std::vector<byte>& buffer) const;
-    int receiveData(std::vector<byte>& buffer) const;
+    virtual int sendData(const std::vector<byte>& buffer);
+    virtual std::vector<byte> receiveData(int& bufferSize);
     void setReceiveTimeout(const DWORD milliseconds) const;
     void setSendTimeout(const DWORD milliseconds) const;
     void setSendBufferSize(const DWORD bufferSize) const;
@@ -20,7 +20,7 @@ public:
     sockaddr_in getPeerAddress() const;
     void shutdownSocket(const int how = SD_BOTH) const;
 
-    ~TCPConnection() = default;
+    virtual ~TCPConnection() = default;
     TCPConnection(TCPConnection&&) noexcept = default;
     TCPConnection& operator=(TCPConnection&&) noexcept = default;
 
