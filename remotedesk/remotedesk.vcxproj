@@ -34,11 +34,11 @@
     <ClInclude Include="inc\screen\capture\ScreenCapture.hpp" />
     <ClInclude Include="inc\screen\capture\ScreenCaptureWorker.hpp" />
     <ClInclude Include="inc\screen\DC.hpp" />
+    <ClInclude Include="inc\screen\FrameWorker.hpp" />
     <ClInclude Include="inc\screen\Icon.hpp" />
     <ClInclude Include="inc\screen\QueueSizeMonitor.hpp" />
     <ClInclude Include="inc\screen\render\ScreenRender.hpp" />
     <ClInclude Include="inc\screen\render\ScreenRenderWorker.hpp" />
-    <ClInclude Include="inc\screen\FrameWorker.hpp" />
     <ClInclude Include="inc\sock\dh\DHHelper.hpp" />
     <ClInclude Include="inc\sock\dh\DHKeyExchanger.hpp" />
     <ClInclude Include="inc\sock\Socket.hpp" />
@@ -57,9 +57,11 @@
     <ClInclude Include="inc\sock\udp\receiver\FragmentCollector.hpp" />
     <ClInclude Include="inc\sock\udp\receiver\FragmentStateTracker.hpp" />
     <ClInclude Include="inc\sock\udp\receiver\UDPReceiver.hpp" />
+    <ClInclude Include="inc\sock\udp\receiver\UDPReceiverWorker.hpp" />
     <ClInclude Include="inc\sock\udp\sender\UDPSender.hpp" />
-    <ClInclude Include="inc\thread\ThreadWorker.hpp" />
+    <ClInclude Include="inc\sock\udp\sender\UDPSenderWorker.hpp" />
     <ClInclude Include="inc\thread\ThreadSafeQueue.hpp" />
+    <ClInclude Include="inc\thread\ThreadWorker.hpp" />
     <ClInclude Include="inc\types\byte.hpp" />
     <ClInclude Include="inc\utils\array\ArrayChunkSplitter.hpp" />
     <ClInclude Include="inc\utils\array\ByteArrayUtils.hpp" />
@@ -75,7 +77,6 @@
     <ClInclude Include="inc\utils\screen\SizeUtils.hpp" />
     <ClInclude Include="inc\utils\sock\SockaddrUtils.hpp" />
     <ClInclude Include="inc\utils\sock\SocketErrorChecker.hpp" />
-    <ClInclude Include="inc\utils\sock\tcp\crypto\TCPIntegerUtils.hpp" />
     <ClInclude Include="inc\utils\sock\udp\PayloadMerger.hpp" />
     <ClInclude Include="inc\utils\sock\udp\PayloadSplitter.hpp" />
     <ClInclude Include="inc\utils\sock\udp\UDPToolkit.hpp" />
@@ -97,9 +98,9 @@
     <ClCompile Include="src\screen\capture\ScreenCapture.cpp" />
     <ClCompile Include="src\screen\capture\ScreenCaptureWorker.cpp" />
     <ClCompile Include="src\screen\DC.cpp" />
+    <ClCompile Include="src\screen\FrameWorker.cpp" />
     <ClCompile Include="src\screen\render\ScreenRender.cpp" />
     <ClCompile Include="src\screen\render\ScreenRenderWorker.cpp" />
-    <ClCompile Include="src\screen\FrameWorker.cpp" />
     <ClCompile Include="src\sock\dh\DHHelper.cpp" />
     <ClCompile Include="src\sock\dh\DHKeyExchanger.cpp" />
     <ClCompile Include="src\sock\Socket.cpp" />
@@ -115,7 +116,9 @@
     <ClCompile Include="src\sock\udp\receiver\FragmentCollector.cpp" />
     <ClCompile Include="src\sock\udp\receiver\FragmentStateTracker.cpp" />
     <ClCompile Include="src\sock\udp\receiver\UDPReceiver.cpp" />
+    <ClCompile Include="src\sock\udp\receiver\UDPReceiverWorker.cpp" />
     <ClCompile Include="src\sock\udp\sender\UDPSender.cpp" />
+    <ClCompile Include="src\sock\udp\sender\UDPSenderWorker.cpp" />
     <ClCompile Include="src\thread\ThreadWorker.cpp" />
     <ClCompile Include="src\utils\crypto\IntegerUtils.cpp" />
     <ClCompile Include="src\utils\factory\bitmap\BitmapFactory.cpp" />
@@ -126,7 +129,7 @@
     <ClCompile Include="src\utils\screen\SizeUtils.cpp" />
     <ClCompile Include="src\utils\sock\SockaddrUtils.cpp" />
     <ClCompile Include="src\utils\sock\SocketErrorChecker.cpp" />
-    <ClCompile Include="src\utils\sock\tcp\crypto\TCPIntegerUtils.cpp" />
+    <ClCompile Include="src\utils\sock\tcp\crypto\TCPKeyExchangeUtils.cpp" />
     <ClCompile Include="src\utils\sock\udp\PayloadMerger.cpp" />
     <ClCompile Include="src\utils\sock\udp\PayloadSplitter.cpp" />
     <ClCompile Include="src\utils\sock\udp\UDPToolkit.cpp" />
@@ -134,7 +137,10 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="inc\remote-desk\receiver\" />
+    <Folder Include="inc\utils\remote-desk\" />
+    <Folder Include="inc\utils\sock\tcp\crypto\" />
     <Folder Include="src\remote-desk\receiver\" />
+    <Folder Include="src\utils\remote-desk\" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

@@ -1,6 +1,6 @@
 ﻿#include "../../../inc/sock/dh/DHKeyExchanger.hpp"
 
-#include "../../../inc/utils/sock/tcp/crypto/TCPIntegerUtils.hpp"
+#include "../../../inc/utils/sock/tcp/crypto/TCPKeyExchangeUtils.hpp"
 
 DHKeyExchanger::DHKeyExchanger(TCPConnection& tcpConnection): _tcpConnection(tcpConnection) {}
 
@@ -14,11 +14,11 @@ void DHKeyExchanger::generateRandomGroupParameters() {
 }
 
 void DHKeyExchanger::sendGroupParameters() const {
-    TCPIntegerUtils::sendIntegers(_tcpConnection, _dhHelper.getP(), _dhHelper.getG());
+    TCPKeyExchangeUtils::sendDHParameters(_tcpConnection, _dhHelper.getP(), _dhHelper.getG());
 }
 
 void DHKeyExchanger::receiveGroupParameters() {
-    const auto [p, g] = TCPIntegerUtils::receiveIntegers(_tcpConnection);
+    const auto [p, g] = TCPKeyExchangeUtils::receiveDHParameters(_tcpConnection);
     _dhHelper.initializeGroupParameters(p, g);
 }
 
@@ -35,9 +35,9 @@ void DHKeyExchanger::generateKeys() {
 }
 
 void DHKeyExchanger::sendPublicKey() {
-    TCPIntegerUtils::sendInteger(_tcpConnection, {_publicKey.data(), _publicKey.size()});
+    TCPKeyExchangeUtils::sendPublicKey(_tcpConnection, {_publicKey.data(), _publicKey.size()});
 }
 
 CryptoPP::Integer DHKeyExchanger::receivePublicKey() const {
-    return TCPIntegerUtils::receiveInteger(_tcpConnection);
+    return TCPKeyExchangeUtils::receivePublicKey(_tcpConnection);
 }
