@@ -4,7 +4,7 @@
 int main() {
     WinSockUtils::initializeWinSock();
 
-    Sender sender(8080, {1920, 1080}, 30, 1000);
+    Sender sender(8080, 30, 1000);
     sender.run();
     while (!GetAsyncKeyState(VK_ESCAPE)) {
         std::this_thread::sleep_for(std::chrono::milliseconds(100));

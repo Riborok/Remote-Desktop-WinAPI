@@ -13,5 +13,6 @@ public:
     void run() const;
     void stop() const;
     void updateAppSize(const SIZE& appSize) const;
+    void updateFPSAndMaxDelay(const int fps, const int maxDelayMs) const;
     void sendEvent(const UINT message, const WPARAM wParam, const LPARAM lParam) const;
 };

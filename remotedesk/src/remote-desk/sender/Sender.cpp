@@ -1,6 +1,6 @@
 ﻿#include "../../../inc/remote-desk/sender/Sender.hpp"
 
-Sender::Sender(const u_short tcpServerPort, const SIZE& targetSize, const int fps, const int maxDelayMs) {
+Sender::Sender(const u_short tcpServerPort, const int fps, const int maxDelayMs, const SIZE& targetSize) {
     _frames = SenderInitializer::createFrames();
     auto connection = SenderInitializer::createConnection(tcpServerPort);
     const u_short port = SenderInitializer::sendSizeReceivePort(*connection, targetSize);
@@ -19,4 +19,8 @@ void Sender::stop() const {
     _screenCaptureWorker->stop();
     _udpSenderWorker->stop();
     _eventHandler->stop();
+}
+
+void Sender::updateFPSAndMaxDelay(const int fps, const int maxDelayMs) const {
+    _screenCaptureWorker->updateFPSAndMaxDelay(fps, maxDelayMs);
 }

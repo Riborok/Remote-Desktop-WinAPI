@@ -25,6 +25,10 @@ void Receiver::updateAppSize(const SIZE& appSize) const {
     _screenRenderWorker->updateAppSize(appSize);
 }
 
+void Receiver::updateFPSAndMaxDelay(const int fps, const int maxDelayMs) const {
+    _screenRenderWorker->updateFPSAndMaxDelay(fps, maxDelayMs);
+}
+
 void Receiver::sendEvent(const UINT message, const WPARAM wParam, const LPARAM lParam) const {
     _eventSender->sendEvent(message, wParam, lParam);
 }
