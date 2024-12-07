@@ -2,8 +2,8 @@
 
 #include "../../inc/utils/screen/FrameUtils.hpp"
 
-FrameWorker::FrameWorker(ThreadSafeQueue<std::vector<byte>>& queue, const int fps, const int maxDelayMs):
-        _frames(queue), _queueSizeMonitor(_frames, fps, maxDelayMs) {
+FrameWorker::FrameWorker(ThreadSafeQueue<std::vector<byte>>& frames, const int fps, const int maxDelayMs):
+        _frames(frames), _queueSizeMonitor(_frames, fps, maxDelayMs) {
     setFrameDuration(fps);
 }
 

@@ -12,7 +12,7 @@ class ImgCodecSecureFragmenter final : public DataFragmenter {
     ImageTileSplitter _imageTileSplitter;
     AESEncryptor _encryptor;
 public:
-    explicit ImgCodecSecureFragmenter(const SIZE& size, const std::vector<byte>& key, const FragmentDescriptor& fragmentDescriptor = UDPToolkit::MAX_FRAGMENT_DESCRIPTOR);
+    ImgCodecSecureFragmenter(const SIZE& size, const std::vector<byte>& key, const FragmentDescriptor& fragmentDescriptor = UDPToolkit::MAX_FRAGMENT_DESCRIPTOR);
 protected:
     std::vector<std::vector<byte>> splitDataIntoFragments(const std::vector<byte>& data) override;
 private:

@@ -15,7 +15,7 @@ class UDPReceiver {
     Socket _socket {SOCK_DGRAM, IPPROTO_UDP};
     FragmentCollector _fragmentCollector;
 public:
-    explicit UDPReceiver(const u_short port, std::unique_ptr<DataReassembler> dataReassembler,
+    UDPReceiver(const u_short port, std::unique_ptr<DataReassembler> dataReassembler,
                          const DWORD receiveBufferSize = 8*MemoryUnits::MEGABYTE, const DWORD receiveTimeoutMs = 100);
     std::vector<byte> receive();
 private:

@@ -10,7 +10,7 @@ class FrameWorker : public ThreadWorker {
     
     std::atomic<long long> _frameDuration;
 protected:
-    explicit FrameWorker(ThreadSafeQueue<std::vector<byte>>& queue, const int fps, const int maxDelayMs);
+    FrameWorker(ThreadSafeQueue<std::vector<byte>>& frames, const int fps, const int maxDelayMs);
 public:
     void updateFPSAndMaxDelay(const int fps, const int maxDelayMs);
 protected:

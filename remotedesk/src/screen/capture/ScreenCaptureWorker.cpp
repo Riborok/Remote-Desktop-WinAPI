@@ -1,8 +1,8 @@
 ﻿#include "../../../inc/screen/capture/ScreenCaptureWorker.hpp"
 
-ScreenCaptureWorker::ScreenCaptureWorker(ThreadSafeQueue<std::vector<byte>>& queue,
+ScreenCaptureWorker::ScreenCaptureWorker(ThreadSafeQueue<std::vector<byte>>& frames,
         const SIZE& targetSize, const int fps, const int maxDelayMs) :
-    FrameWorker(queue, fps, maxDelayMs), _screenCapture(targetSize) { }
+    FrameWorker(frames, fps, maxDelayMs), _screenCapture(targetSize) { }
 
 void ScreenCaptureWorker::process() {
     getFrames().enqueue(std::make_unique<std::vector<byte>>(_screenCapture.capture()));

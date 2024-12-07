@@ -14,7 +14,7 @@ class RemoteEventExecutor final : public ThreadWorker {
     std::unique_ptr<TCPConnection> _connection;
     PointScaler _mousePointScaler;
 public:
-    explicit RemoteEventExecutor(std::unique_ptr<TCPConnection> &&connection, const SIZE& screenResolution);
+    RemoteEventExecutor(std::unique_ptr<TCPConnection> &&connection, const SIZE& screenResolution);
 protected:
     void eventLoop() override;
 private:
