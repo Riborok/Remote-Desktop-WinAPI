@@ -25,6 +25,7 @@
     <ClInclude Include="inc\crypto\dh\DHInitiator.hpp" />
     <ClInclude Include="inc\crypto\dh\DHResponder.hpp" />
     <ClInclude Include="inc\crypto\KeyExchanger.hpp" />
+    <ClInclude Include="inc\img\ImageFormat.hpp" />
     <ClInclude Include="inc\img\ImageTileComposer.hpp" />
     <ClInclude Include="inc\img\ImageTileSplitter.hpp" />
     <ClInclude Include="inc\img\TileSplitter.hpp" />

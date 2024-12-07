@@ -2,19 +2,23 @@
 
 #include "../../inc/utils/img/ImageUtils.hpp"
 
-const std::unordered_map<std::string, std::vector<int>> ImageTileSplitter::DEFAULT_PARAMS = {
-    {".jpg", {cv::IMWRITE_JPEG_QUALITY, 100, cv::IMWRITE_JPEG_OPTIMIZE, true}},
-    {".webp", {cv::IMWRITE_WEBP_QUALITY, 100}}
+std::vector<int> ImageTileSplitter::CompressionConfig::cloneCompressionParamsWithQuality(const int quality) const {
+    std::vector<int> result = compressionParams;
+    result[1] = quality;
+    return result;
+}
+
+const ImageTileSplitter::CompressionConfig ImageTileSplitter::COMPRESSION_CONFIGS[] = {
+    { {cv::IMWRITE_JPEG_QUALITY, 100, cv::IMWRITE_JPEG_OPTIMIZE, 1}, ".jpg" },
+    { {cv::IMWRITE_WEBP_QUALITY, 100}, ".webp" }
 };
 
-ImageTileSplitter::ImageTileSplitter(const SIZE& size, std::string ext,
-            const int quality, const int tileWidth, const int tileHeight):
-        _size(size),
-        _tileSplitter(tileWidth, tileHeight),
-        _ext(std::move(ext)),
-        _quality(quality){
-    setCompressionParams();
-}
+ImageTileSplitter::ImageTileSplitter(const SIZE& size, const ImageFormat ext, const int quality,
+                                     const int tileWidth, const int tileHeight):
+    _size(size),
+    _ext(static_cast<size_t>(ext)),
+    _quality(quality),
+    _tileSplitter(tileWidth, tileHeight) { }
 
 std::vector<std::vector<byte>> ImageTileSplitter::splitToTiles(const std::vector<byte>& imageBuffer) const {
     const cv::Mat image = ImageUtils::createImageFromBuffer(const_cast<byte*>(imageBuffer.data()), _size);
@@ -33,28 +37,17 @@ std::vector<std::vector<byte>> ImageTileSplitter::splitToTiles(const std::vector
     return compressedTiles;
 }
 
-void ImageTileSplitter::setExtension(std::string ext) {
-    _ext = std::move(ext);
-    setCompressionParams();
+void ImageTileSplitter::setExtension(const ImageFormat ext) {
+    _ext = static_cast<size_t>(ext);
 }
 
 void ImageTileSplitter::setQuality(const int quality) {
     _quality = quality;
-    setCompressionParams();
-}
-
-void ImageTileSplitter::setCompressionParams() {
-    const auto it = DEFAULT_PARAMS.find(_ext);
-    if (it != DEFAULT_PARAMS.end()) {
-        _compressionParams = it->second;
-        _compressionParams[1] = _quality;
-    } else {
-        throw std::invalid_argument("Unsupported image format: " + _ext);
-    }
 }
 
 std::vector<byte> ImageTileSplitter::compressTile(const cv::Mat& tile) const {
     std::vector<byte> encodedTile;
-    cv::imencode(_ext, tile, encodedTile, _compressionParams);
+    const CompressionConfig& cc = COMPRESSION_CONFIGS[_ext];
+    cv::imencode(cc.extension, tile, encodedTile, cc.cloneCompressionParamsWithQuality(_quality));
     return encodedTile;
 }
