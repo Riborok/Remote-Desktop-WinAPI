@@ -1,7 +1,6 @@
 ﻿#pragma once
 
 #include "../../sock/tcp/TCPConnection.hpp"
-#include "../../utils/array/ByteArrayUtils.hpp"
 #include "../../utils/TypeLimits.hpp"
 #include "../../utils/screen/PointScaler.hpp"
 #include "../../thread/ThreadWorker.hpp"
@@ -24,8 +23,6 @@ private:
     static std::tuple<UINT, WPARAM, LPARAM> extractEventData(const std::vector<byte>& eventBuffer);
     
     INPUT createInput(const UINT message, const WPARAM wParam, const LPARAM lParam) const;
-    static bool isKeyboardMessage(const UINT message);
-    static bool isMouseMessage(const UINT message);
     static INPUT createKeyboardInput(const UINT message, const WPARAM wParam);
     INPUT createMouseInput(const UINT message, const WPARAM wParam, const LPARAM lParam) const;
 };

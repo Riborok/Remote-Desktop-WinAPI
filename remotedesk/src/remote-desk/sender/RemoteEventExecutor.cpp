@@ -2,6 +2,9 @@
 
 #include <stdexcept>
 
+#include "../../../inc/utils/remote-desk/MessageUtils.hpp"
+#include "../../../inc/utils/array/ByteArrayUtils.hpp"
+
 RemoteEventExecutor::RemoteEventExecutor(std::unique_ptr<TCPConnection> &&connection, const SIZE& screenResolution)
     : _connection(std::move(connection)),
     _mousePointScaler({screenResolution,
@@ -50,21 +53,13 @@ std::tuple<UINT, WPARAM, LPARAM> RemoteEventExecutor::extractEventData(const std
 INPUT RemoteEventExecutor::createInput(const UINT message, const WPARAM wParam, const LPARAM lParam) const {
     INPUT input = {};
     input.type = UNKNOWN_TYPE;
-    if (isKeyboardMessage(message)) {
+    if (MessageUtils::isKeyboardMessage(message)) {
         input = createKeyboardInput(message, wParam);
     }
-    else if (isMouseMessage(message)) {
+    else if (MessageUtils::isMouseMessage(message)) {
         input = createMouseInput(message, wParam, lParam);
     }
     return input;
-}
-
-bool RemoteEventExecutor::isKeyboardMessage(const UINT message) {
-    return message >= WM_KEYFIRST && message <= WM_KEYLAST;
-}
-
-bool RemoteEventExecutor::isMouseMessage(const UINT message) {
-    return message >= WM_MOUSEFIRST && message <= WM_MOUSELAST;
 }
 
 INPUT RemoteEventExecutor::createKeyboardInput(const UINT message, const WPARAM wParam) {
