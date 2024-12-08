@@ -92,6 +92,7 @@
     <ClInclude Include="inc\utils\sock\udp\UDPToolkit.hpp" />
     <ClInclude Include="inc\utils\sock\WinSockUtils.hpp" />
     <ClInclude Include="inc\utils\TypeLimits.hpp" />
+    <ClInclude Include="src\remote-desk\sender\SenderCfg.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\crypto\aes\AESDecryptor.cpp" />

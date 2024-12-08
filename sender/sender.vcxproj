@@ -140,14 +140,26 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <Folder Include="inc\" />
-    <Folder Include="src\" />
-  </ItemGroup>
-  <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="src\ConfigDialogForm.cpp" />
+    <ClCompile Include="src\ControlCreator.cpp" />
+    <ClCompile Include="src\Fonts.cpp" />
+    <ClCompile Include="src\MainForm.cpp" />
+    <ClCompile Include="src\RegistrySettings.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Manifest Include="..\app.manifest" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="inc\ConfigDialogForm.hpp" />
+    <ClInclude Include="inc\ControlCreator.hpp" />
+    <ClInclude Include="inc\Fonts.hpp" />
+    <ClInclude Include="inc\MainForm.hpp" />
+    <ClInclude Include="inc\RegistrySettings.hpp" />
+    <ClInclude Include="resource.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Resource.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

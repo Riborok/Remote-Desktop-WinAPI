@@ -2,13 +2,13 @@
 
 #include "../../../inc/sock/udp/data-fragmenter/ImgCodecSecureFragmenter.hpp"
 
-Sender::Sender(const u_short tcpServerPort, const ImageConfig& ic, const int fps, const int maxDelayMs, const SIZE& targetSize) {
+Sender::Sender(const SenderCfg& cfg) {
     _frames = SenderInitializer::createFrames();
-    auto connection = SenderInitializer::createConnection(tcpServerPort);
-    const u_short port = SenderInitializer::sendSizeReceivePort(*connection, targetSize);
-    _udpSenderWorker = SenderInitializer::createUDPSenderWorker(*_frames, *connection, port, targetSize, ic);
-    _screenCaptureWorker = SenderInitializer::createScreenCaptureWorker(*_frames, targetSize, fps, maxDelayMs);
-    _eventHandler = SenderInitializer::createRemoteEventExecutor(std::move(connection), targetSize);
+    auto connection = SenderInitializer::createConnection(cfg.tcpServerPort);
+    const u_short port = SenderInitializer::sendSizeReceivePort(*connection, cfg.targetSize);
+    _udpSenderWorker = SenderInitializer::createUDPSenderWorker(*_frames, *connection, port, cfg.targetSize, cfg.imageConfig);
+    _screenCaptureWorker = SenderInitializer::createScreenCaptureWorker(*_frames, cfg.targetSize, cfg.fps, cfg.maxDelayMs);
+    _eventHandler = SenderInitializer::createRemoteEventExecutor(std::move(connection), cfg.targetSize);
 }
 
 void Sender::run() const {
