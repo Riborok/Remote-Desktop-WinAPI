@@ -14,6 +14,10 @@ void UDPSender::send(const std::vector<byte>& data) const {
     sendFragments(fragments);
 }
 
+DataFragmenter& UDPSender::getDataFragmenter() const {
+    return *_dataFragmenter;
+}
+
 void UDPSender::sendFragments(const std::vector<std::vector<byte>>& fragments) const {
     for (const auto& fragment : fragments) {
         sendFragment(fragment);

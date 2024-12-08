@@ -17,6 +17,10 @@ std::vector<byte> UDPReceiver::receive() {
     return _dataReassembler->reassembleData(fragments);
 }
 
+DataReassembler& UDPReceiver::getDataReassembler() const {
+    return *_dataReassembler;
+}
+
 std::vector<Fragment> UDPReceiver::receiveFragments() {
     if (_fragmentCollector.collectPreviousFragment()) {
         return _fragmentCollector.extractFragments();

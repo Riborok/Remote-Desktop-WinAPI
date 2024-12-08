@@ -18,6 +18,7 @@ public:
     UDPReceiver(const u_short port, std::unique_ptr<DataReassembler> dataReassembler,
                          const DWORD receiveBufferSize = 8*MemoryUnits::MEGABYTE, const DWORD receiveTimeoutMs = 100);
     std::vector<byte> receive();
+    DataReassembler& getDataReassembler() const;
 private:
     std::vector<Fragment> receiveFragments();
     std::optional<Fragment> receiveFragment() const;

@@ -9,6 +9,7 @@ class UDPSenderWorker final : public ThreadWorker {
     UDPSender _sender;
 public:
     UDPSenderWorker(ThreadSafeQueue<std::vector<byte>>& buffer, UDPSender &&sender);
+    DataFragmenter& getDataFragmenter() const;
 protected:
     void eventLoop() override;
 };

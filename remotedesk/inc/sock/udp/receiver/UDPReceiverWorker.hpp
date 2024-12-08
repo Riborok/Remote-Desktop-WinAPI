@@ -9,6 +9,7 @@ class UDPReceiverWorker final : public ThreadWorker {
     UDPReceiver _receiver;
 public:
     UDPReceiverWorker(ThreadSafeQueue<std::vector<byte>>& buffer, UDPReceiver &&receiver);
+    DataReassembler& getDataReassembler() const;
 protected:
     void eventLoop() override;
 };

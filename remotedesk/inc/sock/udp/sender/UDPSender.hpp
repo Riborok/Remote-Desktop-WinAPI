@@ -16,6 +16,7 @@ public:
     UDPSender(const sockaddr_in& addr, std::unique_ptr<DataFragmenter> dataFragmenter,
               const DWORD sendBufferSize = MemoryUnits::MEGABYTE, const DWORD sendTimeoutMs = 100);
     void send(const std::vector<byte>& data) const;
+    DataFragmenter& getDataFragmenter() const;
 private:
     void sendFragments(const std::vector<std::vector<byte>>& fragments) const;
     void sendFragment(const std::vector<byte>& fragment) const;
