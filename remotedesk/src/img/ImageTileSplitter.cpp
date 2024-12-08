@@ -13,12 +13,18 @@ const ImageTileSplitter::CompressionConfig ImageTileSplitter::COMPRESSION_CONFIG
     { {cv::IMWRITE_WEBP_QUALITY, 100}, ".webp" }
 };
 
-ImageTileSplitter::ImageTileSplitter(const SIZE& size, const ImageFormat ext, const int quality,
+ImageTileSplitter::ImageTileSplitter(const SIZE& size, const ImageConfig &ic,
                                      const int tileWidth, const int tileHeight):
     _size(size),
-    _ext(static_cast<size_t>(ext)),
-    _quality(quality),
+    _ext(static_cast<size_t>(ic.ext)),
+    _quality(ic.quality),
     _tileSplitter(tileWidth, tileHeight) { }
+
+ImageTileSplitter::ImageTileSplitter(const ImageTileSplitter& other):
+    _size(other._size), 
+    _ext(other._ext.load()), 
+    _quality(other._quality.load()), 
+    _tileSplitter(other._tileSplitter) { }
 
 std::vector<std::vector<byte>> ImageTileSplitter::splitToTiles(const std::vector<byte>& imageBuffer) const {
     const cv::Mat image = ImageUtils::createImageFromBuffer(const_cast<byte*>(imageBuffer.data()), _size);
@@ -37,12 +43,9 @@ std::vector<std::vector<byte>> ImageTileSplitter::splitToTiles(const std::vector
     return compressedTiles;
 }
 
-void ImageTileSplitter::setExtension(const ImageFormat ext) {
-    _ext = static_cast<size_t>(ext);
-}
-
-void ImageTileSplitter::setQuality(const int quality) {
-    _quality = quality;
+void ImageTileSplitter::updateImageConfig(const ImageConfig& ic) {
+    _ext = static_cast<size_t>(ic.ext);
+    _quality = ic.quality;
 }
 
 std::vector<byte> ImageTileSplitter::compressTile(const cv::Mat& tile) const {

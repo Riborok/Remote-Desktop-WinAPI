@@ -3,14 +3,18 @@
 #include "../../../../inc/utils/crypto/aes/AESToolkit.hpp"
 #include "../../../../inc/utils/sock/udp/PayloadMerger.hpp"
 
-ImgCodecSecureFragmenter::ImgCodecSecureFragmenter(const SIZE& size, const std::vector<byte>& key, const FragmentDescriptor& fragmentDescriptor):
+ImgCodecSecureFragmenter::ImgCodecSecureFragmenter(const ImageTileSplitter& itp, const std::vector<byte>& key, const FragmentDescriptor& fragmentDescriptor):
     DataFragmenter(
         fragmentDescriptor
             .reducePayloadSize(AESToolkit::METADATA_SIZE)
             .reduceDataSize(PayloadMerger::PREFIX_SIZE)
     ),
-    _imageTileSplitter(size),
+    _imageTileSplitter(itp),
     _encryptor(key) { }
+
+void ImgCodecSecureFragmenter::updateImageConfig(const ImageConfig& ic) {
+    _imageTileSplitter.updateImageConfig(ic);
+}
 
 std::vector<std::vector<byte>> ImgCodecSecureFragmenter::splitDataIntoFragments(const std::vector<byte>& data) {
     const std::vector<std::vector<byte>> tiles = _imageTileSplitter.splitToTiles(data);

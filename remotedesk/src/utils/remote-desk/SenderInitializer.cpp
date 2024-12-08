@@ -26,9 +26,9 @@ u_short SenderInitializer::sendSizeReceivePort(TCPConnection& connection, const 
 }
 
 std::unique_ptr<UDPSenderWorker> SenderInitializer::createUDPSenderWorker(ThreadSafeQueue<std::vector<byte>>& frames,
-        TCPConnection& connection, const u_short udpPort, const SIZE& targetSize) {
+        TCPConnection& connection, const u_short udpPort, const SIZE& targetSize, const ImageConfig& ic) {
     auto key = DHInitiator().exchangeKeys(connection);
-    std::unique_ptr<DataFragmenter> dataFragmenter = std::make_unique<ImgCodecSecureFragmenter>(targetSize, key);
+    auto dataFragmenter = std::make_unique<ImgCodecSecureFragmenter>(ImageTileSplitter{targetSize, ic}, key);
     const std::string ip = SockaddrUtils::getIpAddress(connection.getPeerAddress());
     return std::make_unique<UDPSenderWorker>(frames,
         UDPSender{SockaddrUtils::createAddr(ip, udpPort), std::move(dataFragmenter)});

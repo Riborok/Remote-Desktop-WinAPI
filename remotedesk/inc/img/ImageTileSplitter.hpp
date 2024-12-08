@@ -3,7 +3,7 @@
 #include <windows.h>
 #include <vector>
 
-#include "ImageFormat.hpp"
+#include "ImageConfig.hpp"
 #include "TileSplitter.hpp"
 
 class ImageTileSplitter {
@@ -19,10 +19,16 @@ class ImageTileSplitter {
     std::atomic<int> _quality;
     TileSplitter _tileSplitter;
 public:
-    explicit ImageTileSplitter(const SIZE& size, const ImageFormat ext = ImageFormat::jpg, const int quality = 65, const int tileWidth = 128, const int tileHeight = 128);
+    explicit ImageTileSplitter(const SIZE& size, const ImageConfig &ic, const int tileWidth = 128, const int tileHeight = 128);
+    ImageTileSplitter(const ImageTileSplitter& other);
     std::vector<std::vector<byte>> splitToTiles(const std::vector<byte>& imageBuffer) const;
-    void setExtension(const ImageFormat ext);
-    void setQuality(const int quality);
+    void updateImageConfig(const ImageConfig &ic);
+
+    ~ImageTileSplitter() = default;
+    
+    ImageTileSplitter(ImageTileSplitter&&) = delete;
+    ImageTileSplitter& operator=(ImageTileSplitter&&) = delete;
+    ImageTileSplitter& operator=(const ImageTileSplitter&) = delete;
 private:
     std::vector<byte> compressTile(const cv::Mat& tile) const;
 };
