@@ -147,9 +147,6 @@
     <Folder Include="src\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="receiver_cfg.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <Manifest Include="..\app.manifest" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

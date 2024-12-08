@@ -2,24 +2,26 @@
 #include "utils/sock/WinSockUtils.hpp"
 #include "utils/sock/SockaddrUtils.hpp"
 
+const std::wstring WINDOWS_CLASS_NAME = L"ScreenshotReceiverClass";
+
 static std::unique_ptr<Receiver> receiver;
 
 LRESULT CALLBACK windowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 int WINAPI WinMain(const HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) {
+    WinSockUtils::initializeWinSock();
+    
     WNDCLASSEX wc = {};
     wc.cbSize = sizeof(WNDCLASSEX);
     wc.lpfnWndProc = windowProc;
     wc.hInstance = hInstance;
-    wc.lpszClassName = L"ScreenshotReceiverClass";
+    wc.lpszClassName = WINDOWS_CLASS_NAME.c_str();
     RegisterClassEx(&wc);
-
-    HWND hwnd = CreateWindowEx(0, L"ScreenshotReceiverClass", L"TCP Screenshot Receiver",
+    HWND hwnd = CreateWindowEx(0, WINDOWS_CLASS_NAME.c_str(), L"TCP Screenshot Receiver",
         WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT,
         GetSystemMetrics(SM_CXSCREEN), GetSystemMetrics(SM_CYSCREEN),
         nullptr, nullptr, hInstance, nullptr);
-    WinSockUtils::initializeWinSock();
-
+    
     receiver = std::make_unique<Receiver>(hwnd, SockaddrUtils::createAddr("192.168.31.2", 8080), 8081, 100, 1000);
     receiver->run();
 
