@@ -67,19 +67,19 @@ void MainForm::createControls(const HWND hwnd) {
     controlCreator.createLabel(currentY, L"FPS:");
     _hEditFps = controlCreator.createEditControl(currentY, std::to_wstring(_config.fps));
 
-    currentY += ControlCreator::labelHeight + ControlCreator::yOffset;
+    currentY += ControlCreator::LABEL_HEIGHT + ControlCreator::Y_OFFSET;
     controlCreator.createLabel(currentY, L"Max delay (ms):");
     _hEditMaxDelay = controlCreator.createEditControl(currentY, std::to_wstring(_config.maxDelayMs));
 
-    currentY += ControlCreator::labelHeight + ControlCreator::yOffset;
+    currentY += ControlCreator::LABEL_HEIGHT + ControlCreator::Y_OFFSET;
     controlCreator.createLabel(currentY, L"Quality (1-100):");
     _hEditQuality = controlCreator.createEditControl(currentY, std::to_wstring(_config.imageConfig.quality));
 
-    currentY += ControlCreator::labelHeight + ControlCreator::yOffset;
+    currentY += ControlCreator::LABEL_HEIGHT + ControlCreator::Y_OFFSET;
     controlCreator.createLabel(currentY, L"Format (jpg/png):");
     _hComboBoxFormat = controlCreator.createComboBox(currentY, {L"jpg", L"webp"}, static_cast<int>(_config.imageConfig.ext));
 
-    currentY += ControlCreator::controlHeight + ControlCreator::buttonYOffset;
+    currentY += ControlCreator::CONTROL_HEIGHT + ControlCreator::BUTTON_Y_OFFSET;
     controlCreator.createCenteredButton(currentY, L"Apply", BTN_APPLY_ID);
 }
 
