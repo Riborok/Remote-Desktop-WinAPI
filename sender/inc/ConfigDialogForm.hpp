@@ -3,15 +3,15 @@
 #include <string>
 
 #include "./Fonts.hpp"
-#include "../../remotedesk/src/remote-desk/sender/SenderCfg.hpp"
+#include "remote-desk/sender/SenderConfig.hpp"
 
 class ConfigDialogForm {
     HINSTANCE _hInstance;
-    SenderCfg* _config = nullptr;
+    SenderConfig* _config = nullptr;
     const Fonts& _fonts;
 public:
     ConfigDialogForm(const HINSTANCE hInstance, const Fonts& fonts);
-    bool show(SenderCfg& cfg);
+    bool show(SenderConfig& config);
 
     ~ConfigDialogForm() = default;
     ConfigDialogForm(ConfigDialogForm&&) = delete;

@@ -3,7 +3,7 @@
 #include "../../../inc/img/ImageConfig.hpp"
 #include <windows.h>
 
-struct SenderCfg {
+struct SenderConfig {
     u_short tcpServerPort;
     ImageConfig imageConfig;
     int fps;

@@ -4,7 +4,7 @@
 
 #include "utils/screen/ScreenUtils.hpp"
 
-SenderCfg const RegistrySettings::DEFAULT_SENDER_CFG = {
+SenderConfig const RegistrySettings::DEFAULT_SENDER_CONFIG = {
     8080,
     {
         ImageFormat::jpg,
@@ -15,7 +15,7 @@ SenderCfg const RegistrySettings::DEFAULT_SENDER_CFG = {
     ScreenUtils::getScreenSize()
 };
 
-void RegistrySettings::saveSettingsToRegistry(const SenderCfg& config) {
+void RegistrySettings::saveSettingsToRegistry(const SenderConfig& config) {
     HKEY hKey;
     if (RegCreateKeyEx(HKEY_CURRENT_USER, REGISTRY_PATH, 0, nullptr, 0, KEY_WRITE, nullptr, &hKey, nullptr) == ERROR_SUCCESS) {
         setRegistryValue(hKey, KEY_PORT, config.tcpServerPort);
@@ -30,7 +30,7 @@ void RegistrySettings::saveSettingsToRegistry(const SenderCfg& config) {
     }
 }
 
-void RegistrySettings::loadSettingsFromRegistry(SenderCfg& config) {
+void RegistrySettings::loadSettingsFromRegistry(SenderConfig& config) {
     HKEY hKey;
     if (RegOpenKeyEx(HKEY_CURRENT_USER, REGISTRY_PATH, 0, KEY_READ, &hKey) == ERROR_SUCCESS) {
         DWORD value;
@@ -58,7 +58,7 @@ void RegistrySettings::loadSettingsFromRegistry(SenderCfg& config) {
 
         RegCloseKey(hKey);
     } else {
-        config = DEFAULT_SENDER_CFG;
+        config = DEFAULT_SENDER_CONFIG;
     }
 }
 

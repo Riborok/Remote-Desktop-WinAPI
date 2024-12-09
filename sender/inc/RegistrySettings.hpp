@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-#include "../../remotedesk/src/remote-desk/sender/SenderCfg.hpp"
+#include "./remote-desk/sender/SenderConfig.hpp"
 
 class RegistrySettings {
     static constexpr auto REGISTRY_PATH = L"Software\\RemoteDesktop\\Sender";
@@ -13,12 +13,12 @@ class RegistrySettings {
     static constexpr auto KEY_WIDTH = L"Width";
     static constexpr auto KEY_HEIGHT = L"Height";
 
-    static const SenderCfg DEFAULT_SENDER_CFG;
+    static const SenderConfig DEFAULT_SENDER_CONFIG;
 public:
     RegistrySettings() = delete;
     
-    static void saveSettingsToRegistry(const SenderCfg& config);
-    static void loadSettingsFromRegistry(SenderCfg& config);
+    static void saveSettingsToRegistry(const SenderConfig& config);
+    static void loadSettingsFromRegistry(SenderConfig& config);
 private:
     static bool setRegistryValue(const HKEY hKey, const LPCWSTR key, const DWORD value);
     static bool getRegistryValue(const HKEY hKey, const LPCWSTR key, DWORD& value);

@@ -6,11 +6,11 @@ int WINAPI WinMain(const HINSTANCE hInstance, const HINSTANCE hPrevInstance, con
     WinSockUtils::initializeWinSock();
 
     const Fonts fonts;
-    SenderCfg cfg;
+    SenderConfig config;
     ConfigDialogForm dialogForm(hInstance, fonts);
-    if (dialogForm.show(cfg)) {
+    if (dialogForm.show(config)) {
         MainForm::registerClass(hInstance);
-        const MainForm mainForm(fonts, cfg);
+        const MainForm mainForm(fonts, config);
         mainForm.show();
     }
     

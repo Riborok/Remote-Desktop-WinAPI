@@ -4,7 +4,6 @@
 #include <vector>
 
 #include "Fonts.hpp"
-#include "../../remotedesk/src/remote-desk/sender/SenderCfg.hpp"
 
 class ControlCreator {
     const HWND _hwnd;

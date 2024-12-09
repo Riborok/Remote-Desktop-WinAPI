@@ -8,8 +8,8 @@
 ConfigDialogForm::ConfigDialogForm(const HINSTANCE hInstance, const Fonts& fonts):
     _hInstance(hInstance), _fonts(fonts) { }
 
-bool ConfigDialogForm::show(SenderCfg& cfg) {
-    _config = &cfg;
+bool ConfigDialogForm::show(SenderConfig& config) {
+    _config = &config;
     const INT_PTR result = DialogBoxParam(_hInstance, MAKEINTRESOURCE(IDD_SETTINGS_DIALOG), nullptr, dialogProc, reinterpret_cast<LPARAM>(this));
     return result == IDOK;
 }

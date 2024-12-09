@@ -35,6 +35,7 @@
     <ClInclude Include="inc\remote-desk\receiver\Receiver.hpp" />
     <ClInclude Include="inc\remote-desk\sender\RemoteEventExecutor.hpp" />
     <ClInclude Include="inc\remote-desk\sender\Sender.hpp" />
+    <ClInclude Include="inc\remote-desk\sender\SenderConfig.hpp" />
     <ClInclude Include="inc\screen\bitmap\Bitmap.hpp" />
     <ClInclude Include="inc\screen\capture\CursorCapture.hpp" />
     <ClInclude Include="inc\screen\capture\ScreenCapture.hpp" />
@@ -92,7 +93,6 @@
     <ClInclude Include="inc\utils\sock\udp\UDPToolkit.hpp" />
     <ClInclude Include="inc\utils\sock\WinSockUtils.hpp" />
     <ClInclude Include="inc\utils\TypeLimits.hpp" />
-    <ClInclude Include="src\remote-desk\sender\SenderCfg.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\crypto\aes\AESDecryptor.cpp" />

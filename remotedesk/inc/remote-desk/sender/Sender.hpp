@@ -3,7 +3,7 @@
 #include "../../img/ImageConfig.hpp"
 #include "../../utils/remote-desk/SenderInitializer.hpp"
 #include "../../utils/screen/ScreenUtils.hpp"
-#include "../../../src/remote-desk/sender/SenderCfg.hpp"
+#include "./SenderConfig.hpp"
 
 class Sender {
     std::unique_ptr<ThreadSafeQueue<std::vector<byte>>> _frames;
@@ -11,7 +11,7 @@ class Sender {
     std::unique_ptr<ScreenCaptureWorker> _screenCaptureWorker;
     std::unique_ptr<RemoteEventExecutor>  _eventHandler;
 public:
-    Sender(const SenderCfg& cfg);
+    Sender(const SenderConfig& config);
 
     void run() const;
     void stop() const;

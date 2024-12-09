@@ -16,8 +16,8 @@ void MainForm::registerClass(const HINSTANCE hInstance) {
     RegisterClassEx(&wc);
 }
 
-MainForm::MainForm(const Fonts& fonts, const SenderCfg& cfg):
-    _fonts(fonts), _cfg(cfg), _sender(_cfg) {
+MainForm::MainForm(const Fonts& fonts, const SenderConfig& config):
+    _fonts(fonts), _config(config), _sender(_config) {
     _hwnd = CreateWindowEx(0, WINDOWS_CLASS_NAME, L"TCP Screenshot Sender",
         WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX,
         (GetSystemMetrics(SM_CXSCREEN) - 586) / 2, (GetSystemMetrics(SM_CYSCREEN) - 321) / 2,
@@ -65,19 +65,19 @@ void MainForm::createControls(const HWND hwnd) {
     const ControlCreator controlCreator(hwnd, _fonts);
     int currentY = 20;
     controlCreator.createLabel(currentY, L"FPS:");
-    _hEditFps = controlCreator.createEditControl(currentY, std::to_wstring(_cfg.fps));
+    _hEditFps = controlCreator.createEditControl(currentY, std::to_wstring(_config.fps));
 
     currentY += ControlCreator::labelHeight + ControlCreator::yOffset;
     controlCreator.createLabel(currentY, L"Max delay (ms):");
-    _hEditMaxDelay = controlCreator.createEditControl(currentY, std::to_wstring(_cfg.maxDelayMs));
+    _hEditMaxDelay = controlCreator.createEditControl(currentY, std::to_wstring(_config.maxDelayMs));
 
     currentY += ControlCreator::labelHeight + ControlCreator::yOffset;
     controlCreator.createLabel(currentY, L"Quality (1-100):");
-    _hEditQuality = controlCreator.createEditControl(currentY, std::to_wstring(_cfg.imageConfig.quality));
+    _hEditQuality = controlCreator.createEditControl(currentY, std::to_wstring(_config.imageConfig.quality));
 
     currentY += ControlCreator::labelHeight + ControlCreator::yOffset;
     controlCreator.createLabel(currentY, L"Format (jpg/png):");
-    _hComboBoxFormat = controlCreator.createComboBox(currentY, {L"jpg", L"webp"}, static_cast<int>(_cfg.imageConfig.ext));
+    _hComboBoxFormat = controlCreator.createComboBox(currentY, {L"jpg", L"webp"}, static_cast<int>(_config.imageConfig.ext));
 
     currentY += ControlCreator::controlHeight + ControlCreator::buttonYOffset;
     controlCreator.createCenteredButton(currentY, L"Apply", BTN_APPLY_ID);

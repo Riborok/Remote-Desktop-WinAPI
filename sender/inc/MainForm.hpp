@@ -10,7 +10,7 @@ class MainForm {
     static HINSTANCE _hInstance;
     
     const Fonts &_fonts;
-    SenderCfg _cfg;
+    SenderConfig _config;
     Sender _sender;
     HWND _hwnd;
     HWND _hEditFps = nullptr; 
@@ -20,7 +20,7 @@ class MainForm {
 public:
     static void registerClass(const HINSTANCE hInstance);
 
-    MainForm(const Fonts &fonts, const SenderCfg &cfg);
+    MainForm(const Fonts &fonts, const SenderConfig &config);
     void show() const;
 
     ~MainForm() = default;
