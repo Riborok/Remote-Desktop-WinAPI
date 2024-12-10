@@ -1,7 +1,6 @@
 ﻿#include "utils/sock/SockaddrUtils.hpp"
 #include "../inc/ReceiverConfigDialogForm.hpp"
 
-#include <map>
 #include <stdexcept>
 
 #include "../resource.h"
@@ -19,16 +18,14 @@ bool ReceiverConfigDialogForm::show(ReceiverConfig& config) {
         dialogProc, 
         reinterpret_cast<LPARAM>(this)
     );
-    return result == IDOK;
+    return result == IDB_OK;
 }
 
 LRESULT CALLBACK ReceiverConfigDialogForm::dialogProc(const HWND hwndDlg, const UINT uMsg, const WPARAM wParam, const LPARAM lParam) {
-    static std::map<HWND, const ReceiverConfigDialogForm*> dialogForms;
-
     switch (uMsg) {
         case WM_INITDIALOG: {
-            const ReceiverConfigDialogForm* dialogForm = reinterpret_cast<const ReceiverConfigDialogForm*>(lParam);
-            dialogForms[hwndDlg] = dialogForm;
+            const ReceiverConfigDialogForm* dialogForm = reinterpret_cast<ReceiverConfigDialogForm*>(lParam);
+            SetWindowLongPtr(hwndDlg, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(dialogForm));
             dialogForm->setControlFonts(hwndDlg);
             dialogForm->loadSettingsAndUpdateFields(hwndDlg);
             return TRUE;
@@ -36,23 +33,20 @@ LRESULT CALLBACK ReceiverConfigDialogForm::dialogProc(const HWND hwndDlg, const 
         case WM_COMMAND: {
             switch (LOWORD(wParam)) {
                 case IDB_OK: {
-                    const ReceiverConfigDialogForm* dialogForm = dialogForms[hwndDlg];
+                    const ReceiverConfigDialogForm* dialogForm = reinterpret_cast<ReceiverConfigDialogForm*>(GetWindowLongPtr(hwndDlg, GWLP_USERDATA));
                     if (dialogForm->handleOkCommand(hwndDlg)) {
-                        EndDialog(hwndDlg, IDOK);   
+                        EndDialog(hwndDlg, IDB_OK);   
                     }
                     return TRUE;
                 }
                 case IDB_CANCEL:
-                    EndDialog(hwndDlg, IDCANCEL);
+                    EndDialog(hwndDlg, IDB_CANCEL);
                     return TRUE;
             }
             break;
         }
         case WM_CLOSE:
-            EndDialog(hwndDlg, IDCANCEL);
-            return TRUE;
-        case WM_DESTROY:
-            dialogForms.erase(hwndDlg);
+            EndDialog(hwndDlg, IDB_CANCEL);
             return TRUE;
     }
     return FALSE;
@@ -70,8 +64,7 @@ void ReceiverConfigDialogForm::setControlFonts(const HWND hwndDlg) const {
 
 void ReceiverConfigDialogForm::loadSettingsAndUpdateFields(const HWND hwndDlg) const {
     RegistrySettings::loadSettingsFromRegistry(*_config);
-
-
+    
     SetDlgItemTextA(hwndDlg, IDC_SERVER_IP, SockaddrUtils::ipToStr(_config->serverIp).c_str());
     SetDlgItemInt(hwndDlg, IDC_SERVER_PORT, _config->serverPort, FALSE);
     SetDlgItemInt(hwndDlg, IDC_UDP_PORT, _config->udpPort, FALSE);

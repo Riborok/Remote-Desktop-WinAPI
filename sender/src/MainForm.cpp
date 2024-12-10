@@ -34,32 +34,32 @@ void MainForm::show() const {
 }
 
 LRESULT MainForm::windowProc(const HWND hwnd, const UINT uMsg, const WPARAM wParam, const LPARAM lParam) {
-    static std::map<HWND, MainForm*> mainForms;
-
     switch (uMsg) {
         case WM_CREATE: {
             const CREATESTRUCT* pCreateStruct = reinterpret_cast<CREATESTRUCT*>(lParam);
             MainForm* mainForm = static_cast<MainForm*>(pCreateStruct->lpCreateParams);
             mainForm->_sender.run();
-            mainForms[hwnd] = mainForm;
+            SetWindowLongPtr(hwnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(mainForm));
             mainForm->createControls(hwnd);
             break;
         }
         case WM_COMMAND: {
             switch (LOWORD(wParam)) {
-                case BTN_APPLY_ID:
-                    mainForms[hwnd]->updateConfig();
+                case BTN_APPLY_ID: {
+                    const MainForm* mainForm = reinterpret_cast<MainForm*>(GetWindowLongPtr(hwnd, GWLP_USERDATA));
+                    mainForm->updateConfig();
                     MessageBox(hwnd, L"Settings applied successfully!", L"Info", MB_OK | MB_ICONINFORMATION);
-                break;
+                    break;
+                }
                 case BTN_EXIT_ID:
                     PostMessage(hwnd, WM_CLOSE, 0, 0);
-                break;
+                    break;
             }
             break;
         }
         case WM_DESTROY:
-            mainForms[hwnd]->_sender.stop();
-            mainForms.erase(hwnd);
+            const MainForm* mainForm = reinterpret_cast<MainForm*>(GetWindowLongPtr(hwnd, GWLP_USERDATA));
+            mainForm->_sender.stop();
             PostQuitMessage(0);
             break;
         }

@@ -1,7 +1,5 @@
 ﻿#include "../inc/ConfigDialogForm.hpp"
 
-#include <map>
-
 #include "../resource.h"
 #include "../inc/RegistrySettings.hpp"
 
@@ -15,11 +13,10 @@ bool ConfigDialogForm::show(SenderConfig& config) {
 }
 
 LRESULT ConfigDialogForm::dialogProc(const HWND hwndDlg, const UINT uMsg, const WPARAM wParam, const LPARAM lParam) {
-    static std::map<HWND, const ConfigDialogForm*> configDialogForms;
     switch (uMsg) {
         case WM_INITDIALOG: {
-            const ConfigDialogForm* configDialogForm = reinterpret_cast<const ConfigDialogForm*>(lParam);
-            configDialogForms[hwndDlg] = configDialogForm;
+            const ConfigDialogForm* configDialogForm = reinterpret_cast<ConfigDialogForm*>(lParam);
+            SetWindowLongPtr(hwndDlg, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(configDialogForm));
             configDialogForm->setControlFonts(hwndDlg);
             configDialogForm->loadSettingsAndUpdateFields(hwndDlg);
             return TRUE;
@@ -27,7 +24,7 @@ LRESULT ConfigDialogForm::dialogProc(const HWND hwndDlg, const UINT uMsg, const 
         case WM_COMMAND: {
             switch (LOWORD(wParam)) {
                 case IDB_OK: {
-                    const ConfigDialogForm* configDialogForm = configDialogForms[hwndDlg];
+                    const ConfigDialogForm* configDialogForm = reinterpret_cast<ConfigDialogForm*>(GetWindowLongPtr(hwndDlg, GWLP_USERDATA));
                     configDialogForm->handleOkCommand(hwndDlg);
                     EndDialog(hwndDlg, IDB_OK);
                     return TRUE;
@@ -40,9 +37,6 @@ LRESULT ConfigDialogForm::dialogProc(const HWND hwndDlg, const UINT uMsg, const 
         }
         case WM_CLOSE:
             EndDialog(hwndDlg, IDB_CANCEL);
-            return TRUE;
-        case WM_DESTROY:
-            configDialogForms.erase(hwndDlg);
             return TRUE;
     }
     return FALSE;
