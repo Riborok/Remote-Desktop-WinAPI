@@ -14,8 +14,10 @@ void MainForm::registerClass(const HINSTANCE hInstance) {
 }
 
 MainForm::MainForm(const Fonts& fonts):
-        _fonts(fonts), _configDialog(_hInstance, _fonts) {
-    _hwnd = CreateWindowEx(0, WINDOWS_CLASS_NAME, L"TCP Screenshot Receiver",
+        _fonts(fonts), _hwnd(createHwnd()), _configDialog(_hInstance, _fonts) { }
+
+HWND MainForm::createHwnd() {
+    return CreateWindowEx(0, WINDOWS_CLASS_NAME, L"TCP Screenshot Receiver",
         WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT,
         GetSystemMetrics(SM_CXSCREEN), GetSystemMetrics(SM_CYSCREEN),
         nullptr, nullptr, _hInstance, this);
@@ -24,7 +26,13 @@ MainForm::MainForm(const Fonts& fonts):
 void MainForm::set(const ReceiverConfig& config, Receiver&& receiver) {
     _config = config;
     _receiver = std::move(receiver);
+    _receiver.setDisconnectCallback([this]{ onConnectionClosed(); });
     _configDialog.set(_config, _receiver);
+}
+
+void MainForm::onConnectionClosed() const {
+    MessageBox(_hwnd, L"Connection closed.", L"Info", MB_OK | MB_ICONINFORMATION);
+    PostMessage(_hwnd, WM_CLOSE, 0, 0);
 }
 
 void MainForm::show() const {

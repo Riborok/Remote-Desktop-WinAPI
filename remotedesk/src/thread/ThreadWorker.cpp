@@ -7,15 +7,19 @@ void ThreadWorker::start() {
     }
 }
 
-void ThreadWorker::stop() {
+void ThreadWorker::stopRunning() {
     if (_running) {
         _running = false;
-        if (_eventThread.joinable()) {
-            _eventThread.join();
-        }
+    }
+}
+
+void ThreadWorker::waitForThread() {
+    if (_eventThread.joinable()) {
+        _eventThread.join();
     }
 }
 
 ThreadWorker::~ThreadWorker() {
-    stop();
+    stopRunning();
+    waitForThread();
 }

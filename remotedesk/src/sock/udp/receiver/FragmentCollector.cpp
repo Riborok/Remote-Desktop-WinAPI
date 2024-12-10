@@ -13,7 +13,7 @@ bool FragmentCollector::collectPreviousFragment() {
 
 // ReSharper disable once CppParameterMayBeConstPtrOrRef
 bool FragmentCollector::collectFragment(std::optional<Fragment>& optionalFragment) {
-    return (optionalFragment.has_value() && !processFragment(*optionalFragment)) || _fragmentBuffer.isEmpty();
+    return optionalFragment.has_value() && !processFragment(*optionalFragment);
 }
 
 bool FragmentCollector::processFragment(Fragment& fragment) {

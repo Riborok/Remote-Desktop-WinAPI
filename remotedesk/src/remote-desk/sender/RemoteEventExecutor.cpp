@@ -5,11 +5,16 @@
 #include "../../../inc/utils/remote-desk/MessageUtils.hpp"
 #include "../../../inc/utils/array/ByteArrayUtils.hpp"
 
-RemoteEventExecutor::RemoteEventExecutor(std::unique_ptr<TCPConnection> &&connection, const SIZE& screenResolution)
-    : _connection(std::move(connection)),
-    _mousePointScaler({screenResolution,
-        {TypeLimits::MAX_WORD_VALUE, TypeLimits::MAX_WORD_VALUE}}) {
+RemoteEventExecutor::RemoteEventExecutor(std::unique_ptr<TCPConnection> &&connection, const SIZE& screenResolution):
+        _connection(std::move(connection)),
+        _mousePointScaler({screenResolution,
+            {TypeLimits::MAX_WORD_VALUE, TypeLimits::MAX_WORD_VALUE}}),
+        _disconnectCallback([]{ }){
     _connection->setReceiveTimeout(RECEIVE_TIMEOUT);
+}
+
+void RemoteEventExecutor::setDisconnectCallback(std::function<void()>&& callback) {
+    _disconnectCallback = std::move(callback);
 }
 
 void RemoteEventExecutor::eventLoop() {
@@ -19,28 +24,28 @@ void RemoteEventExecutor::eventLoop() {
 }
 
 void RemoteEventExecutor::handleEvent() {
-    const std::vector<byte> eventBuffer = receiveEvent();
-    if (eventBuffer.size() != EVENT_SIZE) {
-        return;
-    }
-    const auto [message, wParam, lParam] = extractEventData(eventBuffer);
-    INPUT input = createInput(message, wParam, lParam);
-    if (input.type != UNKNOWN_TYPE) {
-        SendInput(1, &input, sizeof(INPUT));
+    int bufferSize = EVENT_SIZE;
+    const std::vector<byte> eventBuffer = receiveEvent(bufferSize);
+    if (bufferSize == EVENT_SIZE) {
+        const auto [message, wParam, lParam] = extractEventData(eventBuffer);
+        INPUT input = createInput(message, wParam, lParam);
+        if (input.type != UNKNOWN_TYPE) {
+            SendInput(1, &input, sizeof(INPUT));
+        }
     }
 }
 
-std::vector<byte> RemoteEventExecutor::receiveEvent() {
+std::vector<byte> RemoteEventExecutor::receiveEvent(int& bufferSize) {
     try {
-        int bufferSize = EVENT_SIZE;
-        std::vector<byte> buffer = _connection->receiveData(bufferSize);
-        if (bufferSize == EVENT_SIZE) {
-            return buffer;
-        }
+        return _connection->receiveData(bufferSize);
     } catch (const std::runtime_error&) {
-        _running = false;
+        if (_running) {
+            _running = false;
+            _disconnectCallback();
+        }
+        bufferSize = 0;
+        return {};
     }
-    return {};
 }
 
 std::tuple<UINT, WPARAM, LPARAM> RemoteEventExecutor::extractEventData(const std::vector<byte>& eventBuffer) {

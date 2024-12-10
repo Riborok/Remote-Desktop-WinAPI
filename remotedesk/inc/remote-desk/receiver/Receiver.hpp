@@ -11,7 +11,8 @@ class Receiver {
 public:
     Receiver() = default;
     Receiver(const HWND hWnd, const ReceiverConfig& config);
-
+    void setDisconnectCallback(std::function<void()>&& callback) const;
+    
     void run() const;
     void stop() const;
     void updateAppSize(const SIZE& appSize) const;

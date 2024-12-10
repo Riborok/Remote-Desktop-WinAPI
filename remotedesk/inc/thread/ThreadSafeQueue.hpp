@@ -14,6 +14,7 @@ public:
     void trimQueue(const size_t n);
     size_t getSize();
     bool isEmpty();
+    void notifyAll();
 private:
     std::unique_ptr<T> extractItem();
 };
@@ -53,7 +54,16 @@ bool ThreadSafeQueue<T>::isEmpty() {
 }
 
 template <typename T>
+void ThreadSafeQueue<T>::notifyAll() {
+    std::lock_guard<std::mutex> lock(_mutex);
+    _cond.notify_all();
+}
+
+template <typename T>
 std::unique_ptr<T> ThreadSafeQueue<T>::extractItem() {
+    if (_queue.empty()) {
+        return nullptr;
+    }
     auto item = std::move(_queue.front());
     _queue.pop();
     return item;

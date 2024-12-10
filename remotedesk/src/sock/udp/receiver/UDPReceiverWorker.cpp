@@ -9,6 +9,8 @@ DataReassembler& UDPReceiverWorker::getDataReassembler() const {
 
 void UDPReceiverWorker::eventLoop() {
     while (_running) {
-        _buffer.enqueue(std::make_unique<std::vector<byte>>(_receiver.receive()));
+        if (auto buffer = _receiver.receive(); !buffer.empty()) {
+            _buffer.enqueue(std::make_unique<std::vector<byte>>(std::move(buffer)));
+        }
     }
 }

@@ -10,7 +10,8 @@ protected:
     ThreadWorker() = default;
 public:
     void start();
-    void stop();
+    void stopRunning();
+    void waitForThread();
     
     virtual ~ThreadWorker();
     ThreadWorker(ThreadWorker&&) = delete;

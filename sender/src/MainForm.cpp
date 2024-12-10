@@ -17,8 +17,20 @@ void MainForm::registerClass(const HINSTANCE hInstance) {
 }
 
 MainForm::MainForm(const Fonts& fonts, const SenderConfig& config):
-    _fonts(fonts), _config(config), _sender(_config) {
-    _hwnd = CreateWindowEx(0, WINDOWS_CLASS_NAME, L"TCP Screenshot Sender",
+        _fonts(fonts),
+        _hwnd(createHwnd()),
+        _config(config),
+        _sender(_config) {
+    _sender.setDisconnectCallback([this]{ onConnectionClosed(); });
+}
+
+void MainForm::onConnectionClosed() const {
+    MessageBox(_hwnd, L"Connection closed.", L"Info", MB_OK | MB_ICONINFORMATION);
+    PostMessage(_hwnd, WM_CLOSE, 0, 0);
+}
+
+HWND MainForm::createHwnd() {
+    return CreateWindowEx(0, WINDOWS_CLASS_NAME, L"TCP Screenshot Sender",
         WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX,
         (GetSystemMetrics(SM_CXSCREEN) - 586) / 2, (GetSystemMetrics(SM_CYSCREEN) - 321) / 2,
         586, 321, nullptr, nullptr, _hInstance, this);

@@ -11,14 +11,24 @@ Receiver::Receiver(const HWND hWnd, const ReceiverConfig& config) {
     _eventSender = ReceiverInitializer::createEventSender(std::move(connection), receivedSize);
 }
 
+void Receiver::setDisconnectCallback(std::function<void()>&& callback) const {
+    return _eventSender->setDisconnectCallback(std::move(callback));
+}
+
 void Receiver::run() const {
     _screenRenderWorker->start();
     _udpReceiverWorker->start();
 }
 
 void Receiver::stop() const {
-    _udpReceiverWorker->stop();
-    _screenRenderWorker->stop();
+    ThreadWorker* threads[] = {_screenRenderWorker.get(), _udpReceiverWorker.get()};
+    for (const auto& thread : threads) {
+        thread->stopRunning();
+    }
+    _frames->notifyAll();
+    for (const auto& thread : threads) {
+        thread->waitForThread();
+    }
 }
 
 void Receiver::updateAppSize(const SIZE& appSize) const {

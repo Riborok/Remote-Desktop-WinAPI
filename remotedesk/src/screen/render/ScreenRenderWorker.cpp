@@ -9,5 +9,7 @@ void ScreenRenderWorker::updateAppSize(const SIZE& appSize) {
 }
 
 void ScreenRenderWorker::process() {
-    _screenRender.render(*getFrames().dequeue());
+    if (const auto frame = getFrames().dequeue()) {
+        _screenRender.render(*frame);
+    }
 }

@@ -11,6 +11,10 @@ Sender::Sender(const SenderConfig& config) {
     _eventHandler = SenderInitializer::createRemoteEventExecutor(std::move(connection), config.targetSize);
 }
 
+void Sender::setDisconnectCallback(std::function<void()>&& callback) const {
+    _eventHandler->setDisconnectCallback(std::move(callback));
+}
+
 void Sender::run() const {
     _screenCaptureWorker->start();
     _udpSenderWorker->start();
@@ -18,9 +22,14 @@ void Sender::run() const {
 }
 
 void Sender::stop() const {
-    _udpSenderWorker->stop();
-    _eventHandler->stop();
-    _screenCaptureWorker->stop();
+    ThreadWorker* threads[] = {_udpSenderWorker.get(), _eventHandler.get(), _screenCaptureWorker.get()};
+    for (const auto& thread : threads) {
+        thread->stopRunning();
+    }
+    _frames->notifyAll();
+    for (const auto& thread : threads) {
+        thread->waitForThread();
+    }
 }
 
 void Sender::updateFPSAndMaxDelay(const int fps, const int maxDelayMs) const {

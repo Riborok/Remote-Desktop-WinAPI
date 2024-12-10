@@ -11,9 +11,9 @@ class MainForm {
     static HINSTANCE _hInstance;
     
     const Fonts &_fonts;
+    HWND _hwnd;
     SenderConfig _config;
     Sender _sender;
-    HWND _hwnd;
     HWND _hEditFps = nullptr; 
     HWND _hEditMaxDelay = nullptr; 
     HWND _hEditQuality = nullptr; 
@@ -30,6 +30,8 @@ public:
     MainForm(const MainForm&) = delete;
     MainForm& operator=(const MainForm&) = delete;
 private:
+    HWND createHwnd();
+    void onConnectionClosed() const;
     static LRESULT CALLBACK windowProc(const HWND hwnd, const UINT uMsg, const WPARAM wParam, const LPARAM lParam);
     void createControls(const HWND hwnd);
     void updateConfig();

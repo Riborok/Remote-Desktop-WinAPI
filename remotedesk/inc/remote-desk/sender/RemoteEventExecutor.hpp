@@ -1,5 +1,7 @@
 ﻿#pragma once
 
+#include <functional>
+
 #include "../../sock/tcp/TCPConnection.hpp"
 #include "../../utils/TypeLimits.hpp"
 #include "../../utils/screen/PointScaler.hpp"
@@ -12,14 +14,16 @@ class RemoteEventExecutor final : public ThreadWorker {
     
     std::unique_ptr<TCPConnection> _connection;
     PointScaler _mousePointScaler;
+    std::function<void()> _disconnectCallback;
 public:
     RemoteEventExecutor(std::unique_ptr<TCPConnection> &&connection, const SIZE& screenResolution);
+    void setDisconnectCallback(std::function<void()>&& callback);
 protected:
     void eventLoop() override;
 private:
     void handleEvent();
     
-    std::vector<byte> receiveEvent();
+    std::vector<byte> receiveEvent(int& bufferSize);
     static std::tuple<UINT, WPARAM, LPARAM> extractEventData(const std::vector<byte>& eventBuffer);
     
     INPUT createInput(const UINT message, const WPARAM wParam, const LPARAM lParam) const;

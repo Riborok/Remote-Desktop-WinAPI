@@ -9,6 +9,8 @@ DataFragmenter& UDPSenderWorker::getDataFragmenter() const {
 
 void UDPSenderWorker::eventLoop() {
     while (_running) {
-        _sender.send(*_buffer.dequeue());
+        if (const auto buffer = _buffer.dequeue()) {
+            _sender.send(*buffer);
+        }
     }
 }

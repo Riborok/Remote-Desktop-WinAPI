@@ -13,7 +13,8 @@ class Sender {
 public:
     Sender() = default;
     explicit Sender(const SenderConfig& config);
-
+    void setDisconnectCallback(std::function<void()>&& callback) const;
+    
     void run() const;
     void stop() const;
     void updateFPSAndMaxDelay(const int fps, const int maxDelayMs) const;
