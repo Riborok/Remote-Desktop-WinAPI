@@ -6,6 +6,7 @@
 class MainForm {
     static constexpr auto WINDOWS_CLASS_NAME = L"ScreenshotSenderClass";
     static constexpr int BTN_APPLY_ID = 1;
+    static constexpr int BTN_EXIT_ID = 2;
 
     static HINSTANCE _hInstance;
     

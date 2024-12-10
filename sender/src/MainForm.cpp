@@ -46,9 +46,14 @@ LRESULT MainForm::windowProc(const HWND hwnd, const UINT uMsg, const WPARAM wPar
             break;
         }
         case WM_COMMAND: {
-            if (LOWORD(wParam) == BTN_APPLY_ID) {
-                mainForms[hwnd]->updateConfig();
-                MessageBox(hwnd, L"Settings applied successfully!", L"Info", MB_OK | MB_ICONINFORMATION);
+            switch (LOWORD(wParam)) {
+                case BTN_APPLY_ID:
+                    mainForms[hwnd]->updateConfig();
+                    MessageBox(hwnd, L"Settings applied successfully!", L"Info", MB_OK | MB_ICONINFORMATION);
+                break;
+                case BTN_EXIT_ID:
+                    PostMessage(hwnd, WM_CLOSE, 0, 0);
+                break;
             }
             break;
         }
@@ -80,7 +85,8 @@ void MainForm::createControls(const HWND hwnd) {
     _hComboBoxFormat = controlCreator.createComboBox(currentY, {L"jpg", L"webp"}, static_cast<int>(_config.imageConfig.ext));
 
     currentY += ControlCreator::CONTROL_HEIGHT + ControlCreator::BUTTON_Y_OFFSET;
-    controlCreator.createCenteredButton(currentY, L"Apply", BTN_APPLY_ID);
+    controlCreator.createDefButton(currentY, L"Apply", BTN_APPLY_ID);
+    controlCreator.createButton(currentY, L"Exit", BTN_EXIT_ID);
 }
 
 void MainForm::updateConfig() const {

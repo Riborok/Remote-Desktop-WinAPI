@@ -11,7 +11,7 @@ ConfigDialogForm::ConfigDialogForm(const HINSTANCE hInstance, const Fonts& fonts
 bool ConfigDialogForm::show(SenderConfig& config) {
     _config = &config;
     const INT_PTR result = DialogBoxParam(_hInstance, MAKEINTRESOURCE(IDD_SETTINGS_DIALOG), nullptr, dialogProc, reinterpret_cast<LPARAM>(this));
-    return result == IDOK;
+    return result == IDB_OK;
 }
 
 LRESULT ConfigDialogForm::dialogProc(const HWND hwndDlg, const UINT uMsg, const WPARAM wParam, const LPARAM lParam) {
@@ -29,17 +29,17 @@ LRESULT ConfigDialogForm::dialogProc(const HWND hwndDlg, const UINT uMsg, const 
                 case IDB_OK: {
                     const ConfigDialogForm* configDialogForm = configDialogForms[hwndDlg];
                     configDialogForm->handleOkCommand(hwndDlg);
-                    EndDialog(hwndDlg, IDOK);
+                    EndDialog(hwndDlg, IDB_OK);
                     return TRUE;
                 }
                 case IDB_CANCEL:
-                    EndDialog(hwndDlg, IDCANCEL);
+                    EndDialog(hwndDlg, IDB_CANCEL);
                     return TRUE;
             }
             break;
         }
         case WM_CLOSE:
-            EndDialog(hwndDlg, IDCANCEL);
+            EndDialog(hwndDlg, IDB_CANCEL);
             return TRUE;
         case WM_DESTROY:
             configDialogForms.erase(hwndDlg);

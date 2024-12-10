@@ -22,13 +22,14 @@ HWND ControlCreator::createComboBox(const int y, const std::vector<std::wstring>
     return hComboBox;
 }
 
-HWND ControlCreator::createCenteredButton(const int y, const std::wstring& text, const int buttonId) const {
-    RECT clientRect;
-    GetClientRect(_hwnd, &clientRect);
-    const int clientWidth = clientRect.right - clientRect.left;
-    const int x = (clientWidth - BUTTON_WIDTH) / 2;
+HWND ControlCreator::createDefButton(const int y, const std::wstring& text, const int buttonId) const {
+    const HWND hButton = CreateWindow(L"BUTTON", text.c_str(), WS_VISIBLE | WS_CHILD | BS_DEFPUSHBUTTON, X_OFFSET_DEF_BUTTON, y, BUTTON_WIDTH, BUTTON_HEIGHT, _hwnd, reinterpret_cast<HMENU>(buttonId), nullptr, nullptr);
+    SendMessage(hButton, WM_SETFONT, reinterpret_cast<WPARAM>(_fonts.hLabelFont), TRUE);
+    return hButton;
+}
 
-    const HWND hButton = CreateWindow(L"BUTTON", text.c_str(), WS_VISIBLE | WS_CHILD, x, y, BUTTON_WIDTH, BUTTON_HEIGHT, _hwnd, reinterpret_cast<HMENU>(buttonId), nullptr, nullptr);
+HWND ControlCreator::createButton(const int y, const std::wstring& text, const int buttonId) const {
+    const HWND hButton = CreateWindow(L"BUTTON", text.c_str(), WS_VISIBLE | WS_CHILD, X_OFFSET_BUTTON, y, BUTTON_WIDTH, BUTTON_HEIGHT, _hwnd, reinterpret_cast<HMENU>(buttonId), nullptr, nullptr);
     SendMessage(hButton, WM_SETFONT, reinterpret_cast<WPARAM>(_fonts.hLabelFont), TRUE);
     return hButton;
 }
