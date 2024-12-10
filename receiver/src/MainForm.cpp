@@ -2,6 +2,7 @@
 
 ACCEL MainForm::_accelTableEntries[] = {
     {FALT | FVIRTKEY, VK_F1, ID_MENU},
+    {FALT | FVIRTKEY, VK_F11, ID_TOGGLE_FULLSCREEN},
 };
 
 HINSTANCE MainForm::_hInstance = nullptr;
@@ -72,7 +73,12 @@ LRESULT MainForm::windowProc(const HWND hwnd, const UINT uMsg, const WPARAM wPar
                     }
                     break;
                 }
-            }
+                case ID_TOGGLE_FULLSCREEN: {
+                    MainForm* mainForm = reinterpret_cast<MainForm*>(GetWindowLongPtr(hwnd, GWLP_USERDATA));
+                    mainForm->toggleFullscreen();
+                    break;
+                }
+                }
             break;
         }
         case WM_DESTROY: {
@@ -102,7 +108,7 @@ LRESULT MainForm::handleInput(const HWND hwnd, const UINT uMsg, const WPARAM wPa
                 }
                 break;
             }
-            //case WM_MOUSEMOVE:
+            case WM_MOUSEMOVE:
             case WM_LBUTTONDOWN:
             case WM_LBUTTONUP:
             case WM_RBUTTONDOWN:
@@ -122,6 +128,25 @@ LRESULT MainForm::handleInput(const HWND hwnd, const UINT uMsg, const WPARAM wPa
         }
     }
     return DefWindowProc(hwnd, uMsg, wParam, lParam);
+}
+
+void MainForm::toggleFullscreen() {
+    if (_isFullscreen) {
+        SetWindowLong(_hwnd, GWL_STYLE, _hwndStyle);
+        SetWindowLong(_hwnd, GWL_EXSTYLE, _hwndStyleEx);
+        SetWindowPlacement(_hwnd, &_wpc);
+        ShowWindow(_hwnd, SW_SHOWNORMAL);
+    } else {
+        GetWindowPlacement(_hwnd, &_wpc);
+        if (_hwndStyle == 0) _hwndStyle = GetWindowLong(_hwnd, GWL_STYLE);
+        if (_hwndStyleEx == 0) _hwndStyleEx = GetWindowLong(_hwnd, GWL_EXSTYLE);
+        const LONG newHwndStyle = _hwndStyle & ~WS_BORDER & ~WS_DLGFRAME & ~WS_THICKFRAME;
+        const LONG newHwndStyleEx = _hwndStyleEx & ~WS_EX_WINDOWEDGE;
+        SetWindowLong(_hwnd, GWL_STYLE, newHwndStyle | WS_POPUP);
+        SetWindowLong(_hwnd, GWL_EXSTYLE, newHwndStyleEx | WS_EX_TOPMOST);
+        ShowWindow(_hwnd, SW_SHOWMAXIMIZED);
+    }
+    _isFullscreen = !_isFullscreen;
 }
 
 MainForm::~MainForm() {

@@ -7,6 +7,7 @@
 class MainForm {
     static constexpr auto WINDOWS_CLASS_NAME = L"ScreenshotReceiverClass";
     static constexpr int ID_MENU = 1;
+    static constexpr int ID_TOGGLE_FULLSCREEN = 2;
     static ACCEL _accelTableEntries[];
     
     static HINSTANCE _hInstance;
@@ -17,6 +18,10 @@ class MainForm {
     Receiver _receiver{};
     SimpleConfigDialogForm _configDialog;
     HACCEL _hAccel;
+    WINDOWPLACEMENT _wpc;
+    LONG _hwndStyle;
+    LONG _hwndStyleEx;
+    bool _isFullscreen;
 public:
     static void registerClass(const HINSTANCE hInstance);
 
@@ -35,4 +40,5 @@ private:
     void onConnectionClosed() const;
     static LRESULT CALLBACK windowProc(const HWND hwnd, const UINT uMsg, const WPARAM wParam, const LPARAM lParam);
     LRESULT handleInput(const HWND hwnd, const UINT uMsg, const WPARAM wParam, const LPARAM lParam) const;
+    void toggleFullscreen();
 };
