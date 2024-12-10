@@ -26,11 +26,14 @@ MainForm::MainForm(const Fonts& fonts, const SenderConfig& config):
 
 void MainForm::show() const {
     ShowWindow(_hwnd, SW_SHOW);
+    _sender.run();
+    
     MSG msg;
     while (GetMessage(&msg, nullptr, 0, 0)) {
         TranslateMessage(&msg);
         DispatchMessage(&msg);
     }
+    _sender.stop();
 }
 
 LRESULT MainForm::windowProc(const HWND hwnd, const UINT uMsg, const WPARAM wParam, const LPARAM lParam) {
@@ -38,7 +41,6 @@ LRESULT MainForm::windowProc(const HWND hwnd, const UINT uMsg, const WPARAM wPar
         case WM_CREATE: {
             const CREATESTRUCT* pCreateStruct = reinterpret_cast<CREATESTRUCT*>(lParam);
             MainForm* mainForm = static_cast<MainForm*>(pCreateStruct->lpCreateParams);
-            mainForm->_sender.run();
             SetWindowLongPtr(hwnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(mainForm));
             mainForm->createControls(hwnd);
             break;
@@ -58,8 +60,6 @@ LRESULT MainForm::windowProc(const HWND hwnd, const UINT uMsg, const WPARAM wPar
             break;
         }
         case WM_DESTROY:
-            const MainForm* mainForm = reinterpret_cast<MainForm*>(GetWindowLongPtr(hwnd, GWLP_USERDATA));
-            mainForm->_sender.stop();
             PostQuitMessage(0);
             break;
         }
