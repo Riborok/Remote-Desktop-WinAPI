@@ -32,5 +32,5 @@ public:
 private:
     static LRESULT CALLBACK windowProc(const HWND hwnd, const UINT uMsg, const WPARAM wParam, const LPARAM lParam);
     void createControls(const HWND hwnd);
-    void updateConfig() const;
+    void updateConfig();
 };

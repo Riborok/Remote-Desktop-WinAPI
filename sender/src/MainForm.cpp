@@ -46,7 +46,7 @@ LRESULT MainForm::windowProc(const HWND hwnd, const UINT uMsg, const WPARAM wPar
         case WM_COMMAND: {
             switch (LOWORD(wParam)) {
                 case BTN_APPLY_ID: {
-                    const MainForm* mainForm = reinterpret_cast<MainForm*>(GetWindowLongPtr(hwnd, GWLP_USERDATA));
+                    MainForm* mainForm = reinterpret_cast<MainForm*>(GetWindowLongPtr(hwnd, GWLP_USERDATA));
                     mainForm->updateConfig();
                     MessageBox(hwnd, L"Settings applied successfully!", L"Info", MB_OK | MB_ICONINFORMATION);
                     break;
@@ -89,22 +89,22 @@ void MainForm::createControls(const HWND hwnd) {
     controlCreator.createButton(currentY, L"Exit", BTN_EXIT_ID);
 }
 
-void MainForm::updateConfig() const {
+void MainForm::updateConfig() {
     static constexpr size_t BUFFER_SIZE = 256;
-    wchar_t buffer[BUFFER_SIZE];
+    char buffer[BUFFER_SIZE];
 
-    GetWindowText(_hEditFps, buffer, BUFFER_SIZE);
-    const int fps = std::stoi(buffer);
+    GetWindowTextA(_hEditFps, buffer, BUFFER_SIZE);
+    _config.fps = std::stoi(buffer);
 
-    GetWindowText(_hEditMaxDelay, buffer, BUFFER_SIZE);
-    const int maxDelayMs = std::stoi(buffer);
+    GetWindowTextA(_hEditMaxDelay, buffer, BUFFER_SIZE);
+    _config.maxDelayMs = std::stoi(buffer);
                 
-    GetWindowText(_hEditQuality, buffer, BUFFER_SIZE);
-    const int quality = std::stoi(buffer);
+    GetWindowTextA(_hEditQuality, buffer, BUFFER_SIZE);
+    _config.imageConfig.quality = std::stoi(buffer);
 
     int formatIndex = SendMessage(_hComboBoxFormat, CB_GETCURSEL, 0, 0);
-    const ImageFormat format = static_cast<ImageFormat>(formatIndex);
+    _config.imageConfig.ext = static_cast<ImageFormat>(formatIndex);
                 
-    _sender.updateFPSAndMaxDelay(fps, maxDelayMs);
-    _sender.updateImageConfig({ format, quality });
+    _sender.updateFPSAndMaxDelay(_config.fps, _config.maxDelayMs);
+    _sender.updateImageConfig(_config.imageConfig);
 }

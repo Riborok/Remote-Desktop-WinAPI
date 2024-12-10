@@ -70,24 +70,24 @@ void ConfigDialogForm::loadSettingsAndUpdateFields(const HWND hwndDlg) const {
 
 void ConfigDialogForm::handleOkCommand(const HWND hwndDlg) const {
     static constexpr size_t BUFFER_SIZE = 256;
-    wchar_t buffer[BUFFER_SIZE];
+    char buffer[BUFFER_SIZE];
 
-    GetDlgItemText(hwndDlg, IDC_PORT, buffer, BUFFER_SIZE);
+    GetDlgItemTextA(hwndDlg, IDC_PORT, buffer, BUFFER_SIZE);
     _config->tcpServerPort = static_cast<u_short>(std::stoi(buffer));
 
-    GetDlgItemText(hwndDlg, IDC_FPS, buffer, BUFFER_SIZE);
+    GetDlgItemTextA(hwndDlg, IDC_FPS, buffer, BUFFER_SIZE);
     _config->fps = std::stoi(buffer);
 
-    GetDlgItemText(hwndDlg, IDC_DELAY, buffer, BUFFER_SIZE);
+    GetDlgItemTextA(hwndDlg, IDC_DELAY, buffer, BUFFER_SIZE);
     _config->maxDelayMs = std::stoi(buffer);
 
-    GetDlgItemText(hwndDlg, IDC_QUALITY, buffer, BUFFER_SIZE);
+    GetDlgItemTextA(hwndDlg, IDC_QUALITY, buffer, BUFFER_SIZE);
     _config->imageConfig.quality = std::stoi(buffer);
 
-    GetDlgItemText(hwndDlg, IDC_WIDTH, buffer, BUFFER_SIZE);
+    GetDlgItemTextA(hwndDlg, IDC_WIDTH, buffer, BUFFER_SIZE);
     _config->targetSize.cx = std::stoi(buffer);
 
-    GetDlgItemText(hwndDlg, IDC_HEIGHT, buffer, BUFFER_SIZE);
+    GetDlgItemTextA(hwndDlg, IDC_HEIGHT, buffer, BUFFER_SIZE);
     _config->targetSize.cy = std::stoi(buffer);
 
     const HWND hComboBox = GetDlgItem(hwndDlg, IDC_FORMAT);
