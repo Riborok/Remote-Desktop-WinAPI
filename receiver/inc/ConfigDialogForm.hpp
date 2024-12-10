@@ -6,20 +6,20 @@
 #include "./remote-desk/receiver/ReceiverConfig.hpp"
 #include "./Fonts.hpp"
 
-class ReceiverConfigDialogForm {
+class ConfigDialogForm {
     HINSTANCE _hInstance;
     ReceiverConfig* _config = nullptr;
     const Fonts& _fonts;
 
 public:
-    ReceiverConfigDialogForm(const HINSTANCE hInstance, const Fonts& fonts);
+    ConfigDialogForm(const HINSTANCE hInstance, const Fonts& fonts);
     bool show(ReceiverConfig& config);
 
-    ~ReceiverConfigDialogForm() = default;
-    ReceiverConfigDialogForm(ReceiverConfigDialogForm&&) = delete;
-    ReceiverConfigDialogForm& operator=(ReceiverConfigDialogForm&&) = delete;
-    ReceiverConfigDialogForm(const ReceiverConfigDialogForm&) = delete;
-    ReceiverConfigDialogForm& operator=(const ReceiverConfigDialogForm&) = delete;
+    ~ConfigDialogForm() = default;
+    ConfigDialogForm(ConfigDialogForm&&) = delete;
+    ConfigDialogForm& operator=(ConfigDialogForm&&) = delete;
+    ConfigDialogForm(const ConfigDialogForm&) = delete;
+    ConfigDialogForm& operator=(const ConfigDialogForm&) = delete;
 
 private:
     static LRESULT CALLBACK dialogProc(const HWND hwndDlg, const UINT uMsg, const WPARAM wParam, const LPARAM lParam);

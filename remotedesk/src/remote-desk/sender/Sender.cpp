@@ -18,9 +18,9 @@ void Sender::run() const {
 }
 
 void Sender::stop() const {
-    _screenCaptureWorker->stop();
     _udpSenderWorker->stop();
     _eventHandler->stop();
+    _screenCaptureWorker->stop();
 }
 
 void Sender::updateFPSAndMaxDelay(const int fps, const int maxDelayMs) const {

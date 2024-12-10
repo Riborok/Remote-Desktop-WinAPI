@@ -1,15 +1,15 @@
 ﻿#include "utils/sock/SockaddrUtils.hpp"
-#include "../inc/ReceiverConfigDialogForm.hpp"
+#include "../inc/ConfigDialogForm.hpp"
 
 #include <stdexcept>
 
 #include "../resource.h"
 #include "../inc/RegistrySettings.hpp"
 
-ReceiverConfigDialogForm::ReceiverConfigDialogForm(const HINSTANCE hInstance, const Fonts& fonts)
+ConfigDialogForm::ConfigDialogForm(const HINSTANCE hInstance, const Fonts& fonts)
     : _hInstance(hInstance), _fonts(fonts) { }
 
-bool ReceiverConfigDialogForm::show(ReceiverConfig& config) {
+bool ConfigDialogForm::show(ReceiverConfig& config) {
     _config = &config;
     const INT_PTR result = DialogBoxParam(
         _hInstance, 
@@ -21,10 +21,10 @@ bool ReceiverConfigDialogForm::show(ReceiverConfig& config) {
     return result == IDB_OK;
 }
 
-LRESULT CALLBACK ReceiverConfigDialogForm::dialogProc(const HWND hwndDlg, const UINT uMsg, const WPARAM wParam, const LPARAM lParam) {
+LRESULT CALLBACK ConfigDialogForm::dialogProc(const HWND hwndDlg, const UINT uMsg, const WPARAM wParam, const LPARAM lParam) {
     switch (uMsg) {
         case WM_INITDIALOG: {
-            const ReceiverConfigDialogForm* dialogForm = reinterpret_cast<ReceiverConfigDialogForm*>(lParam);
+            const ConfigDialogForm* dialogForm = reinterpret_cast<ConfigDialogForm*>(lParam);
             SetWindowLongPtr(hwndDlg, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(dialogForm));
             dialogForm->setControlFonts(hwndDlg);
             dialogForm->loadSettingsAndUpdateFields(hwndDlg);
@@ -33,7 +33,7 @@ LRESULT CALLBACK ReceiverConfigDialogForm::dialogProc(const HWND hwndDlg, const 
         case WM_COMMAND: {
             switch (LOWORD(wParam)) {
                 case IDB_OK: {
-                    const ReceiverConfigDialogForm* dialogForm = reinterpret_cast<ReceiverConfigDialogForm*>(GetWindowLongPtr(hwndDlg, GWLP_USERDATA));
+                    const ConfigDialogForm* dialogForm = reinterpret_cast<ConfigDialogForm*>(GetWindowLongPtr(hwndDlg, GWLP_USERDATA));
                     if (dialogForm->handleOkCommand(hwndDlg)) {
                         EndDialog(hwndDlg, IDB_OK);   
                     }
@@ -52,7 +52,7 @@ LRESULT CALLBACK ReceiverConfigDialogForm::dialogProc(const HWND hwndDlg, const 
     return FALSE;
 }
 
-void ReceiverConfigDialogForm::setControlFonts(const HWND hwndDlg) const {
+void ConfigDialogForm::setControlFonts(const HWND hwndDlg) const {
     for (const int id : {IDC_SERVER_IP_LABEL, IDC_SERVER_PORT_LABEL, IDC_UDP_PORT_LABEL, IDC_FPS_LABEL, IDC_MAX_DELAY_LABEL, IDB_OK, IDB_CANCEL}) {
         SendMessage(GetDlgItem(hwndDlg, id), WM_SETFONT, reinterpret_cast<WPARAM>(_fonts.hLabelFont), TRUE);
     }
@@ -62,7 +62,7 @@ void ReceiverConfigDialogForm::setControlFonts(const HWND hwndDlg) const {
     }
 }
 
-void ReceiverConfigDialogForm::loadSettingsAndUpdateFields(const HWND hwndDlg) const {
+void ConfigDialogForm::loadSettingsAndUpdateFields(const HWND hwndDlg) const {
     RegistrySettings::loadSettingsFromRegistry(*_config);
     
     SetDlgItemTextA(hwndDlg, IDC_SERVER_IP, SockaddrUtils::ipToStr(_config->serverIp).c_str());
@@ -72,13 +72,13 @@ void ReceiverConfigDialogForm::loadSettingsAndUpdateFields(const HWND hwndDlg) c
     SetDlgItemInt(hwndDlg, IDC_MAX_DELAY, _config->maxDelayMs, FALSE);
 }
 
-bool ReceiverConfigDialogForm::handleOkCommand(const HWND hwndDlg) const {
+bool ConfigDialogForm::handleOkCommand(const HWND hwndDlg) const {
     static constexpr size_t BUFFER_SIZE = 256;
     char buffer[BUFFER_SIZE];
     GetDlgItemTextA(hwndDlg, IDC_SERVER_IP, buffer, BUFFER_SIZE);
     try {
         _config->serverIp = SockaddrUtils::strToIp(buffer);   
-    } catch (std::runtime_error e) {
+    } catch (const std::runtime_error&) {
         MessageBox(hwndDlg, L"Invalid IP address format.", L"Error", MB_ICONERROR);
         return false;
     }

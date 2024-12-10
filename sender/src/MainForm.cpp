@@ -33,7 +33,6 @@ void MainForm::show() const {
         TranslateMessage(&msg);
         DispatchMessage(&msg);
     }
-    _sender.stop();
 }
 
 LRESULT MainForm::windowProc(const HWND hwnd, const UINT uMsg, const WPARAM wParam, const LPARAM lParam) {
@@ -59,10 +58,13 @@ LRESULT MainForm::windowProc(const HWND hwnd, const UINT uMsg, const WPARAM wPar
             }
             break;
         }
-        case WM_DESTROY:
+        case WM_DESTROY: {
+            const MainForm* mainForm = reinterpret_cast<MainForm*>(GetWindowLongPtr(hwnd, GWLP_USERDATA));
+            mainForm->_sender.stop();
             PostQuitMessage(0);
             break;
         }
+    }
     return DefWindowProc(hwnd, uMsg, wParam, lParam);
 }
 

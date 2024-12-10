@@ -17,8 +17,8 @@ void Receiver::run() const {
 }
 
 void Receiver::stop() const {
-    _screenRenderWorker->stop();
     _udpReceiverWorker->stop();
+    _screenRenderWorker->stop();
 }
 
 void Receiver::updateAppSize(const SIZE& appSize) const {
