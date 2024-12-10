@@ -12,7 +12,7 @@ Socket::Socket(const int type, const int protocol): _sock(socket(AF_INET, type, 
 }
 
 void Socket::bindSocket(const u_short port) const {
-    const sockaddr_in serverAddr = SockaddrUtils::createAddr(nullptr, port);
+    const sockaddr_in serverAddr = SockaddrUtils::createAddrAnyInterface(port);
     const int result = bind(_sock, reinterpret_cast<const sockaddr*>(&serverAddr), sizeof(serverAddr));
     SocketErrorChecker::checkBindError(result);
 }

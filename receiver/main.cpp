@@ -1,5 +1,7 @@
 ﻿#include "remote-desk/receiver/Receiver.hpp"
 #include "utils/sock/WinSockUtils.hpp"
+#include "inc/Fonts.hpp"
+#include "inc/ReceiverConfigDialogForm.hpp"
 #include "utils/sock/SockaddrUtils.hpp"
 
 const std::wstring WINDOWS_CLASS_NAME = L"ScreenshotReceiverClass";
@@ -22,7 +24,15 @@ int WINAPI WinMain(const HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpC
         GetSystemMetrics(SM_CXSCREEN), GetSystemMetrics(SM_CYSCREEN),
         nullptr, nullptr, hInstance, nullptr);
     
-    receiver = std::make_unique<Receiver>(hwnd, SockaddrUtils::createAddr("192.168.31.2", 8080), 8081, 100, 1000);
+    const Fonts fonts;
+    ReceiverConfig config;
+    ReceiverConfigDialogForm dialogForm(hInstance, fonts);
+    if (!dialogForm.show(config)) {
+        WinSockUtils::cleanupWinSock();
+        return 0;
+    }
+    
+    receiver = std::make_unique<Receiver>(hwnd, config);
     receiver->run();
 
     ShowWindow(hwnd, SW_SHOW);
@@ -37,7 +47,7 @@ int WINAPI WinMain(const HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpC
     return 0;
 }
 
-LRESULT CALLBACK windowProc(const HWND hwnd, const UINT uMsg, const WPARAM wParam, LPARAM lParam) {
+LRESULT CALLBACK windowProc(const HWND hwnd, const UINT uMsg, const WPARAM wParam, const LPARAM lParam) {
     switch (uMsg) {
         case WM_DESTROY:
             PostQuitMessage(0);

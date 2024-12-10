@@ -8,9 +8,9 @@ public:
     SockaddrUtils() = delete;
     
     static sockaddr_in createAddr(const std::string& ip, const u_short port);
-    static sockaddr_in createAddr(const PCSTR ip, const u_short port);
-    static std::string getIpAddress(const sockaddr_in& clientAddr);
-private:
-    static void setIpAddress(sockaddr_in& address, const PCSTR ip);
-    static ULONG getAddressFromIp(const PCSTR ip);
+    static ULONG strToIp(const PCSTR ip);
+    static std::string ipToStr(const ULONG ip);
+    static sockaddr_in createAddrAnyInterface(const u_short port);
+    static sockaddr_in createAddr(const ULONG ip, const u_short port);
+    static ULONG getIpAddress(const sockaddr_in& clientAddr);
 };

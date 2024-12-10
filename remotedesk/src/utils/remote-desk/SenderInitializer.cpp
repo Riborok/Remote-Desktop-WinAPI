@@ -29,7 +29,7 @@ std::unique_ptr<UDPSenderWorker> SenderInitializer::createUDPSenderWorker(Thread
         TCPConnection& connection, const u_short udpPort, const SIZE& targetSize, const ImageConfig& ic) {
     auto key = DHInitiator().exchangeKeys(connection);
     auto dataFragmenter = std::make_unique<ImgCodecSecureFragmenter>(ImageTileSplitter{targetSize, ic}, key);
-    const std::string ip = SockaddrUtils::getIpAddress(connection.getPeerAddress());
+    const ULONG ip = SockaddrUtils::getIpAddress(connection.getPeerAddress());
     return std::make_unique<UDPSenderWorker>(frames,
         UDPSender{SockaddrUtils::createAddr(ip, udpPort), std::move(dataFragmenter)});
 }

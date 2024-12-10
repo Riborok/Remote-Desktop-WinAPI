@@ -1,12 +1,13 @@
 ﻿#include "../../../inc/remote-desk/receiver/Receiver.hpp"
 
-Receiver::Receiver(const HWND hWnd, const sockaddr_in& addr, const u_short udpPort, const int fps,
-    const int maxDelayMs) {
+#include "../../../inc/utils/sock/SockaddrUtils.hpp"
+
+Receiver::Receiver(const HWND hWnd, const ReceiverConfig& config) {
     _frames = ReceiverInitializer::createFrames();
-    auto connection = ReceiverInitializer::createConnection(addr);
-    const SIZE receivedSize = ReceiverInitializer::sendPortReceiveSize(*connection, udpPort);
-    _udpReceiverWorker = ReceiverInitializer::createUDPReceiverWorker(*_frames, *connection, udpPort, receivedSize);
-    _screenRenderWorker = ReceiverInitializer::createScreenRenderWorker(*_frames, hWnd, receivedSize, fps, maxDelayMs);
+    auto connection = ReceiverInitializer::createConnection(SockaddrUtils::createAddr(config.serverIp, config.serverPort));
+    const SIZE receivedSize = ReceiverInitializer::sendPortReceiveSize(*connection, config.udpPort);
+    _udpReceiverWorker = ReceiverInitializer::createUDPReceiverWorker(*_frames, *connection, config.udpPort, receivedSize);
+    _screenRenderWorker = ReceiverInitializer::createScreenRenderWorker(*_frames, hWnd, receivedSize, config.fps, config.maxDelayMs);
     _eventSender = ReceiverInitializer::createEventSender(std::move(connection), receivedSize);
 }
 

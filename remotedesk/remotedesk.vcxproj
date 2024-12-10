@@ -33,6 +33,7 @@
     <ClInclude Include="inc\remote-desk\ParameterCommunicator.hpp" />
     <ClInclude Include="inc\remote-desk\receiver\EventSender.hpp" />
     <ClInclude Include="inc\remote-desk\receiver\Receiver.hpp" />
+    <ClInclude Include="inc\remote-desk\receiver\ReceiverConfig.hpp" />
     <ClInclude Include="inc\remote-desk\sender\RemoteEventExecutor.hpp" />
     <ClInclude Include="inc\remote-desk\sender\Sender.hpp" />
     <ClInclude Include="inc\remote-desk\sender\SenderConfig.hpp" />
