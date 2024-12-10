@@ -12,7 +12,7 @@ void SimpleConfigDialogForm::set(const ReceiverConfig& config, Receiver& receive
 
 bool SimpleConfigDialogForm::show(const HWND hWnd) {
     const INT_PTR result = DialogBoxParam(_hInstance, MAKEINTRESOURCE(IDD_SIMPLE_SETTINGS_DIALOG), hWnd, dialogProc, reinterpret_cast<LPARAM>(this));
-    return result == IDB_APPLY;
+    return result != IDB_EXIT;
 }
 
 LRESULT SimpleConfigDialogForm::dialogProc(const HWND hwndDlg, const UINT uMsg, const WPARAM wParam, const LPARAM lParam) {
@@ -33,7 +33,7 @@ LRESULT SimpleConfigDialogForm::dialogProc(const HWND hwndDlg, const UINT uMsg, 
                     return TRUE;
                 }
                 case IDB_EXIT:
-                    EndDialog(hwndDlg, IDCANCEL);
+                    EndDialog(hwndDlg, IDB_EXIT);
                     return TRUE;
                 }
             break;
@@ -62,12 +62,12 @@ void SimpleConfigDialogForm::updateFields(const HWND hwndDlg) const {
 
 void SimpleConfigDialogForm::handleApplyCommand(const HWND hwndDlg) {
     static constexpr size_t BUFFER_SIZE = 256;
-    char buffer[BUFFER_SIZE];
+    wchar_t buffer[BUFFER_SIZE];
 
-    GetDlgItemTextA(hwndDlg, IDC_FPS, buffer, BUFFER_SIZE);
+    GetDlgItemText(hwndDlg, IDC_FPS, buffer, BUFFER_SIZE);
     _config.fps = std::stoi(buffer);
 
-    GetDlgItemTextA(hwndDlg, IDC_MAX_DELAY, buffer, BUFFER_SIZE);
+    GetDlgItemText(hwndDlg, IDC_MAX_DELAY, buffer, BUFFER_SIZE);
     _config.maxDelayMs = std::stoi(buffer);
 
     _receiver->updateFPSAndMaxDelay(_config.fps, _config.maxDelayMs);

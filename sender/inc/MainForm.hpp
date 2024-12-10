@@ -9,15 +9,15 @@ class MainForm {
     static constexpr int BTN_EXIT_ID = 2;
 
     static HINSTANCE _hInstance;
-    
-    const Fonts &_fonts;
-    HWND _hwnd;
-    SenderConfig _config;
-    Sender _sender;
+
     HWND _hEditFps = nullptr; 
     HWND _hEditMaxDelay = nullptr; 
     HWND _hEditQuality = nullptr; 
     HWND _hComboBoxFormat = nullptr;
+    const Fonts &_fonts;
+    SenderConfig _config;
+    HWND _hwnd;
+    Sender _sender;
 public:
     static void registerClass(const HINSTANCE hInstance);
 

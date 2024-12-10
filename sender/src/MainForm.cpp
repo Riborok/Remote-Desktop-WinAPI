@@ -18,8 +18,8 @@ void MainForm::registerClass(const HINSTANCE hInstance) {
 
 MainForm::MainForm(const Fonts& fonts, const SenderConfig& config):
         _fonts(fonts),
-        _hwnd(createHwnd()),
         _config(config),
+        _hwnd(createHwnd()),
         _sender(_config) {
     _sender.setDisconnectCallback([this]{ onConnectionClosed(); });
 }
@@ -105,15 +105,15 @@ void MainForm::createControls(const HWND hwnd) {
 
 void MainForm::updateConfig() {
     static constexpr size_t BUFFER_SIZE = 256;
-    char buffer[BUFFER_SIZE];
+    wchar_t buffer[BUFFER_SIZE];
 
-    GetWindowTextA(_hEditFps, buffer, BUFFER_SIZE);
+    GetWindowText(_hEditFps, buffer, BUFFER_SIZE);
     _config.fps = std::stoi(buffer);
 
-    GetWindowTextA(_hEditMaxDelay, buffer, BUFFER_SIZE);
+    GetWindowText(_hEditMaxDelay, buffer, BUFFER_SIZE);
     _config.maxDelayMs = std::stoi(buffer);
                 
-    GetWindowTextA(_hEditQuality, buffer, BUFFER_SIZE);
+    GetWindowText(_hEditQuality, buffer, BUFFER_SIZE);
     _config.imageConfig.quality = std::stoi(buffer);
 
     int formatIndex = SendMessage(_hComboBoxFormat, CB_GETCURSEL, 0, 0);
