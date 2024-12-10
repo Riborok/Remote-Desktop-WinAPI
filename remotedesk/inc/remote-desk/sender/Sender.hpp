@@ -11,7 +11,8 @@ class Sender {
     std::unique_ptr<ScreenCaptureWorker> _screenCaptureWorker;
     std::unique_ptr<RemoteEventExecutor>  _eventHandler;
 public:
-    Sender(const SenderConfig& config);
+    Sender() = default;
+    explicit Sender(const SenderConfig& config);
 
     void run() const;
     void stop() const;

@@ -9,6 +9,7 @@ class Receiver {
     std::unique_ptr<ScreenRenderWorker> _screenRenderWorker;
     std::unique_ptr<EventSender> _eventSender;
 public:
+    Receiver() = default;
     Receiver(const HWND hWnd, const ReceiverConfig& config);
 
     void run() const;
