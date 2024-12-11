@@ -26,7 +26,7 @@ ImageTileSplitter::ImageTileSplitter(const ImageTileSplitter& other):
     _quality(other._quality.load()), 
     _tileSplitter(other._tileSplitter) { }
 
-std::vector<std::vector<byte>> ImageTileSplitter::splitToTiles(const std::vector<byte>& imageBuffer) const {
+std::vector<std::vector<byte>> ImageTileSplitter::splitIntoTiles(const std::vector<byte>& imageBuffer) const {
     const cv::Mat image = ImageUtils::createImageFromBuffer(const_cast<byte*>(imageBuffer.data()), _size);
     const int imageWidth = image.cols;
     const int imageHeight = image.rows;

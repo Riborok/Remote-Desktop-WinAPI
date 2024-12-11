@@ -17,7 +17,7 @@ void ImgCodecSecureFragmenter::updateImageConfig(const ImageConfig& ic) {
 }
 
 std::vector<std::vector<byte>> ImgCodecSecureFragmenter::splitDataIntoFragments(const std::vector<byte>& data) {
-    const std::vector<std::vector<byte>> tiles = _imageTileSplitter.splitToTiles(data);
+    const std::vector<std::vector<byte>> tiles = _imageTileSplitter.splitIntoTiles(data);
     const MergedChunks mergedChunks = mergeCompressedChunks(tiles);
     const std::vector<std::vector<byte>> encryptedFPs = encryptFragmentPayloads(mergedChunks.payloads);
     return createFragments(encryptedFPs, mergedChunks.chunkCounts, data.size());

@@ -13,7 +13,7 @@ ImgCodecSecureReassembler::ImgCodecSecureReassembler(const SIZE& size, const std
 
 std::vector<byte> ImgCodecSecureReassembler::reassembleData(std::vector<Fragment>& fragments) {
     decryptFragmentPayloads(fragments);
-    const std::vector<Chunk> chunks = splitIntoChunks(fragments);
+    const std::vector<Chunk> chunks = splitFragmentsIntoChunks(fragments);
     return _imageTileComposer.overlayTiles(chunks);
 }
 
@@ -23,7 +23,7 @@ void ImgCodecSecureReassembler::decryptFragmentPayloads(std::vector<Fragment>& f
     }
 }
 
-std::vector<Chunk> ImgCodecSecureReassembler::splitIntoChunks(const std::vector<Fragment>& fragments) {
+std::vector<Chunk> ImgCodecSecureReassembler::splitFragmentsIntoChunks(const std::vector<Fragment>& fragments) {
     std::vector<Chunk> chunksOfFragments = createChunks(fragments);
     for (const auto& fragment : fragments) {
         addChunksOfFragment(chunksOfFragments, fragment);

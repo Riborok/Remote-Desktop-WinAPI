@@ -21,7 +21,7 @@ class ImageTileSplitter {
 public:
     explicit ImageTileSplitter(const SIZE& size, const ImageConfig &ic, const int tileWidth = 128, const int tileHeight = 128);
     ImageTileSplitter(const ImageTileSplitter& other);
-    std::vector<std::vector<byte>> splitToTiles(const std::vector<byte>& imageBuffer) const;
+    std::vector<std::vector<byte>> splitIntoTiles(const std::vector<byte>& imageBuffer) const;
     void updateImageConfig(const ImageConfig &ic);
 
     ~ImageTileSplitter() = default;
