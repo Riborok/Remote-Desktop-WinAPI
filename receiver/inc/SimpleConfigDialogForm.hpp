@@ -22,5 +22,5 @@ private:
     static LRESULT CALLBACK dialogProc(const HWND hwndDlg, const UINT uMsg, const WPARAM wParam, const LPARAM lParam);
     void setControlFonts(const HWND hwndDlg) const;
     void updateFields(const HWND hwndDlg) const;
-    void handleApplyCommand(const HWND hwndDlg);
+    bool handleApplyCommand(const HWND hwndDlg);
 };

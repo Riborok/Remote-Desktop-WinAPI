@@ -75,18 +75,42 @@ void ConfigDialogForm::loadSettingsAndUpdateFields(const HWND hwndDlg) const {
 bool ConfigDialogForm::handleOkCommand(const HWND hwndDlg) const {
     static constexpr size_t BUFFER_SIZE = 256;
     char buffer[BUFFER_SIZE];
+    std::wstring accumulatedErrors;
+
     GetDlgItemTextA(hwndDlg, IDC_SERVER_IP, buffer, BUFFER_SIZE);
     try {
         _config->serverIp = SockaddrUtils::strToIp(buffer);   
     } catch (const std::runtime_error&) {
-        MessageBox(hwndDlg, L"Invalid IP address format.", L"Error", MB_ICONERROR);
-        return false;
+        accumulatedErrors += L"Invalid IP address format.\n";
     }
 
     _config->serverPort = static_cast<u_short>(GetDlgItemInt(hwndDlg, IDC_SERVER_PORT, nullptr, FALSE));
+    if (_config->serverPort == 0) {
+        accumulatedErrors += L"Invalid server port.\n";
+    }
+
     _config->udpPort = static_cast<u_short>(GetDlgItemInt(hwndDlg, IDC_UDP_PORT, nullptr, FALSE));
+    if (_config->udpPort == 0) {
+        accumulatedErrors += L"Invalid UDP port.\n";
+    }
+    if (SockaddrUtils::isPortInUse(_config->udpPort)) {
+        accumulatedErrors += L"Invalid UDP port: the specified port is already in use.\n";
+    }
+
     _config->fps = GetDlgItemInt(hwndDlg, IDC_FPS, nullptr, FALSE);
+    if (_config->fps <= 0) {
+        accumulatedErrors += L"Invalid FPS value.\n";
+    }
+
     _config->maxDelayMs = GetDlgItemInt(hwndDlg, IDC_MAX_DELAY, nullptr, FALSE);
+    if (_config->maxDelayMs < 0) {
+        accumulatedErrors += L"Invalid max delay value.\n";
+    }
+
+    if (!accumulatedErrors.empty()) {
+        MessageBox(hwndDlg, std::wstring(accumulatedErrors.begin(), accumulatedErrors.end()).c_str(), L"Error", MB_ICONERROR);
+        return false;
+    }
 
     RegistrySettings::saveSettingsToRegistry(*_config);
     return true;

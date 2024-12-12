@@ -24,3 +24,14 @@ std::optional<std::tuple<ReceiverConfig, Receiver>> getParams(const HINSTANCE hI
         MessageBox(hwnd, L"Failed to connect to the server", L"Connection Error", MB_ICONERROR | MB_OK);
     }
 }
+
+bool safeStoi(const wchar_t* str, int& result) {
+    try {
+        result = std::stoi(str);
+        return true;
+    } catch (const std::invalid_argument&) {
+        return false;
+    } catch (const std::out_of_range&) {
+        return false;
+    }
+}

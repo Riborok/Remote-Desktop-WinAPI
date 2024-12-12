@@ -1,6 +1,7 @@
 ﻿#include "../inc/MainForm.hpp"
 
 #include "../inc/ControlCreator.hpp"
+#include "../inc/utils.hpp"
 
 HINSTANCE MainForm::_hInstance = nullptr;
 
@@ -61,7 +62,6 @@ LRESULT MainForm::windowProc(const HWND hwnd, const UINT uMsg, const WPARAM wPar
                 case BTN_APPLY_ID: {
                     MainForm* mainForm = reinterpret_cast<MainForm*>(GetWindowLongPtr(hwnd, GWLP_USERDATA));
                     mainForm->updateConfig();
-                    MessageBox(hwnd, L"Settings applied successfully!", L"Info", MB_OK | MB_ICONINFORMATION);
                     break;
                 }
                 case BTN_EXIT_ID:
@@ -107,18 +107,38 @@ void MainForm::updateConfig() {
     static constexpr size_t BUFFER_SIZE = 256;
     wchar_t buffer[BUFFER_SIZE];
 
+    int tempValue;
+    std::wstring accumulatedErrors;
+
     GetWindowText(_hEditFps, buffer, BUFFER_SIZE);
-    _config.fps = std::stoi(buffer);
+    if (!safeStoi(buffer, tempValue)) {
+        accumulatedErrors += L"Invalid FPS value.\n";
+    } else {
+        _config.fps = tempValue;
+    }
 
     GetWindowText(_hEditMaxDelay, buffer, BUFFER_SIZE);
-    _config.maxDelayMs = std::stoi(buffer);
-                
+    if (!safeStoi(buffer, tempValue)) {
+        accumulatedErrors += L"Invalid max delay value.\n";
+    } else {
+        _config.maxDelayMs = tempValue;
+    }
+
     GetWindowText(_hEditQuality, buffer, BUFFER_SIZE);
-    _config.imageConfig.quality = std::stoi(buffer);
+    if (!safeStoi(buffer, tempValue) || tempValue < 1 || tempValue > 100) {
+        accumulatedErrors += L"Invalid quality value.\n";
+    } else {
+        _config.imageConfig.quality = tempValue;
+    }
 
     int formatIndex = SendMessage(_hComboBoxFormat, CB_GETCURSEL, 0, 0);
     _config.imageConfig.ext = static_cast<ImageFormat>(formatIndex);
-                
+
+    if (!accumulatedErrors.empty()) {
+        MessageBox(_hwnd, std::wstring(accumulatedErrors.begin(), accumulatedErrors.end()).c_str(), L"Error", MB_ICONERROR);
+        return;
+    }
     _sender.updateFPSAndMaxDelay(_config.fps, _config.maxDelayMs);
     _sender.updateImageConfig(_config.imageConfig);
+    MessageBox(_hwnd, L"Settings applied successfully!", L"Info", MB_OK | MB_ICONINFORMATION);
 }

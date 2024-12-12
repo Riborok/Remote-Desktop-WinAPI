@@ -1,7 +1,9 @@
-﻿#include "../inc/ConfigDialogForm.hpp"
+﻿#include "utils/sock/SockaddrUtils.hpp"
+#include "../inc/ConfigDialogForm.hpp"
 
 #include "../resource.h"
 #include "../inc/RegistrySettings.hpp"
+#include "../inc/utils.hpp"
 
 ConfigDialogForm::ConfigDialogForm(const HINSTANCE hInstance, const Fonts& fonts):
     _hInstance(hInstance), _fonts(fonts) { }
@@ -25,8 +27,9 @@ LRESULT ConfigDialogForm::dialogProc(const HWND hwndDlg, const UINT uMsg, const 
             switch (LOWORD(wParam)) {
                 case IDB_OK: {
                     const ConfigDialogForm* configDialogForm = reinterpret_cast<ConfigDialogForm*>(GetWindowLongPtr(hwndDlg, GWLP_USERDATA));
-                    configDialogForm->handleOkCommand(hwndDlg);
-                    EndDialog(hwndDlg, IDB_OK);
+                    if (configDialogForm->handleOkCommand(hwndDlg)) {
+                        EndDialog(hwndDlg, IDB_OK);   
+                    }
                     return TRUE;
                 }
                 case IDB_CANCEL:
@@ -68,31 +71,67 @@ void ConfigDialogForm::loadSettingsAndUpdateFields(const HWND hwndDlg) const {
     SendMessage(hComboBox, CB_SETCURSEL, static_cast<WPARAM>(_config->imageConfig.ext), 0);
 }
 
-void ConfigDialogForm::handleOkCommand(const HWND hwndDlg) const {
-    static constexpr size_t BUFFER_SIZE = 256;
+bool ConfigDialogForm::handleOkCommand(const HWND hwndDlg) const {
+   static constexpr size_t BUFFER_SIZE = 256;
     wchar_t buffer[BUFFER_SIZE];
 
+    int tempValue;
+    std::wstring accumulatedErrors;
+
     GetDlgItemText(hwndDlg, IDC_PORT, buffer, BUFFER_SIZE);
-    _config->tcpServerPort = static_cast<u_short>(std::stoi(buffer));
+    if (!safeStoi(buffer, tempValue)) {
+        accumulatedErrors += L"Invalid port number.\n";
+    } else {
+        _config->tcpServerPort = static_cast<u_short>(tempValue);
+        if (SockaddrUtils::isPortInUse(_config->tcpServerPort)) {
+            accumulatedErrors += L"Invalid UDP port: the specified port is already in use.\n";
+        }
+    }
 
     GetDlgItemText(hwndDlg, IDC_FPS, buffer, BUFFER_SIZE);
-    _config->fps = std::stoi(buffer);
+    if (!safeStoi(buffer, tempValue)) {
+        accumulatedErrors += L"Invalid FPS value.\n";
+    } else {
+        _config->fps = tempValue;
+    }
 
     GetDlgItemText(hwndDlg, IDC_DELAY, buffer, BUFFER_SIZE);
-    _config->maxDelayMs = std::stoi(buffer);
+    if (!safeStoi(buffer, tempValue)) {
+        accumulatedErrors += L"Invalid delay value.\n";
+    } else {
+        _config->maxDelayMs = tempValue;
+    }
 
     GetDlgItemText(hwndDlg, IDC_QUALITY, buffer, BUFFER_SIZE);
-    _config->imageConfig.quality = std::stoi(buffer);
+    if (!safeStoi(buffer, tempValue) || tempValue < 1 || tempValue > 100) {
+        accumulatedErrors += L"Invalid quality value.\n";
+    } else {
+        _config->imageConfig.quality = tempValue;
+    }
 
     GetDlgItemText(hwndDlg, IDC_WIDTH, buffer, BUFFER_SIZE);
-    _config->targetSize.cx = std::stoi(buffer);
+    if (!safeStoi(buffer, tempValue)) {
+        accumulatedErrors += L"Invalid width value.\n";
+    } else {
+        _config->targetSize.cx = tempValue;
+    }
 
     GetDlgItemText(hwndDlg, IDC_HEIGHT, buffer, BUFFER_SIZE);
-    _config->targetSize.cy = std::stoi(buffer);
+    if (!safeStoi(buffer, tempValue)) {
+        accumulatedErrors += L"Invalid height value.\n";
+    } else {
+        _config->targetSize.cy = tempValue;
+    }
 
     const HWND hComboBox = GetDlgItem(hwndDlg, IDC_FORMAT);
     const int selectedIndex = SendMessage(hComboBox, CB_GETCURSEL, 0, 0);
     _config->imageConfig.ext = static_cast<ImageFormat>(selectedIndex);
 
+    if (!accumulatedErrors.empty()) {
+        MessageBox(hwndDlg, std::wstring(accumulatedErrors.begin(), accumulatedErrors.end()).c_str(), L"Error", MB_ICONERROR);
+        return false;
+    }
+
     RegistrySettings::saveSettingsToRegistry(*_config);
+    return true;
 }

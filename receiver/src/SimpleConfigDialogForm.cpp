@@ -1,6 +1,7 @@
 ﻿#include "../inc/SimpleConfigDialogForm.hpp"
 
 #include "../resource.h"
+#include "../inc/utils.hpp"
 
 SimpleConfigDialogForm::SimpleConfigDialogForm(const HINSTANCE hInstance, const Fonts& fonts):
     _hInstance(hInstance), _fonts(fonts) { }
@@ -28,8 +29,9 @@ LRESULT SimpleConfigDialogForm::dialogProc(const HWND hwndDlg, const UINT uMsg, 
             switch (LOWORD(wParam)) {
                 case IDB_APPLY: {
                     SimpleConfigDialogForm* dialogForm = reinterpret_cast<SimpleConfigDialogForm*>(GetWindowLongPtr(hwndDlg, GWLP_USERDATA));
-                    dialogForm->handleApplyCommand(hwndDlg);
-                    EndDialog(hwndDlg, IDB_APPLY);
+                    if (dialogForm->handleApplyCommand(hwndDlg)) {
+                        EndDialog(hwndDlg, IDB_APPLY);
+                    }
                     return TRUE;
                 }
                 case IDB_EXIT:
@@ -60,15 +62,31 @@ void SimpleConfigDialogForm::updateFields(const HWND hwndDlg) const {
     SetDlgItemInt(hwndDlg, IDC_MAX_DELAY, _config.maxDelayMs, FALSE);
 }
 
-void SimpleConfigDialogForm::handleApplyCommand(const HWND hwndDlg) {
+bool SimpleConfigDialogForm::handleApplyCommand(const HWND hwndDlg) {
     static constexpr size_t BUFFER_SIZE = 256;
     wchar_t buffer[BUFFER_SIZE];
+    int tempValue;
+    std::wstring accumulatedErrors;
 
     GetDlgItemText(hwndDlg, IDC_FPS, buffer, BUFFER_SIZE);
-    _config.fps = std::stoi(buffer);
+    if (!safeStoi(buffer, tempValue)) {
+        accumulatedErrors += L"Invalid FPS value.\n";
+    } else {
+        _config.fps = tempValue;
+    }
 
     GetDlgItemText(hwndDlg, IDC_MAX_DELAY, buffer, BUFFER_SIZE);
-    _config.maxDelayMs = std::stoi(buffer);
+    if (!safeStoi(buffer, tempValue)) {
+        accumulatedErrors += L"Invalid max delay value.\n";
+    } else {
+        _config.maxDelayMs = tempValue;
+    }
+
+    if (!accumulatedErrors.empty()) {
+        MessageBox(hwndDlg, std::wstring(accumulatedErrors.begin(), accumulatedErrors.end()).c_str(), L"Error", MB_ICONERROR);
+        return false;
+    }
 
     _receiver->updateFPSAndMaxDelay(_config.fps, _config.maxDelayMs);
+    return true;
 }

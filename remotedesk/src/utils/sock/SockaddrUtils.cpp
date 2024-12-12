@@ -1,8 +1,21 @@
 ﻿#include "../../../inc/utils/sock/SockaddrUtils.hpp"
 
+#include <stdexcept>
 #include <ws2tcpip.h>
 
+#include "../../../inc/sock/Socket.hpp"
 #include "../../../inc/utils/sock/SocketErrorChecker.hpp"
+
+bool SockaddrUtils::isPortInUse(const u_short port) {
+    const Socket sock(SOCK_STREAM, IPPROTO_TCP);
+    try {
+        sock.bindSocket(port);
+        return false;
+    }
+    catch (const std::runtime_error&) {
+        return true;
+    }
+}
 
 sockaddr_in SockaddrUtils::createAddr(const std::string& ip, const u_short port) {
     return createAddr(strToIp(ip.c_str()), port);

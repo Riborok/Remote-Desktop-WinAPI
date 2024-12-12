@@ -6,7 +6,8 @@
 class SockaddrUtils {
 public:
     SockaddrUtils() = delete;
-    
+
+    static bool isPortInUse(const u_short port);
     static sockaddr_in createAddr(const std::string& ip, const u_short port);
     static ULONG strToIp(const PCSTR ip);
     static std::string ipToStr(const ULONG ip);
