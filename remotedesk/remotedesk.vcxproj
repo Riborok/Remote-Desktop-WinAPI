@@ -215,16 +215,16 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <ExternalIncludePath>C:\Program Files\opencv\old_static_build\include</ExternalIncludePath>
-    <LibraryPath>C:\Program Files\opencv\old_static_build\x64</LibraryPath>
+    <ExternalIncludePath>..\libs\opencv\inc</ExternalIncludePath>
+    <LibraryPath>..\libs\opencv\x64</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <ExternalIncludePath>C:\Program Files\opencv\old_static_build\include</ExternalIncludePath>
-    <LibraryPath>C:\Program Files\opencv\old_static_build\x64</LibraryPath>
+    <ExternalIncludePath>..\libs\opencv\inc</ExternalIncludePath>
+    <LibraryPath>..\libs\opencv\x64</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -250,7 +250,7 @@
       <PreprocessorDefinitions>_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>C:\Program Files\cryptopp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\libs\cryptopp\inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -261,8 +261,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalDependencies>cryptlib.lib;opencv_video4100d.lib;opencv_videoio4100d.lib;zlibd.lib;aded.lib;IlmImfd.lib;libjpeg-turbod.lib;libopenjp2d.lib;libpngd.lib;libprotobufd.lib;libtiffd.lib;libwebpd.lib;opencv_calib3d4100d.lib;opencv_core4100d.lib;opencv_dnn4100d.lib;opencv_features2d4100d.lib;opencv_flann4100d.lib;opencv_gapi4100d.lib;opencv_highgui4100d.lib;opencv_imgcodecs4100d.lib;opencv_imgproc4100d.lib;opencv_ml4100d.lib;opencv_objdetect4100d.lib;opencv_photo4100d.lib;opencv_stitching4100d.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>C:\Program Files\cryptopp\x64\Output\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>cryptlib.lib;opencv_core4100d.lib;opencv_imgcodecs4100d.lib;opencv_imgproc4100d.lib;libjpeg-turbod.lib;libwebpd.lib;libpngd.lib;libtiffd.lib;zlibd.lib;libopenjp2d.lib;IlmImfd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\libs\cryptopp\x64\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -297,7 +297,7 @@
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <AdditionalIncludeDirectories>C:\Program Files\cryptopp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\libs\cryptopp\inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <OpenMPSupport>true</OpenMPSupport>
     </ClCompile>
@@ -308,8 +308,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalDependencies>cryptlib.lib;opencv_video4100.lib;opencv_videoio4100.lib;zlib.lib;ade.lib;IlmImf.lib;libjpeg-turbo.lib;libopenjp2.lib;libpng.lib;libprotobuf.lib;libtiff.lib;libwebp.lib;opencv_calib3d4100.lib;opencv_core4100.lib;opencv_dnn4100.lib;opencv_features2d4100.lib;opencv_flann4100.lib;opencv_gapi4100.lib;opencv_highgui4100.lib;opencv_imgcodecs4100.lib;opencv_imgproc4100.lib;opencv_ml4100.lib;opencv_objdetect4100.lib;opencv_photo4100.lib;opencv_stitching4100.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>C:\Program Files\cryptopp\x64\Output\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>cryptlib.lib;opencv_core4100.lib;opencv_imgcodecs4100.lib;opencv_imgproc4100.lib;libjpeg-turbo.lib;libwebp.lib;libpng.lib;libtiff.lib;zlib.lib;libopenjp2.lib;IlmImf.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\libs\cryptopp\x64\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
